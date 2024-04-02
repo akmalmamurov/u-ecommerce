@@ -1,7 +1,5 @@
 import { Button, Form, Input, message, Select } from "antd";
-import * as yup from "yup";
 import request from "../../server";
-const { Option } = Select;
 import "./Register.scss";
 
 const formItemLayout = {
@@ -34,38 +32,26 @@ const tailFormItemLayout = {
     },
   },
 };
-const registerSchema = yup.object().shape({
-  name: yup.string("Name must be string !").required("Please fill!"),
-  email: yup.string().email("This field must be valid email !"),
-  phone_number: yup.string().required(),
-  password: yup.string().required(),
-});
-const yupSync = {
-  async validator({ field }, value) {
-    await registerSchema.validateSyncAt(field, { [field]: value });
-  },
-};
+
 export const Register = () => {
   const [form] = Form.useForm();
+
   const onFinish = async (values) => {
+    const { phone_number, ...restValues } = values;
+
+    const processedPhoneNumber = phone_number
+      .replace(/\s+/g, "")
+      .replace("+", "");
+
     try {
-      await request.post("/auth/register", values);
-      message.success("Tez orada sms kodni olasiz");
+      const newValues = { ...restValues, phone_number: processedPhoneNumber };
+      await request.post("/auth/register", newValues);
+      message.success("Successfully registered!");
+      form.resetFields();
     } catch (err) {
-      message.error(err);
+      console.log(err);
     }
   };
-  const prefixSelector = (
-    <Form.Item name="prefix" noStyle>
-      <Select
-        style={{
-          width: 120,
-        }}
-      >
-        <Option value="+998">+998</Option>
-      </Select>
-    </Form.Item>
-  );
 
   return (
     <div className="register-section">
@@ -77,7 +63,7 @@ export const Register = () => {
         layout="vertical"
         onFinish={onFinish}
         initialValues={{
-          prefix: "+998",
+          phone_number: "+998",
         }}
         style={{
           maxWidth: 800,
@@ -103,11 +89,11 @@ export const Register = () => {
           rules={[
             {
               type: "email",
-              message: "The input is not valid E-mail!",
+              message: "The input is not a valid email!",
             },
             {
               required: true,
-              message: "Please input your E-mail!",
+              message: "Please input your email!",
             },
           ]}
         >
@@ -123,12 +109,7 @@ export const Register = () => {
             },
           ]}
         >
-          <Input
-            addonBefore={prefixSelector}
-            style={{
-              width: "100%",
-            }}
-          />
+          <Input style={{ width: "100%" }} />
         </Form.Item>
         <Form.Item
           name="password"
@@ -153,4 +134,5 @@ export const Register = () => {
     </div>
   );
 };
+
 export default Register;
