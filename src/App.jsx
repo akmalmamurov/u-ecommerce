@@ -3,6 +3,7 @@ import { MainLayout } from "./components/layout";
 import { Home } from "./pages/home";
 import { Register } from "./pages/register";
 import { Login } from "./pages/login";
+import {VerifyRegisrtation} from "./components/verify";
 
 function App() {
   return (
@@ -13,6 +14,7 @@ function App() {
         </Route>
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
+        <Route path="/register/verifyRegistration" element={<VerifyRegisrtation />} />
       </Routes>
     </BrowserRouter>
   );
