@@ -1,0 +1,10 @@
+header {
+    .header-top_left {
+        display: flex;
+        align-items: center;
+
+        @media (max-width:"972px") {
+            flex-direction: column;
+        }
+    }
+}

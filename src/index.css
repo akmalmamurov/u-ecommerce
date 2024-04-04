@@ -1,9 +1,71 @@
-.ant-form-item .ant-form-item-label >label.ant-form-item-required:not(.ant-form-item-required-mark-optional)::before{
-    display: none;
-    margin-inline-end: 4px;
-    color: #ff4d4f;
-    font-size: 0;
-    font-family: SimSun, sans-serif;
-    line-height: 1;
-    content: "*";
+@font-face {
+  font-family: 'AbhayaLibre';
+  src: url('./assets/fonts/Abhaya_Libre/AbhayaLibre-Regular.ttf');
+  font-weight: 400;
+}
+@font-face {
+  font-family: 'AbhayaLibre';
+  src: url('./assets//fonts//Abhaya_Libre/AbhayaLibre-Medium.ttf');
+  font-weight: 500;
+}
+@font-face {
+  font-family: 'AbhayaLibre';
+  src: url('./assets//fonts//Abhaya_Libre/AbhayaLibre-SemiBold.ttf');
+  font-weight: 600;
+}
+@font-face {
+  font-family: 'AbhayaLibre';
+  src: url('./assets//fonts//Abhaya_Libre/AbhayaLibre-Bold.ttf');
+  font-weight: 700;
+}
+
+@font-face {
+  font-family: 'Inter';
+  src: url('./assets/fonts/inter/Inter-Regular.ttf');
+  font-weight: 400;
+}
+@font-face {
+  font-family: 'Inter';
+  src: url('./assets/fonts/inter/Inter-Medium.ttf');
+  font-weight: 500;
+}
+@font-face {
+  font-family: 'Inter';
+  src: url('./assets/fonts/inter/Inter-SemiBold.ttf');
+  font-weight: 600;
+}
+@font-face {
+  font-family: 'Inter';
+  src: url('./assets/fonts/inter/Inter-Bold.ttf');
+  font-weight: 700;
+}
+@font-face {
+  font-family: 'Poppins';
+  src: url('./assets/fonts/Poppins/Poppins-Bold.ttf');
+  font-weight: 700;
+}
+@font-face {
+  font-family: 'Revalia';
+  src: url('./assets//fonts/Revalia/Revalia-Regular.ttf');
+  font-weight: 400;
+}
+@font-face {
+  font-family: 'SFPRODISPLAY';
+  src: url('./assets/fonts/sfpro/SFPRODISPLAY-Regular.OTF');
+  font-weight: 400;
+}
+@font-face {
+  font-family: 'SFPRODISPLAY';
+  src: url('./assets/fonts/sfpro/SFPRODISPLAY-Medium.OTF');
+  font-weight: 500;
+}
+@font-face {
+  font-family: 'SFPRODISPLAY';
+  src: url('./assets/fonts/sfpro/SFPRODISPLAY-Semibold.OTF');
+  font-weight: 600;
+}
+@font-face {
+  font-family: 'SFPRODISPLAY';
+  src: url('./assets/fonts/sfpro/SFPRODISPLAYSEMI-Bold.ttf');
+  font-weight: 700;
 }

@@ -1,0 +1,24 @@
+.chakra-modal__content {
+  width: 400px !important;
+}
+.auth-input {
+  border-radius: 8px !important;
+  background-color: #f5f6f8 !important;
+}
+.auth-input::placeholder{
+  color: black;
+}
+.auth-button {
+  width: 100%;
+}
+.error-message {
+  color: red;
+}
+.error-input {
+  border-color: red !important;
+}
+
+.error-input::placeholder {
+  color: red;
+}
+.chakra-modal_close-btn

@@ -3,7 +3,7 @@ import { MainLayout } from "./components/layout";
 import { Home } from "./pages/home";
 import { Register } from "./pages/register";
 import { Login } from "./pages/login";
-import {VerifyRegisrtation} from "./components/verify";
+import {VerifyRegisrtation} from "./pages/register/verify";
 
 function App() {
   return (
