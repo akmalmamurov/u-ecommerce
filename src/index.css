@@ -69,3 +69,6 @@
   src: url('./assets/fonts/sfpro/SFPRODISPLAYSEMI-Bold.ttf');
   font-weight: 700;
 }
+*:focus{
+  box-shadow: none !important;
+}

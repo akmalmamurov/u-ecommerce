@@ -7,4 +7,19 @@ header {
             flex-direction: column;
         }
     }
+
+    .header-mid {
+        .header_search {
+            .handle_search_input {
+                &:focus {
+                    outline: none;
+                }
+            }
+        }
+        .header-mid_right{
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+    }
 }

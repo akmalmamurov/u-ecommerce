@@ -13,14 +13,13 @@ import {
   ModalFooter,
   ModalHeader,
   ModalOverlay,
-  useDisclosure,
 } from "@chakra-ui/react";
 import { useToast } from "@chakra-ui/react";
 import request from "../../server";
 import "./Register.css";
-export const Register = () => {
+import PropTypes from "prop-types"
+export const Register = ({ isOpen, onClose }) => {
   const navigate = useNavigate();
-  const { isOpen, onOpen, onClose } = useDisclosure();
   const initialRef = useRef(null);
   const finalRef = useRef(null);
   const toast = useToast();
@@ -52,7 +51,7 @@ export const Register = () => {
         isClosable: true,
       });
       reset();
-      navigate("/register/verifyRegistration");
+      navigate("/verifyRegistration");
     } catch (err) {
       console.log(err);
       toast({
@@ -66,7 +65,7 @@ export const Register = () => {
   };
   return (
     <div>
-      <Button onClick={onOpen}>Open Modal</Button>
+
 
       <Modal
         maxW="400px"
@@ -175,4 +174,8 @@ export const Register = () => {
   );
 };
 
+Register.propTypes = {
+  isOpen: PropTypes.bool,
+  onClose: PropTypes.func,
+};
 export default Register;

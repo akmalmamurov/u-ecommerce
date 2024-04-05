@@ -1,4 +1,7 @@
-import React, { useState } from "react";
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { useForm } from "react-hook-form";
+import PropTypes from "prop-types";
 import {
   Button,
   FormControl,
@@ -14,15 +17,11 @@ import {
   ModalOverlay,
   PinInput,
   PinInputField,
-  useDisclosure,
 } from "@chakra-ui/react";
-import { useNavigate } from "react-router-dom";
-import LeftArrowIcon from "../../../assets/icons/LeftArrowIcon";
-import { useForm } from "react-hook-form";
-import "../Register.css";
 
-export const VerifyRegisrtation = () => {
-  const { onOpen, onClose } = useDisclosure();
+import { LeftArrowIcon } from "../../assets/icons";
+
+export const VerifyRegisrtation = ({ isOpen, onClose }) => {
   const navigate = useNavigate();
   const {
     handleSubmit,
@@ -40,23 +39,22 @@ export const VerifyRegisrtation = () => {
     };
     setVerificationStarted(true);
     console.log(requestData);
-    setTimeout(() => {
-      // Do something when the timer expires
-    }, 120000);
+    setTimeout(() => {}, 120000);
   };
-  const goRegistr = () => {
-    navigate("/register");
+
+  const goToHome = () => {
+    navigate("/");
   };
 
   return (
     <div>
-      <Button onClick={onOpen}>Open Modal</Button>
-
-      <Modal isOpen={true} onClose={onClose}>
+      <Modal isOpen={false} onClose={onClose}>
         <ModalOverlay />
         <form onSubmit={handleSubmit(onSubmit)}>
           <ModalContent>
-            <LeftArrowIcon onClick={goRegistr} />
+            <div onClick={goToHome}>
+              <LeftArrowIcon cursor={"pointer"} />
+            </div>
 
             <ModalCloseButton />
             <ModalHeader>Введите код</ModalHeader>
@@ -79,7 +77,7 @@ export const VerifyRegisrtation = () => {
               <FormControl mt={4}>
                 <FormLabel>Code</FormLabel>
                 <HStack spacing={2}>
-                <PinInput>
+                  <PinInput>
                     {[1, 2, 3, 4, 5].map((index) => (
                       <PinInputField
                         key={index}
@@ -110,6 +108,11 @@ export const VerifyRegisrtation = () => {
       </Modal>
     </div>
   );
+};
+
+VerifyRegisrtation.propTypes = {
+  onClose: PropTypes.func,
+  isOpen: PropTypes.bool,
 };
 
 export default VerifyRegisrtation;

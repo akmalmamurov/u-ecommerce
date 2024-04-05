@@ -1,0 +1,1 @@
+export {default as RegisterModal} from "./register-modal/RegistrModal"
