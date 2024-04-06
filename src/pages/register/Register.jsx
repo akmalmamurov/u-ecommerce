@@ -54,7 +54,7 @@ export const Register = ({ isOpen, onClose }) => {
         isClosable: true,
       });
       reset();
-      navigate("/verifyRegistration");
+      navigate("/verify-registration");
     } catch (err) {
       console.log(err);
       toast({

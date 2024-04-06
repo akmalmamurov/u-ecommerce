@@ -3,9 +3,9 @@ import { MainLayout } from "./components/layout";
 import { Home } from "./pages/home";
 import { Register } from "./pages/register";
 import { Login } from "./pages/login";
-import { VerifyRegisrtation } from "./pages/verify";
 import {Favourites} from "./pages/favourites";
 import Cart from "./pages/cart/Cart";
+import VerifyRegisrtation from "./pages/verify/VerifyRegisrtation";
 
 function App() {
   return (
@@ -16,9 +16,9 @@ function App() {
           <Route path="/favourites" element={<Favourites />} />
           <Route path="/cart" element={<Cart />} />
         </Route>
-        <Route path="login" element={<Login />} />
-        <Route path="register" element={<Register />} />
-        <Route path="verifyRegistration" element={<VerifyRegisrtation />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
+        <Route path="/verify-registration" element={<VerifyRegisrtation />} />
       </Routes>
     </BrowserRouter>
   );

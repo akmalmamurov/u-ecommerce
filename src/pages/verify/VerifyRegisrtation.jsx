@@ -1,9 +1,9 @@
-import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import PropTypes from "prop-types";
 import {
   Button,
+  useDisclosure,
   FormControl,
   FormLabel,
   HStack,
@@ -13,6 +13,7 @@ import {
   ModalCloseButton,
   ModalContent,
   ModalFooter,
+  Box,
   ModalHeader,
   ModalOverlay,
   PinInput,
@@ -21,7 +22,9 @@ import {
 
 import { LeftArrowIcon } from "../../assets/icons";
 
-export const VerifyRegisrtation = ({ isOpen, onClose }) => {
+export const VerifyRegisrtation = () => {
+  const { isOpen, onOpen, onClose } = useDisclosure();
+
   const navigate = useNavigate();
   const {
     handleSubmit,
@@ -29,7 +32,6 @@ export const VerifyRegisrtation = ({ isOpen, onClose }) => {
     reset,
     formState: { errors, isSubmitting },
   } = useForm();
-  const [verificationStarted, setVerificationStarted] = useState(false);
   const onSubmit = (value) => {
     const { email, pin1, pin2, pin3, pin4, pin5 } = value;
     const fullCode = `${pin1}${pin2}${pin3}${pin4}${pin5}`;
@@ -37,9 +39,8 @@ export const VerifyRegisrtation = ({ isOpen, onClose }) => {
       email: email,
       code: fullCode,
     };
-    setVerificationStarted(true);
+
     console.log(requestData);
-    setTimeout(() => {}, 120000);
   };
 
   const goToHome = () => {
@@ -48,15 +49,18 @@ export const VerifyRegisrtation = ({ isOpen, onClose }) => {
 
   return (
     <div>
-      <Modal isOpen={false} onClose={onClose}>
+      <Button onClick={onOpen}>Open Modal</Button>
+      <Modal w={"455px"} isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
         <form onSubmit={handleSubmit(onSubmit)}>
-          <ModalContent>
-            <div onClick={goToHome}>
+          <ModalContent py={"32px"} px={"40px"}>
+            <div onClick={goToHome} style={{ marginLeft: "15px" }}>
               <LeftArrowIcon cursor={"pointer"} />
             </div>
+            <Box>
+              <ModalCloseButton />
+            </Box>
 
-            <ModalCloseButton />
             <ModalHeader>Введите код</ModalHeader>
             <ModalBody pb={6}>
               <FormControl>
@@ -75,7 +79,7 @@ export const VerifyRegisrtation = ({ isOpen, onClose }) => {
               </FormControl>
 
               <FormControl mt={4}>
-                <FormLabel>Code</FormLabel>
+                {/* <FormLabel>Code</FormLabel> */}
                 <HStack spacing={2}>
                   <PinInput>
                     {[1, 2, 3, 4, 5].map((index) => (
@@ -93,16 +97,13 @@ export const VerifyRegisrtation = ({ isOpen, onClose }) => {
                   <span className="error-message">{errors.code.message}</span>
                 )}
               </FormControl>
-              {verificationStarted && (
-                <div>Verification countdown started...</div>
-              )}
             </ModalBody>
 
-            <ModalFooter>
+            {/* <ModalFooter>
               <Button type="submit" colorScheme="blue" mr={3}>
                 Save
               </Button>
-            </ModalFooter>
+            </ModalFooter> */}
           </ModalContent>
         </form>
       </Modal>
