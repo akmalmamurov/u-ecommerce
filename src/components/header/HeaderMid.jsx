@@ -23,7 +23,7 @@ import {
 } from "../../assets/icons";
 import { useModal } from "../../hooks/useModal";
 import Register from "../../pages/register/Register";
-import VerifyRegisrtation from "../../pages/verify/VerifyRegisrtation";
+// import VerifyRegisrtation from "../../pages/verify/VerifyRegisrtation";
 
 const HeaderMid = () => {
   const {
@@ -31,11 +31,11 @@ const HeaderMid = () => {
     open: onRegisterOpen,
     close: onRegisterClose,
   } = useModal();
-  const {
-    isopen: isVerifyOpen,
-    open: onVerifyOpen,
-    close: onVerifyClose,
-  } = useModal();
+  // const {
+  //   isopen: isVerifyOpen,
+  //   open: onVerifyOpen,
+  //   close: onVerifyClose,
+  // } = useModal();
 
   return (
     <Box py={"29px"} className="header-mid">
@@ -128,7 +128,7 @@ const HeaderMid = () => {
         </Box>
       </Container>
       <Register isOpen={isRegisterOpen} onClose={onRegisterClose} />
-      <VerifyRegisrtation isOpen={isVerifyOpen} onClose={onVerifyClose} />
+      {/* <VerifyRegisrtation isOpen={isVerifyOpen} onClose={onVerifyClose} /> */}
     </Box>
   );
 };

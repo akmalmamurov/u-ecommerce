@@ -99,11 +99,11 @@ export const VerifyRegisrtation = () => {
               </FormControl>
             </ModalBody>
 
-            {/* <ModalFooter>
+            <ModalFooter>
               <Button type="submit" colorScheme="blue" mr={3}>
                 Save
               </Button>
-            </ModalFooter> */}
+            </ModalFooter>
           </ModalContent>
         </form>
       </Modal>
