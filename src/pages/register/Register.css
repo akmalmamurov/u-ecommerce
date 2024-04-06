@@ -21,3 +21,7 @@
 .error-input::placeholder {
   color: red;
 }
+.register-close_button{
+  background-color: #DCDCDC !important;
+  border-radius: 50% !important;
+}

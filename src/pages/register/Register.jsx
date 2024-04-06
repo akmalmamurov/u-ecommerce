@@ -13,11 +13,14 @@ import {
   ModalFooter,
   ModalHeader,
   ModalOverlay,
+  Text,
+  Box,
 } from "@chakra-ui/react";
 import { useToast } from "@chakra-ui/react";
 import request from "../../server";
 import "./Register.css";
-import PropTypes from "prop-types"
+import PropTypes from "prop-types";
+import theme from "../../theme";
 export const Register = ({ isOpen, onClose }) => {
   const navigate = useNavigate();
   const initialRef = useRef(null);
@@ -65,10 +68,8 @@ export const Register = ({ isOpen, onClose }) => {
   };
   return (
     <div>
-
-
       <Modal
-        maxW="400px"
+        maxW="407px"
         initialFocusRef={initialRef}
         finalFocusRef={finalRef}
         isOpen={isOpen}
@@ -76,15 +77,18 @@ export const Register = ({ isOpen, onClose }) => {
       >
         <ModalOverlay />
         <form onSubmit={handleSubmit(onSubmit)}>
-          <ModalContent>
-            <ModalHeader>Регистрация</ModalHeader>
-            <ModalCloseButton />
+          <ModalContent fontFamily={theme.fonts.fSF}>
+            <ModalHeader fontSize={"32px"} pt={"65px"}>
+              Регистрация
+            </ModalHeader>
+            <ModalCloseButton  className="register-close_button"/>
             <ModalBody pb={6}>
               <FormControl>
                 <FormLabel>Ввидите имя</FormLabel>
                 <Input
                   {...register("name", {
-                    required: "Пожалуйста, введите Ваше имя",
+                    required:
+                      "Неверная  имя пользователя . Проверьте ошибки и попробуйте ещё раз.",
                   })}
                   className={`auth-input ${errors.name ? "error-input" : ""}`}
                   placeholder="Имя"
@@ -136,8 +140,7 @@ export const Register = ({ isOpen, onClose }) => {
                 <FormLabel>Введите пароль</FormLabel>
                 <Input
                   {...register("password", {
-                    required:
-                      "Пароль должен включать заглавные буквы, цифры и символы. Пожалуйста, попробуйте еще раз",
+                    required: `Неверный пароль. Повторите попытку или нажмите на ссылку "Забыли пароль?", чтобы сбросить его.`,
                     minLength: {
                       value: 5,
                       message: "Minimum length should be 4",
@@ -156,8 +159,9 @@ export const Register = ({ isOpen, onClose }) => {
               </FormControl>
             </ModalBody>
 
-            <ModalFooter>
+            <ModalFooter display={"flex"} flexDirection={"column"}>
               <Button
+                mb={"24px"}
                 isLoading={isSubmitting}
                 type="submit"
                 className="auth-button"
@@ -166,6 +170,15 @@ export const Register = ({ isOpen, onClose }) => {
               >
                 Продолжить
               </Button>
+
+              <Box w={"full"}>
+                <Text textAlign={"center"} fontSize={"14px"}>
+                  При регистрации вы соглашаетесь с{" "}
+                  <span style={{ color: "#0074EB" }}>
+                    условиями использования <span style={{color: "#000"}}>и </span> политикой конфиденциальности
+                  </span>
+                </Text>
+              </Box>
             </ModalFooter>
           </ModalContent>
         </form>
