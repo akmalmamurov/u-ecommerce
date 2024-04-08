@@ -3,7 +3,6 @@ import { useForm } from "react-hook-form";
 import PropTypes from "prop-types";
 import {
   Button,
-  useDisclosure,
   FormControl,
   FormLabel,
   HStack,
@@ -22,9 +21,7 @@ import {
 
 import { LeftArrowIcon } from "../../assets/icons";
 
-export const VerifyRegisrtation = () => {
-  const { isOpen, onOpen, onClose } = useDisclosure();
-
+export const VerifyCode = ({ onOpen, onClose, isOpen }) => {
   const navigate = useNavigate();
   const {
     handleSubmit,
@@ -79,7 +76,6 @@ export const VerifyRegisrtation = () => {
               </FormControl>
 
               <FormControl mt={4}>
-                {/* <FormLabel>Code</FormLabel> */}
                 <HStack spacing={2}>
                   <PinInput>
                     {[1, 2, 3, 4, 5].map((index) => (
@@ -111,9 +107,10 @@ export const VerifyRegisrtation = () => {
   );
 };
 
-VerifyRegisrtation.propTypes = {
+VerifyCode.propTypes = {
   onClose: PropTypes.func,
   isOpen: PropTypes.bool,
+  onOpen: PropTypes.func,
 };
 
-export default VerifyRegisrtation;
+export default VerifyCode;

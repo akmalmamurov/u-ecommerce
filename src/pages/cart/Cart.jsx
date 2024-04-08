@@ -1,5 +1,5 @@
 
-export const Cart = () => {
+ const Cart = () => {
   return (
     <div>Cart</div>
   )

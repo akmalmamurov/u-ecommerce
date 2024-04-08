@@ -1,30 +1,14 @@
-import { useRef } from "react";
 import { useNavigate } from "react-router-dom";
+import { useCallback } from "react";
 import { useForm } from "react-hook-form";
-import {
-  Button,
-  FormControl,
-  FormLabel,
-  Input,
-  Modal,
-  ModalBody,
-  ModalCloseButton,
-  ModalContent,
-  ModalFooter,
-  ModalHeader,
-  ModalOverlay,
-  Text,
-  Box,
-} from "@chakra-ui/react";
-import { useToast } from "@chakra-ui/react";
-import request from "../../server";
-import "./Register.css";
 import PropTypes from "prop-types";
-import theme from "../../theme";
-export const Register = ({ isOpen, onClose }) => {
+import { useToast } from "@chakra-ui/react";
+import { Button, FormControl, FormLabel, Input, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, Text, Box, } from "@chakra-ui/react";
+import "../../modal/Modal.css";
+import request from "../../../server";
+import theme from "../../../theme";
+export const LoginModal = ({ isOpen, onClose }) => {
   const navigate = useNavigate();
-  const initialRef = useRef(null);
-  const finalRef = useRef(null);
   const toast = useToast();
   const {
     handleSubmit,
@@ -32,7 +16,8 @@ export const Register = ({ isOpen, onClose }) => {
     reset,
     formState: { errors, isSubmitting },
   } = useForm();
-  const onSubmit = async (values) => {
+  const onSubmit = useCallback(async (values) => {
+    console.log(values);
     const { phone_number, ...restValues } = values;
     const trimmedValues = Object.fromEntries(
       Object.entries(restValues).map(([key, value]) => [key, value.trim()])
@@ -54,7 +39,7 @@ export const Register = ({ isOpen, onClose }) => {
         isClosable: true,
       });
       reset();
-      navigate("/verify-registration");
+      navigate("/verify-code");
     } catch (err) {
       console.log(err);
       toast({
@@ -65,57 +50,18 @@ export const Register = ({ isOpen, onClose }) => {
         isClosable: true,
       });
     }
-  };
+  }, []);
   return (
     <div>
-      <Modal
-        maxW="407px"
-        initialFocusRef={initialRef}
-        finalFocusRef={finalRef}
-        isOpen={isOpen}
-        onClose={onClose}
-      >
+      <Modal maxW="407px" isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
         <form onSubmit={handleSubmit(onSubmit)}>
           <ModalContent fontFamily={theme.fonts.fSF}>
             <ModalHeader fontSize={"32px"} pt={"65px"}>
-              Регистрация
+              Вход в аккаунт
             </ModalHeader>
-            <ModalCloseButton  className="register-close_button"/>
+            <ModalCloseButton className="register-close_button" />
             <ModalBody pb={6}>
-              <FormControl>
-                <FormLabel>Ввидите имя</FormLabel>
-                <Input
-                  {...register("name", {
-                    required:
-                      "Неверная  имя пользователя . Проверьте ошибки и попробуйте ещё раз.",
-                  })}
-                  className={`auth-input ${errors.name ? "error-input" : ""}`}
-                  placeholder="Имя"
-                />
-                {errors.name && (
-                  <span className="error-message">{errors.name.message}</span>
-                )}
-              </FormControl>
-
-              <FormControl mt={4}>
-                <FormLabel>Введите эл.почту</FormLabel>
-                <Input
-                  {...register("email", {
-                    required:
-                      "Пожалуйста, заполните адрес электронной почты. адрес электронной почты должен быть написан @.",
-                    minLength: {
-                      value: 11,
-                      message: "Должно быть не менее 13 строк",
-                    },
-                  })}
-                  className={`auth-input ${errors.name ? "error-input" : ""}`}
-                  placeholder="example@gmail.com"
-                />
-                {errors.email && (
-                  <span className="error-message">{errors.email.message}</span>
-                )}
-              </FormControl>
               <FormControl mt={4}>
                 <FormLabel>Введите номер телефона </FormLabel>
 
@@ -125,10 +71,12 @@ export const Register = ({ isOpen, onClose }) => {
                     required: "Пожалуйста, введите свой номер телефона",
                     maxLength: {
                       value: 13,
-                      message: "Minimum length should be 4",
+                      message: "Minimum length should be 13",
                     },
                   })}
-                  className={`auth-input ${errors.name ? "error-input" : ""}`}
+                  className={`auth-input ${
+                    errors.phone_number ? "error-input" : ""
+                  }`}
                 />
                 {errors.phone_number && (
                   <span className="error-message">
@@ -141,12 +89,10 @@ export const Register = ({ isOpen, onClose }) => {
                 <Input
                   {...register("password", {
                     required: `Неверный пароль. Повторите попытку или нажмите на ссылку "Забыли пароль?", чтобы сбросить его.`,
-                    minLength: {
-                      value: 5,
-                      message: "Minimum length should be 4",
-                    },
                   })}
-                  className={`auth-input ${errors.name ? "error-input" : ""}`}
+                  className={`auth-input ${
+                    errors.password ? "error-input" : ""
+                  }`}
                   type="password"
                   placeholder=" Пароль"
                 />
@@ -173,10 +119,8 @@ export const Register = ({ isOpen, onClose }) => {
 
               <Box w={"full"}>
                 <Text textAlign={"center"} fontSize={"14px"}>
-                  При регистрации вы соглашаетесь с{" "}
-                  <span style={{ color: "#0074EB" }}>
-                    условиями использования <span style={{color: "#000"}}>и </span> политикой конфиденциальности
-                  </span>
+                  У вас еще нет аккаунта?{" "}
+                  <span style={{ color: "#0074EB" }}>Зарегистрироваться</span>
                 </Text>
               </Box>
             </ModalFooter>
@@ -187,8 +131,8 @@ export const Register = ({ isOpen, onClose }) => {
   );
 };
 
-Register.propTypes = {
+LoginModal.propTypes = {
   isOpen: PropTypes.bool,
   onClose: PropTypes.func,
 };
-export default Register;
+export default LoginModal;

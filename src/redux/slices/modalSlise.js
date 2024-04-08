@@ -17,5 +17,6 @@ const modalReducer = createSlice({
   },
 });
 
+// Ham openModal, ham closeModal action'larni export qilish
 export const { openModal, closeModal } = modalReducer.actions;
 export default modalReducer;

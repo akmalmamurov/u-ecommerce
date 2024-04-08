@@ -1,5 +1,6 @@
 .chakra-modal__content {
   width: 400px !important;
+  top: 110px;
 }
 .auth-input {
   border-radius: 8px !important;
