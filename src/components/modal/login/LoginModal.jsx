@@ -3,7 +3,21 @@ import { useCallback } from "react";
 import { useForm } from "react-hook-form";
 import PropTypes from "prop-types";
 import { useToast } from "@chakra-ui/react";
-import { Button, FormControl, FormLabel, Input, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, Text, Box, } from "@chakra-ui/react";
+import {
+  Button,
+  FormControl,
+  FormLabel,
+  Input,
+  Modal,
+  ModalBody,
+  ModalCloseButton,
+  ModalContent,
+  ModalFooter,
+  ModalHeader,
+  ModalOverlay,
+  Text,
+  Box,
+} from "@chakra-ui/react";
 import "../../modal/Modal.css";
 import request from "../../../server";
 import theme from "../../../theme";
@@ -81,25 +95,6 @@ export const LoginModal = ({ isOpen, onClose }) => {
                 {errors.phone_number && (
                   <span className="error-message">
                     {errors.phone_number.message}
-                  </span>
-                )}
-              </FormControl>
-              <FormControl mt={4}>
-                <FormLabel>Введите пароль</FormLabel>
-                <Input
-                  {...register("password", {
-                    required: `Неверный пароль. Повторите попытку или нажмите на ссылку "Забыли пароль?", чтобы сбросить его.`,
-                  })}
-                  className={`auth-input ${
-                    errors.password ? "error-input" : ""
-                  }`}
-                  type="password"
-                  placeholder=" Пароль"
-                />
-
-                {errors.password && (
-                  <span className="error-message">
-                    {errors.password.message}
                   </span>
                 )}
               </FormControl>

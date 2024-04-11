@@ -1,7 +1,10 @@
+import {Banner} from "../../components/banner"
 
 export const Home = () => {
   return (
-    <div>Home</div>
+    <>
+      <Banner/>
+    </>
   )
 }
 
