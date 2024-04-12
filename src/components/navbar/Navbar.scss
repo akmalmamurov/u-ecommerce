@@ -1,0 +1,25 @@
+nav {
+    padding: 16px 0;
+    .nav-list {
+        display: flex;
+        align-items: center;
+        gap: 16px;
+
+        &:active {
+            color: #000000;
+        }
+    }
+
+    .nav-link {
+        font-size: 18px;
+        font-weight: 500;
+        color: #9C9C9C;
+        transition: 0.3 ease-in-out;
+
+        &:hover {
+            color: #000000;
+        }
+
+
+    }
+}
