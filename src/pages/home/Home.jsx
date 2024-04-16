@@ -1,11 +1,13 @@
-import {Banner} from "../../components/banner"
+import { Banner } from "./components/banner";
+import Product from "./components/product/Product";
 
 export const Home = () => {
   return (
     <>
-      <Banner/>
+      <Banner />
+      <Product />
     </>
-  )
-}
+  );
+};
 
-export default Home
+export default Home;

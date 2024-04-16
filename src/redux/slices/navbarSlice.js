@@ -1,19 +1,22 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-const initialState = {
-  data: [],
-};
-
-const navbarReducer = createSlice({
+export const navbarReducer = createSlice({
   name: "navbar",
-  initialState,
+  initialState: {
+    categories: [],
+    error: null,
+  },
   reducers: {
-    setCategories(state, action) {
-      state.data = action.payload;
+    setCategories: (state, action) => {
+      state.categories = action.payload;
+      state.error = null; 
+    },
+    setError: (state, action) => {
+      state.error = action.payload;
     },
   },
 });
 
-export const { setCategories } = navbarReducer.actions;
+export const { setCategories, setError } = navbarReducer.actions;
 
 export default navbarReducer;

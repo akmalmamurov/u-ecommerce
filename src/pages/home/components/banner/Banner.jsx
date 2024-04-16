@@ -6,7 +6,7 @@ import {
   bannerImgOne,
   bannerImgThree,
   bannerImgTwo,
-} from "../../assets/images";
+} from "../../../../assets/images";
 import { Box, Container } from "@chakra-ui/react";
 import "./Banner.scss";
 export const Banner = () => {

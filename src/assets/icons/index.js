@@ -12,4 +12,5 @@ export { default as InstagramIcon } from "./InstagramIcon.jsx";
 export { default as TelegramIcon } from "./TelegramIcon.jsx";
 export { default as YoutubeIcon } from "./YoutubeIcon.jsx";
 export { default as ArrowBottomIcon } from "./ArrowBottomIcon.jsx";
+export { default as ArroShoppingIconwBottomIcon } from "./ShoppingIcon.jsx";
 
