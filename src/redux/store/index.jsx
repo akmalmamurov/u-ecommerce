@@ -12,14 +12,14 @@ const persistConfig = {
   storage,
 };
 
-const persistedProductReducer = persistReducer(persistConfig, productSlices);
-const persistedFavouritReducer = persistReducer(persistConfig, favouritSlices);
+// const persistedProductReducer = persistReducer(persistConfig, productSlices);
+// const persistedFavouritReducer = persistReducer(persistConfig, favouritSlices);
 
 export const store = configureStore({
   reducer: {
     modal: modalReducer.reducer,
-    product: persistedProductReducer,
-    favourit: persistedFavouritReducer,
+    product: productSlices,
+    favourit: favouritSlices,
     [categoryServices.reducerPath]: categoryServices.reducer,
     [productAllServices.reducerPath]: productAllServices.reducer,
   },
@@ -30,4 +30,4 @@ export const store = configureStore({
     ),
 });
 
-export const persistor = persistStore(store);
+// export const persistor = persistStore(store);
