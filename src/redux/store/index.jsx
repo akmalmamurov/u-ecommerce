@@ -1,17 +1,25 @@
 import { configureStore } from "@reduxjs/toolkit";
+import { persistStore, persistReducer } from "redux-persist";
+import storage from "redux-persist/lib/storage";
 import modalReducer from "../slices/modalSlise";
-import navbarReducer from "../slices/navbarSlice";
 import categoryServices from "../services/categoryServices";
 import productAllServices from "../services/productAllServices";
-import productSlices from "../slices/productSlices";
 import favouritSlices from "../slices/favouritSlices";
+import productSlices from "../slices/productSlices";
+
+const persistConfig = {
+  key: "root",
+  storage,
+};
+
+const persistedProductReducer = persistReducer(persistConfig, productSlices);
+const persistedFavouritReducer = persistReducer(persistConfig, favouritSlices);
 
 export const store = configureStore({
   reducer: {
     modal: modalReducer.reducer,
-    navbar: navbarReducer.reducer,
-    product: productSlices.reducer,
-    favourit: favouritSlices.reducer,
+    product: persistedProductReducer,
+    favourit: persistedFavouritReducer,
     [categoryServices.reducerPath]: categoryServices.reducer,
     [productAllServices.reducerPath]: productAllServices.reducer,
   },
@@ -21,3 +29,5 @@ export const store = configureStore({
       productAllServices.middleware
     ),
 });
+
+export const persistor = persistStore(store);
