@@ -4,13 +4,12 @@ import { ProductCard } from "../../../../components/card/product-card";
 import { Container, Grid } from "@chakra-ui/react";
 const Product = () => {
   const { data: products, isLoading } = useGetAllProductsQuery();
-  console.log(products);
   return (
     <section className="home-product">
       <Container maxW={"1200px"}>
         <Grid templateColumns="repeat(5, 1fr)" gap={6}>
         {products?.map((product) => (
-          <ProductCard key={product._id} {...product} />
+          <ProductCard key={product.id} {...product} />
         ))}
         </Grid>
       </Container>

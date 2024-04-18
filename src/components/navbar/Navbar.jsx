@@ -2,7 +2,7 @@ import { NavLink } from "react-router-dom";
 import { Box, Container } from "@chakra-ui/react";
 import theme from "../../theme";
 import { useGetCategoriesQuery } from "../../redux/services/categoryServices";
-// import "./Navbar.scss"
+import "./Navbar.scss";
 
 const Navbar = () => {
   const { data: categories, isLoading } = useGetCategoriesQuery();
@@ -19,22 +19,18 @@ const Navbar = () => {
             fontFamily={theme.fonts.fSF}
           >
             {categories.map((category) => {
-              const russianTranslation = category.translations.find(
-                (trans) => trans.language_code === "ru"
-              );
-              if (!russianTranslation) return null;
               return (
                 <NavLink
                   key={category.id}
                   className="nav-list"
-                  to={`/${russianTranslation.name}`}
+                  to={`/category/${category.id}`}
                 >
                   <img
                     src={category.image}
-                    alt={russianTranslation.name}
+                    alt={category.name_ru}
                     className="navbar-img"
                   />
-                  <span className="nav-link">{russianTranslation.name}</span>
+                  <span className="nav-link active">{category.name_ru}</span>
                 </NavLink>
               );
             })}

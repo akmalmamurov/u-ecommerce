@@ -2,7 +2,7 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { ENDPOINT } from "../../constants";
 
 const productAllServices = createApi({
-  reducerPath: "product",
+  reducerPath: "productAll",
   baseQuery: fetchBaseQuery({
     baseUrl: ENDPOINT,
   }),

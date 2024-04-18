@@ -1,10 +1,25 @@
-.product-card{
-    border-radius: 8px !important;
-    .card-body{
-        .card-top{
-        }
-        .card-bottom{
-            height: 128px !important;
-        }
+.product-card {
+  .card-body {
+    border-radius: 128px !important;
+
+    padding: 0;
+    .card-top {
+      padding: 4px 8px;
+      background-color: gray;
+      img {
+        box-shadow: "0px 0px 10px rgba(0, 0, 0, 0.1)";
+      }
     }
+    .card-bottom {
+      padding: 4px 8px;
+      background-color: white;
+      height: 128px !important;
+    }
+  }
+  .favourites-icon {
+    position: absolute;
+    top: 0;
+    right: 0;
+    background: #000;
+  }
 }

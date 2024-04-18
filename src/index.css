@@ -72,3 +72,6 @@
 *:focus{
   box-shadow: none !important;
 }
+.nav-list active{
+  color: #000000;
+}
