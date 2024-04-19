@@ -51,6 +51,7 @@ export const ProductCard = (props) => {
                 price,
                 description_ru,
                 name_ru,
+                quantity: 1,
               })
             )
           }

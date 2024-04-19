@@ -15,3 +15,8 @@ export { default as ArrowBottomIcon } from "./ArrowBottomIcon.jsx";
 export { default as ShoppingIconwBottomIcon } from "./ShoppingIcon.jsx";
 export { default as StarIcon } from "./StarIcon.jsx";
 export { default as FavouritesIcon } from "./FavouritesIcon.jsx";
+export { default as CartEmptyIcon } from "./CartEmptyIcon.jsx";
+export { default as CartFavouritIcon } from "./CartFavouritIcon.jsx";
+export { default as CartDeleteIcon } from "./CartDeleteIcon.jsx";
+export { default as CartArrowLeftIcon } from "./CartArrowLeftIcon.jsx";
+export { default as CartSucessIcon } from "./CartSucessIcon.jsx";

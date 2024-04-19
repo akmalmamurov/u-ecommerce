@@ -5,4 +5,14 @@ import bannerImgOne from "./banner/bannerImgTwo.jpg";
 import bannerImgTwo from "./banner/bannerImgOne.jpg";
 import bannerImgThree from "./banner/bannerImgThree.jpg";
 import bannerImgFour from "./banner/bannerImgFour.jpg";
-export { logo, saleImg, cashImg,bannerImgOne,bannerImgTwo,bannerImgThree,bannerImgFour };
+import emptyCart from "./emptyCart.png";
+export {
+  logo,
+  saleImg,
+  cashImg,
+  bannerImgOne,
+  bannerImgTwo,
+  bannerImgThree,
+  bannerImgFour,
+  emptyCart,
+};
