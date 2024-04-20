@@ -12,7 +12,7 @@ export { default as InstagramIcon } from "./InstagramIcon.jsx";
 export { default as TelegramIcon } from "./TelegramIcon.jsx";
 export { default as YoutubeIcon } from "./YoutubeIcon.jsx";
 export { default as ArrowBottomIcon } from "./ArrowBottomIcon.jsx";
-export { default as ShoppingIconwBottomIcon } from "./ShoppingIcon.jsx";
+export { default as ShoppingIcon} from "./ShoppingIcon.jsx";
 export { default as StarIcon } from "./StarIcon.jsx";
 export { default as FavouritesIcon } from "./FavouritesIcon.jsx";
 export { default as CartEmptyIcon } from "./CartEmptyIcon.jsx";

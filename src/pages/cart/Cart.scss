@@ -53,7 +53,8 @@
 
         }
 
-        .cart-left_main,.cart-right_main {
+        .cart-left_main,
+        .cart-right_main {
             padding: 24px 0;
             border-bottom: 1px solid #DCDCDC;
 
@@ -116,26 +117,49 @@
                 }
             }
         }
-        .cart-right_main{
-            .cart-right_item{
+
+        .cart-right_main {
+            .cart-right_item {
                 display: flex;
                 justify-content: space-between;
                 align-items: center;
-                h2{
+
+                h2 {
                     font-weight: 600;
                     font-size: 23px;
                     color: #000000;
                 }
-                .cart-right_price{
+
+                .cart-right_price {
                     font-size: 23px;
                     font-weight: 600;
                     color: #000000;
                 }
-                .cart-right_price-percent{
+
+                .cart-right_tovar,
+                .cart-right_price-percent {
                     font-weight: 500;
                     font-size: 16px;
                     color: #6E7C87;
-                }
+                } 
+            }
+
+            .cart-right_input {
+                padding: 8px 10px;
+                width: 100%;
+                border: 1px solid #CDCDCD;
+                border-radius: 8px;
+            }
+
+            .cart-right_btn {
+                background-color: #0E73F6;
+                color: white;
+                padding: 14px 0;
+                width: 100%;
+                font-weight: 600;
+                font-size: 16px;
+                border-radius: 8px;
+
             }
         }
     }
@@ -167,12 +191,18 @@
         justify-content: center;
         align-items: center;
         gap: 4px;
-        padding: 10px 0;
+        padding: 200px 0;
 
         .empty-cart_text {
             font-weight: 500;
             font-size: 32px;
             color: #000000;
+        }
+
+        .cart-right_additional {
+            font-size: 16px;
+            font-weight: 500;
+            color: #6E7C87;
         }
     }
 }

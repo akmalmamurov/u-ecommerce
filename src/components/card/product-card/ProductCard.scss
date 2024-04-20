@@ -1,25 +1,52 @@
 .product-card {
   .card-body {
     border-radius: 128px !important;
-
     padding: 0;
+
     .card-top {
       padding: 4px 8px;
-      background-color: gray;
+      background-color: white;
+
       img {
-        box-shadow: "0px 0px 10px rgba(0, 0, 0, 0.1)";
+        transition: 0.3s ease-in-out;
+        &:hover{
+          transform: scale(1.05);
+        }
       }
     }
+
     .card-bottom {
       padding: 4px 8px;
       background-color: white;
       height: 128px !important;
+      .product-name{
+        font-size: 14px;
+        font-weight: 500;
+        color: #000000;
+        text-align: justify;
+        line-height: 18px;
+        letter-spacing: -0.15px;
+      }
+      .product-rating{
+        font-size: 12px;
+        font-weight: 500;
+        color: #9C9C9C;
+      }
+      .product-price{
+        font-weight: 500;
+        font-size: 14px;
+        line-height: 16.94px;
+        color: #000000;
+      }
     }
   }
+
   .favourites-icon {
     position: absolute;
-    top: 0;
-    right: 0;
-    background: #000;
+    top: 5px;
+    right: 10px;
+    color: white;
+    box-shadow: 10px 4px 5px 0px;
   }
+
 }

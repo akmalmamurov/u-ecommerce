@@ -18,4 +18,4 @@ export const favouritSlices = createSlice({
 });
 
 export const { addToFavourit } = favouritSlices.actions;
-export default favouritSlices;
+export default favouritSlices.reducer;

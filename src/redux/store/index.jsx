@@ -1,33 +1,42 @@
 import { configureStore } from "@reduxjs/toolkit";
-// import { persistStore, persistReducer } from "redux-persist";
-// import storage from "redux-persist/lib/storage";
-import modalReducer from "../slices/modalSlise";
+import {
+  persistStore,
+  persistReducer,
+  FLUSH,
+  REHYDRATE,
+  PAUSE,
+  PERSIST,
+  PURGE,
+  REGISTER,
+} from "redux-persist";
+import storage from "redux-persist/lib/storage";
 import categoryServices from "../services/categoryServices";
 import productAllServices from "../services/productAllServices";
-import favouritSlices from "../slices/favouritSlices";
+import favouritReducer from "../slices/favouritSlices";
 import productReducer from "../slices/productSlices";
 
-// const persistConfig = {
-//   key: "root",
-//   storage,
-// };
+const persistConfig = {
+  key: "root",
+  storage,
+  blacklist: ["modal", "categoryServices", "productAllServices"],
+};
 
-// const persistedProductReducer = persistReducer(persistConfig, productSlices);
-// const persistedFavouritReducer = persistReducer(persistConfig, favouritSlices);
+const persistedProductReducer = persistReducer(persistConfig, productReducer);
+const persistedFavouritReducer = persistReducer(persistConfig, favouritReducer);
 
 export const store = configureStore({
   reducer: {
-    modal: modalReducer.reducer,
-    product: productReducer,
-    favourit: favouritSlices.reducer,
+    product: persistedProductReducer,
+    favourit: persistedFavouritReducer,
     [categoryServices.reducerPath]: categoryServices.reducer,
     [productAllServices.reducerPath]: productAllServices.reducer,
   },
   middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware().concat(
-      categoryServices.middleware,
-      productAllServices.middleware
-    ),
+    getDefaultMiddleware({
+      serializableCheck: {
+        ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
+      },
+    }).concat(categoryServices.middleware, productAllServices.middleware),
 });
 
-// export const persistor = persistStore(store);
+export const persistor = persistStore(store);

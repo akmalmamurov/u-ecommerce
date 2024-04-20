@@ -1,43 +1,62 @@
+import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { motion } from "framer-motion";
-import {
-  Box,
-  Center,
-  Container,
-  Divider,
-  Grid,
-  GridItem,
-  Text,
-} from "@chakra-ui/react";
-import {
-  CartArrowLeftIcon,
-  CartDeleteIcon,
-  CartEmptyIcon,
-  CartFavouritIcon,
-  CartSucessIcon,
-} from "../../assets/icons";
-import {
-  decrementQuantity,
-  deleteItem,
-  incrementQuantity,
-  resetCart,
-} from "../../redux/slices/productSlices";
+import { Box, Center, Container, Divider, Grid, GridItem, Text, } from "@chakra-ui/react";
+import { CartArrowLeftIcon, CartDeleteIcon, CartEmptyIcon, CartFavouritIcon, CartSucessIcon, } from "../../assets/icons";
+import { decrementQuantity, deleteItem, incrementQuantity, resetCart, } from "../../redux/slices/productSlices";
 import theme from "../../theme";
-import "./Cart.scss";
 import { emptyCart } from "../../assets/images";
-import { Link } from "react-router-dom";
-import { useEffect, useState } from "react";
+import "./Cart.scss";
+
 const CartPage = () => {
   const products = useSelector((state) => state.product.products);
   const dispatch = useDispatch();
-  const [totalPrice,setTotalPrice]= useState("");
-  useEffect(()=>{
+  const [totalPrice, setTotalPrice] = useState("");
+  const [totalAdditionalPrice, setTotalAdditionalPrice] = useState(0);
+  const [selectedItems, setSelectedItems] = useState([]);
+  useEffect(() => {
+    let additionalPrice = 0;
+    products.forEach((item) => {
+      additionalPrice += item.price;
+    });
+    setTotalAdditionalPrice(additionalPrice);
+  }, [products]);
+
+  useEffect(() => {
     let Total = 0;
-    products.map((item)=>{
+    products.forEach((item) => {
       Total += item.price * item.quantity;
-      return setTotalPrice(Total.toFixed(2))
-    })
-  },[products])
+    });
+    setTotalPrice(Total.toFixed(2));
+  }, [products]);
+
+  const handleAllCheck = (e) => {
+    let isSelected = e.target.checked;
+    let value = e.target.value;
+    if (isSelected) {
+      setSelectedItems([...selectedItems, value]);
+    } else {
+      setSelectedItems((prevData) => {
+        return prevData.filter((id) => {
+          return id !== value;
+        });
+      });
+    }
+  };
+
+  const checkAllHandler = () => {
+    if (products.length === selectedItems.length) {
+      setSelectedItems([]);
+    } else {
+      const postIds = products.map((item) => {
+        return item.id;
+      });
+
+      setSelectedItems(postIds);
+    }
+  };
+
   return (
     <Box className="cart-page" fontFamily={theme.fonts.fInter}>
       <Container maxW={products.length > 0 ? "1424px" : "1200px"}>
@@ -45,11 +64,11 @@ const CartPage = () => {
           <h2 className="cart-title">Корзина</h2>
         ) : (
           <div className="cart-empty_link">
-            <Link to={"/"} >
+            <Link to={"/"}>
               <CartArrowLeftIcon />
             </Link>
             <div className="cart-empty_right">
-              <p >Главная / </p>
+              <p>Главная / </p>
               <h2>Корзина</h2>
             </div>
           </div>
@@ -64,7 +83,9 @@ const CartPage = () => {
                   justifyContent={"space-between"}
                 >
                   <Box display={"flex"} alignItems={"center"} gap={"16px"}>
-                    <input type="checkbox" className="cart-check_input" />
+                    <div onClick={checkAllHandler}>
+                      <input type="checkbox" className="cart-check_input" />
+                    </div>
                     <p className="card-top_text">
                       Всего: {products.length} товара
                     </p>
@@ -85,7 +106,9 @@ const CartPage = () => {
                     <Box display={"flex"} justifyContent={"space-between"}>
                       <Box display={"flex"} gap={"16px"}>
                         <Box display={"flex"} alignItems={"center"}>
-                          <input type="checkbox" className="cart-check_input" />
+                          <input onChange={handleAllCheck} type="checkbox" checked={ selectedItems.includes( item.id ) } value={item.id}
+                            className="cart-check_input"
+                          />
                         </Box>
                         <img
                           src={item.main_image}
@@ -121,7 +144,9 @@ const CartPage = () => {
                         flexDirection={"column"}
                         justifyContent={"space-between"}
                       >
-                        <p className="cart-product_price">{item.price * item.quantity} сум</p>
+                        <p className="cart-product_price">
+                          {item.price * item.quantity} сум
+                        </p>
                         <Box
                           display={"flex"}
                           gap={"12px"}
@@ -152,25 +177,39 @@ const CartPage = () => {
             <GridItem colSpan={4}>
               <Box className="cart-right">
                 <Box className="cart-right_top" display={"flex"} gap={"16px"}>
-                    <CartSucessIcon/>
-                    <Box className="cart-right_text">
-                      <h3>Бесплатно доставим ваш заказ</h3>
-                      <p>в фирменный пункт выдачи</p>
-                      <span>Ещё 488 000 сум для бесплатной доставки до двери</span>
-                    </Box>
-                  
+                  <CartSucessIcon />
+                  <Box className="cart-right_text">
+                    <h3>Бесплатно доставим ваш заказ</h3>
+                    <p>в фирменный пункт выдачи</p>
+                    <span>
+                      Ещё 488 000 сум для бесплатной доставки до двери
+                    </span>
+                  </Box>
                 </Box>
                 <Box className="cart-right_main">
-                      <div className="cart-right_item">
-                          <h2>Итого</h2>
-                          <p className="cart-right_price">{totalPrice} сум</p>
-                      </div>
-                      <div className="cart-right_item">
-                          <p className="cart-right_tovar">Товары, {products.length} шт</p>
-                          <p className="cart-right_price-percent">{totalPrice / 10} сум</p>
-                      </div>
-                <button>Оформить заказ</button>
-                    </Box>
+                  <div className="cart-right_item">
+                    <h2>Итого</h2>
+                    <p className="cart-right_price">{totalPrice} сум</p>
+                  </div>
+                  <div className="cart-right_item">
+                    <p className="cart-right_tovar">
+                      Товары, {products.length} шт
+                    </p>
+                    <p className="cart-right_additional">
+                      {totalAdditionalPrice} сум
+                    </p>
+                  </div>
+                  <Box my={"16px"}>
+                    <input
+                      type="text"
+                      className="cart-right_input"
+                      placeholder="Введите промокод"
+                    />
+                  </Box>
+                  <button className="cart-right_btn">
+                    Перейти к оформлению
+                  </button>
+                </Box>
               </Box>
             </GridItem>
           </Grid>

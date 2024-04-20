@@ -30,7 +30,7 @@ const Navbar = () => {
                     alt={category.name_ru}
                     className="navbar-img"
                   />
-                  <span className="nav-link active">{category.name_ru}</span>
+                  <span className="nav-link">{category.name_ru}</span>
                 </NavLink>
               );
             })}
