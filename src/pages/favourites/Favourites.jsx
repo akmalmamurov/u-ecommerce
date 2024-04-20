@@ -1,18 +1,46 @@
+import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
+import { Box, Container, Text } from "@chakra-ui/react";
+import { motion } from "framer-motion";
+import GridProduct from "../../components/product-grid/GridProduct";
+import { ProductCard } from "../../components/card/product-card";
+import { emptyCart } from "../../assets/images";
+import theme from "../../theme";
+import "./Favourties.scss";
 
 const FavouritesPage = () => {
   const favourites = useSelector((state) => state.favourit.favourites);
   return (
-    <div>
-      <h2>Favourites</h2>
-      {favourites.map((product) => (
-        <div key={product.id}>
-          <img src={product.main_image} alt="" />
-          <p>{product.name_ru}</p>
-          <p>{product.price}</p>
-        </div>
-      ))}
-    </div>
+    <Box py={"32px"}>
+      <Container maxW={"1200px"}>
+        {favourites.length > 0 ? (
+          <GridProduct>
+            {favourites.map((product) => (
+              <ProductCard key={product.id} {...product} />
+            ))}
+          </GridProduct>
+        ) : (
+          <motion.div
+            className="cart-empty"
+            initial={{ y: 70, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            transition={{ delay: 0.5, duration: 0.5 }}
+          >
+            <div>
+              <img src={emptyCart} alt="emptyCart" />
+            </div>
+            <Text fontFamily={theme.fonts.fSf} className="empty-cart_text">
+              В Избранное ничего нет
+            </Text>
+            <Box fontFamily={theme.fonts.fInter} mt={"24px"}>
+              <Link to="/" className="empty-cart_btn">
+                Вернуться на главную страницу
+              </Link>
+            </Box>
+          </motion.div>
+        )}
+      </Container>
+    </Box>
   );
 };
 

@@ -22,15 +22,15 @@ const Navbar = () => {
               return (
                 <NavLink
                   key={category.id}
-                  className="nav-list"
                   to={`/category/${category.id}`}
+                  className="nav-list navbar-link"
                 >
                   <img
                     src={category.image}
                     alt={category.name_ru}
                     className="navbar-img"
                   />
-                  <span className="nav-link">{category.name_ru}</span>
+                  {category.name_ru}
                 </NavLink>
               );
             })}

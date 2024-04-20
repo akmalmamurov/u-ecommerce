@@ -6,16 +6,18 @@ export const favouritSlices = createSlice({
     favourites: [],
   },
   reducers: {
-    addToFavourit: (state, action) => {
-        const item = state.favourites.find((item) => item.id === action.payload.id);
-        if (item) {
-          item.quantity += action.payload.quantity;
-        } else {
-          state.favourites.push(action.payload);
-        }
-      },
+    toggleFavourit: (state, action) => {
+      const itemIndex = state.favourites.findIndex(
+        (item) => item.id === action.payload.id
+      );
+      if (itemIndex !== -1) {
+        state.favourites.splice(itemIndex, 1);
+      } else {
+        state.favourites.push(action.payload);
+      }
+    },
   },
 });
 
-export const { addToFavourit } = favouritSlices.actions;
+export const { toggleFavourit } = favouritSlices.actions;
 export default favouritSlices.reducer;

@@ -2,12 +2,32 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { motion } from "framer-motion";
-import { Box, Center, Container, Divider, Grid, GridItem, Text, } from "@chakra-ui/react";
-import { CartArrowLeftIcon, CartDeleteIcon, CartEmptyIcon, CartFavouritIcon, CartSucessIcon, } from "../../assets/icons";
-import { decrementQuantity, deleteItem, incrementQuantity, resetCart, } from "../../redux/slices/productSlices";
+import {
+  Box,
+  Center,
+  Container,
+  Divider,
+  Grid,
+  GridItem,
+  Text,
+} from "@chakra-ui/react";
+import {
+  CartArrowLeftIcon,
+  CartDeleteIcon,
+  CartEmptyIcon,
+  CartFavouritIcon,
+  CartSucessIcon,
+} from "../../assets/icons";
+import {
+  decrementQuantity,
+  deleteItem,
+  incrementQuantity,
+  resetCart,
+} from "../../redux/slices/productSlices";
 import theme from "../../theme";
 import { emptyCart } from "../../assets/images";
 import "./Cart.scss";
+import CartBottom from "./cart-bottom/CartBottom";
 
 const CartPage = () => {
   const products = useSelector((state) => state.product.products);
@@ -74,6 +94,7 @@ const CartPage = () => {
           </div>
         )}
         {products.length > 0 ? (
+          <>
           <Grid templateColumns="repeat(12,1fr)" gap={"24px"}>
             <GridItem colSpan={8}>
               <Box className="cart-left">
@@ -106,7 +127,11 @@ const CartPage = () => {
                     <Box display={"flex"} justifyContent={"space-between"}>
                       <Box display={"flex"} gap={"16px"}>
                         <Box display={"flex"} alignItems={"center"}>
-                          <input onChange={handleAllCheck} type="checkbox" checked={ selectedItems.includes( item.id ) } value={item.id}
+                          <input
+                            onChange={handleAllCheck}
+                            type="checkbox"
+                            checked={selectedItems.includes(item.id)}
+                            value={item.id}
                             className="cart-check_input"
                           />
                         </Box>
@@ -213,6 +238,10 @@ const CartPage = () => {
               </Box>
             </GridItem>
           </Grid>
+              <Box py={"64px"}>
+              <CartBottom />
+            </Box>
+            </>
         ) : (
           <motion.div
             className="cart-empty"
@@ -229,6 +258,7 @@ const CartPage = () => {
           </motion.div>
         )}
       </Container>
+  
     </Box>
   );
 };

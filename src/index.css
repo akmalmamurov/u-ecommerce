@@ -1,77 +1,75 @@
 @font-face {
-  font-family: 'AbhayaLibre';
-  src: url('./assets/fonts/Abhaya_Libre/AbhayaLibre-Regular.ttf');
+  font-family: "AbhayaLibre";
+  src: url("./assets/fonts/Abhaya_Libre/AbhayaLibre-Regular.ttf") format("ttf");
   font-weight: 400;
 }
 @font-face {
-  font-family: 'AbhayaLibre';
-  src: url('./assets//fonts//Abhaya_Libre/AbhayaLibre-Medium.ttf');
+  font-family: "AbhayaLibre";
+  src: url("./assets//fonts//Abhaya_Libre/AbhayaLibre-Medium.ttf") format("ttf");
   font-weight: 500;
 }
 @font-face {
-  font-family: 'AbhayaLibre';
-  src: url('./assets//fonts//Abhaya_Libre/AbhayaLibre-SemiBold.ttf');
+  font-family: "AbhayaLibre";
+  src: url("./assets//fonts//Abhaya_Libre/AbhayaLibre-SemiBold.ttf")
+    format("ttf");
   font-weight: 600;
 }
 @font-face {
-  font-family: 'AbhayaLibre';
-  src: url('./assets//fonts//Abhaya_Libre/AbhayaLibre-Bold.ttf');
+  font-family: "AbhayaLibre";
+  src: url("./assets//fonts//Abhaya_Libre/AbhayaLibre-Bold.ttf") format("ttf");
   font-weight: 700;
 }
 
 @font-face {
-  font-family: 'Inter';
-  src: url('./assets/fonts/inter/Inter-Regular.ttf');
+  font-family: "Inter";
+  src: url("./assets/fonts/inter/Inter-Regular.ttf") format("ttf");
   font-weight: 400;
 }
 @font-face {
-  font-family: 'Inter';
-  src: url('./assets/fonts/inter/Inter-Medium.ttf');
+  font-family: "Inter";
+  src: url("./assets/fonts/inter/Inter-Medium.ttf") format("ttf");
   font-weight: 500;
 }
 @font-face {
-  font-family: 'Inter';
-  src: url('./assets/fonts/inter/Inter-SemiBold.ttf');
+  font-family: "Inter";
+  src: url("./assets/fonts/inter/Inter-SemiBold.ttf") format("ttf");
   font-weight: 600;
 }
 @font-face {
-  font-family: 'Inter';
-  src: url('./assets/fonts/inter/Inter-Bold.ttf');
+  font-family: "Inter";
+  src: url("./assets/fonts/inter/Inter-Bold.ttf") format("ttf");
   font-weight: 700;
 }
 @font-face {
-  font-family: 'Poppins';
-  src: url('./assets/fonts/Poppins/Poppins-Bold.ttf');
+  font-family: "Poppins";
+  src: url("./assets/fonts/Poppins/Poppins-Bold.ttf") format("ttf");
   font-weight: 700;
 }
 @font-face {
-  font-family: 'Revalia';
-  src: url('./assets//fonts/Revalia/Revalia-Regular.ttf');
+  font-family: "Revalia";
+  src: url("./assets//fonts/Revalia/Revalia-Regular.ttf") format("ttf");
   font-weight: 400;
 }
 @font-face {
-  font-family: 'SFPRODISPLAY';
-  src: url('./assets/fonts/sfpro/SFPRODISPLAY-Regular.OTF');
+  font-family: "SFPRODISPLAY";
+  src: url("./assets/fonts/sfpro/SFPRODISPLAY-Regular.OTF") format("OTF");
   font-weight: 400;
 }
 @font-face {
-  font-family: 'SFPRODISPLAY';
-  src: url('./assets/fonts/sfpro/SFPRODISPLAY-Medium.OTF');
+  font-family: "SFPRODISPLAY";
+  src: url("./assets/fonts/sfpro/SFPRODISPLAY-Medium.OTF") format("OTF");
   font-weight: 500;
 }
 @font-face {
-  font-family: 'SFPRODISPLAY';
-  src: url('./assets/fonts/sfpro/SFPRODISPLAY-Semibold.OTF');
+  font-family: "SFPRODISPLAY";
+  src: url("./assets/fonts/sfpro/SFPRODISPLAY-Semibold.OTF") format("OTF");
   font-weight: 600;
 }
 @font-face {
-  font-family: 'SFPRODISPLAY';
-  src: url('./assets/fonts/sfpro/SFPRODISPLAYSEMI-Bold.ttf');
+  font-family: "SFPRODISPLAY";
+  src: url("./assets/fonts/sfpro/SFPRODISPLAYSEMI-Bold.ttf") format("ttf");
   font-weight: 700;
 }
-*:focus{
+*:focus {
   box-shadow: none !important;
-}
-.nav-list active{
-  color: #000000;
 }

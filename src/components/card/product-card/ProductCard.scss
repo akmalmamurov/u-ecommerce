@@ -9,7 +9,8 @@
 
       img {
         transition: 0.3s ease-in-out;
-        &:hover{
+
+        &:hover {
           transform: scale(1.05);
         }
       }
@@ -19,7 +20,8 @@
       padding: 4px 8px;
       background-color: white;
       height: 128px !important;
-      .product-name{
+
+      .product-name {
         font-size: 14px;
         font-weight: 500;
         color: #000000;
@@ -27,12 +29,14 @@
         line-height: 18px;
         letter-spacing: -0.15px;
       }
-      .product-rating{
+
+      .product-rating {
         font-size: 12px;
         font-weight: 500;
         color: #9C9C9C;
       }
-      .product-price{
+
+      .product-price {
         font-weight: 500;
         font-size: 14px;
         line-height: 16.94px;
@@ -46,7 +50,10 @@
     top: 5px;
     right: 10px;
     color: white;
-    box-shadow: 10px 4px 5px 0px;
+
+    &.added {
+      color: red;
+    }
   }
 
 }

@@ -46,15 +46,11 @@ const HeaderMid = () => {
             </Link>
             {/* menu button */}
             <Box>
-              <Menu>
+              <Menu className="header_menu">
                 <MenuButton
-                  height={"48px"}
-                  bg={"#0074EB33"}
-                  _hover={"#0074EB33"}
-                  _active={"#0074EB33"}
                   py={"12px"}
                   px={"16px"}
-                  className="category-toggle_btn"
+                  className="headre_menu-btn"
                   as={IconButton}
                   aria-label="Options"
                   variant="outline"
@@ -86,7 +82,6 @@ const HeaderMid = () => {
                   <SearchIcon />
                 </InputLeftElement>
                 <Input
-                  _focus={{ border: "none", outline: "none" }}
                   border={"none"}
                   fontSize={"18px"}
                   fontWeight={"400"}

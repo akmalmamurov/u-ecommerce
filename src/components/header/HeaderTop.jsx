@@ -5,7 +5,7 @@ import "./Header.scss";
 const HeaderTop = () => {
   return (
     <div>
-      <Box bg={"#F2F4F8"} py={"16px"}>
+      <Box className="header-top">
         <Container maxW={"1200px"}>
           <Box
             className=""

@@ -14,16 +14,18 @@ nav {
     
   }
 
-  .nav-link {
+  .navbar-link {
     font-size: 18px;
     font-weight: 500;
     color: #9c9c9c;
     transition: 0.3 ease-in-out;
-    &:active {
-      color: #000000 !important;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    &.active{
+      color: white;
+     color: #000000;
     }
-    &:hover {
-      color: #000000;
-    }
+    
   }
 }
