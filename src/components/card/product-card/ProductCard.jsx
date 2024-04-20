@@ -30,7 +30,7 @@ export const ProductCard = (props) => {
           <Text display={"flex"} gap={"4px"} alignItems={"center"}>
             <StarIcon />
             <span className="product-rating">{rating}</span>
-            <span className="product-rating">`({quantity} заказов)`</span>
+            <span className="product-rating">({quantity} заказов)</span>
           </Text>
         </Stack>
       </CardBody>
