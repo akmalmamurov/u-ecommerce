@@ -11,10 +11,10 @@ nav {
       height: 32px;
       border-radius: 8px;
     }
-    
   }
 
   .navbar-link {
+    padding: 6px 34px;
     font-size: 18px;
     font-weight: 500;
     color: #9c9c9c;
@@ -22,10 +22,10 @@ nav {
     display: flex;
     justify-content: center;
     align-items: center;
-    &.active{
+    border-radius: 456px;
+    &.active {
+      background-color: #50cd47;
       color: white;
-     color: #000000;
     }
-    
   }
 }

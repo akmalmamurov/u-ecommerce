@@ -13,11 +13,7 @@ const Navbar = () => {
         {isLoading ? (
           "...Loading"
         ) : (
-          <Box
-            display={"flex"}
-            justifyContent={"space-between"}
-            fontFamily={theme.fonts.fSF}
-          >
+          <Box display={"flex"} gap={"38.8px"} fontFamily={theme.fonts.fSF}>
             {categories.map((category) => {
               return (
                 <NavLink
@@ -25,11 +21,6 @@ const Navbar = () => {
                   to={`/category/${category.id}`}
                   className="nav-list navbar-link"
                 >
-                  <img
-                    src={category.image}
-                    alt={category.name_ru}
-                    className="navbar-img"
-                  />
                   {category.name_ru}
                 </NavLink>
               );

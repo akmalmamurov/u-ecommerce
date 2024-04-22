@@ -16,7 +16,7 @@ import theme from "../../../theme";
 import {
   ShoppingIcon,
   StarIcon,
-  CartFavouritIcon,
+  FavouritesIcon,
 } from "../../../assets/icons";
 import { addToCart } from "../../../redux/slices/productSlices";
 import { toggleFavourit } from "../../../redux/slices/favouritSlices";
@@ -47,7 +47,7 @@ export const ProductCard = (props) => {
             <Text display={"flex"} gap={"4px"} alignItems={"center"}>
               <StarIcon />
               <span className="product-rating">{rating}</span>
-              <span className="product-rating">({quantity} заказов)</span>
+              <span className="product-rating">(0 заказов)</span>
             </Text>
           </Stack>
         </CardBody>
@@ -104,7 +104,7 @@ export const ProductCard = (props) => {
             });
           }}
         >
-          <CartFavouritIcon
+          <FavouritesIcon
             className={`favourites-icon ${isAddedToFavourites ? "added" : ""}`}
           />
         </button>
