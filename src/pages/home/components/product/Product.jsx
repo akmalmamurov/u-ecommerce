@@ -8,6 +8,7 @@ const Product = () => {
   return (
     <section className="home-product">
       <Container maxW={"1200px"}>
+        <h1>Все продукты</h1>
         <GridProduct>
           {isLoading ? (
             <div>...Loading</div>
