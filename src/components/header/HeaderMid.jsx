@@ -130,7 +130,7 @@ const HeaderMid = () => {
                         ))}
                       </div>
                     ) : (
-                      <div>Mahsulot topilmadi</div>
+                      <div>Товар не найден</div>
                     )}
                   </div>
                 )}
