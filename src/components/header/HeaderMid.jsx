@@ -141,7 +141,7 @@ const HeaderMid = () => {
               <Box display={"flex"} alignItems={"center"} gap={"12px"}>
                 <Link className="header-mid_right" onClick={onRegisterOpen}>
                   <UserIcon cursor={"pointer"} />
-                  <Text>Выход</Text>
+                  <Text>Войти</Text>
                 </Link>
               </Box>
               <Box>
