@@ -20,3 +20,5 @@ export { default as CartFavouritIcon } from "./CartFavouritIcon.jsx";
 export { default as CartDeleteIcon } from "./CartDeleteIcon.jsx";
 export { default as CartArrowLeftIcon } from "./CartArrowLeftIcon.jsx";
 export { default as CartSucessIcon } from "./CartSucessIcon.jsx";
+export { default as NoRatingIcon } from "./NoRatingIcon.jsx";
+export { default as YesRatingIcon } from "./YesRatingIcon.jsx";

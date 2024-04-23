@@ -11,7 +11,8 @@ const productAllServices = createApi({
       query: () => `/api/product`,
     }),
     getSearchProducts: builder.query({
-      query: (search) => `/api/product?q=${search}`,
+      query: (search) =>
+        `/api/product?q=${encodeURIComponent(search.trim().toLowerCase())}`,
     }),
     getProductById: builder.query({
       query: (id) => `/api/product/${id}`,

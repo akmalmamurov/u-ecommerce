@@ -1,20 +1,7 @@
 nav {
   padding: 16px 0;
-
-  .nav-list {
-    display: flex;
-    align-items: center;
-    gap: 16px;
-
-    img {
-      width: 32px;
-      height: 32px;
-      border-radius: 8px;
-    }
-  }
-
   .navbar-link {
-    padding: 6px 34px;
+    padding: 6px 0;
     font-size: 18px;
     font-weight: 500;
     color: #9c9c9c;
@@ -23,7 +10,9 @@ nav {
     justify-content: center;
     align-items: center;
     border-radius: 456px;
+    transition: 0.2s ease-in-out;
     &.active {
+      padding: 0px 34px;
       background-color: #50cd47;
       color: white;
     }

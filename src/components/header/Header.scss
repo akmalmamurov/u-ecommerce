@@ -53,6 +53,7 @@ header {
             padding: 10px;
             border-radius: 0px 0px 8px 8px;
             z-index: 999;
+            overflow-y: auto;
 
             .search-result_content {
                 display: flex;

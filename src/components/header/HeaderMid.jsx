@@ -25,6 +25,8 @@ import {
 import { useModal } from "../../hooks/useModal";
 import { LoginModal } from "../modal/login/LoginModal";
 import { useGetSearchProductsQuery } from "../../redux/services/productAllServices";
+import { useDebounce } from "use-debounce";
+
 const HeaderMid = () => {
   const {
     isopen: isRegisterOpen,
@@ -34,15 +36,17 @@ const HeaderMid = () => {
 
   const [search, setSearch] = useState("");
   const navigate = useNavigate();
-  const { data, isLoading } = useGetSearchProductsQuery(search);
+  const [debouncedSearch] = useDebounce(search, 1000);
+
+  const { data, isLoading } = useGetSearchProductsQuery(debouncedSearch);
+
   const handleSearch = (e) => {
-    e.preventDefault();
-    const searchValue = e.target.value;
-    setSearch(searchValue);
+    setSearch(e.target.value);
   };
+
   const goProductDetails = (id) => {
     navigate(`/products/${id}`);
-    setSearch("")
+    setSearch("");
   };
 
   return (
