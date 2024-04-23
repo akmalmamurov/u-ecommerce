@@ -32,7 +32,6 @@ export const ProductCard = (props) => {
   };
   return (
     <Card
-      onClick={() => goProductDetails(id)}
       className="product-card"
       maxW="sm"
       cursor={"pointer"}
@@ -45,7 +44,11 @@ export const ProductCard = (props) => {
       >
         <CardBody className="card-body">
           <Box className="card-top">
-            <Image src={main_image} alt={name_ru} />
+            <Image
+              onClick={() => goProductDetails(id)}
+              src={main_image}
+              alt={name_ru}
+            />
           </Box>
           <Stack className="card-bottom" mt="6" spacing="3">
             <Heading size="md" className="product-name">
