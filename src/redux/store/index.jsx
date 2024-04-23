@@ -21,8 +21,8 @@ const persistConfig = {
   blacklist: ["modal", "categoryServices", "productAllServices"],
 };
 
-const persistedProductReducer = persistReducer(persistConfig, productReducer);
-const persistedFavouritReducer = persistReducer(persistConfig, favouritReducer);
+// const persistedProductReducer = persistReducer(persistConfig, productReducer);
+// const persistedFavouritReducer = persistReducer(persistConfig, favouritReducer);
 
 export const store = configureStore({
   reducer: {
