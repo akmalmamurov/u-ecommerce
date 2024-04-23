@@ -13,14 +13,11 @@ import {
   useToast,
 } from "@chakra-ui/react";
 import theme from "../../../theme";
-import {
-  ShoppingIcon,
-  StarIcon,
-  FavouritesIcon,
-} from "../../../assets/icons";
+import { ShoppingIcon, StarIcon, FavouritesIcon } from "../../../assets/icons";
 import { addToCart } from "../../../redux/slices/productSlices";
 import { toggleFavourit } from "../../../redux/slices/favouritSlices";
 import "./ProductCard.scss";
+import { useNavigate } from "react-router-dom";
 
 export const ProductCard = (props) => {
   const { id, main_image, name_ru, price, rating, description_ru, quantity } =
@@ -29,8 +26,18 @@ export const ProductCard = (props) => {
   const isAddedToFavourites = favourites.some((item) => item.id === id);
   const toast = useToast();
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const goProductDetails = (id) => {
+    navigate(`/products/${id}`);
+  };
   return (
-    <Card className="product-card" maxW="sm" fontFamily={theme.fonts.fInter}>
+    <Card
+      onClick={() => goProductDetails(id)}
+      className="product-card"
+      maxW="sm"
+      cursor={"pointer"}
+      fontFamily={theme.fonts.fInter}
+    >
       <motion.div
         initial={{ y: 65, opacity: 0, scale: 1.3 }}
         animate={{ y: 0, opacity: 1, scale: 1 }}

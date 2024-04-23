@@ -6,6 +6,9 @@ import bannerImgTwo from "./banner/bannerImgOne.jpg";
 import bannerImgThree from "./banner/bannerImgThree.jpg";
 import bannerImgFour from "./banner/bannerImgFour.jpg";
 import emptyCart from "./emptyCart.png";
+import cartWhite from "./cartWhite.png";
+import heartWhite from "./heartWhite.png";
+import buyImg from "./buyImg.png";
 export {
   logo,
   saleImg,
@@ -15,4 +18,7 @@ export {
   bannerImgThree,
   bannerImgFour,
   emptyCart,
+  cartWhite,
+  heartWhite,
+  buyImg,
 };
