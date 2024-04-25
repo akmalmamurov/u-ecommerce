@@ -1,0 +1,25 @@
+.category-page {
+    padding: 24px 0px;
+
+    .category-page_title {
+        font-weight: 700;
+        font-size: 28px;
+        color: #000000;
+        letter-spacing: -0.42px;
+        margin-bottom: 24px;
+    }
+
+    .category-page_breadcrumb {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+       .category-page_subcategory{
+        margin-bottom: 3px;
+        .ctPage-subcategory_title{
+            font-weight: 500;
+            font-size: 20px;
+            color: #BDBDBD;
+        }
+       }
+    }
+}

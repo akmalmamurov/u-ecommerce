@@ -9,7 +9,10 @@ const categoryServices = createApi({
     getCategories: builder.query({
       query: () => `/api/category`,
     }),
+    getCategoriesById: builder.query({
+      query: (id) => `/api/category/${id}`,
+    })
   }),
 });
-export const {useGetCategoriesQuery} =  categoryServices;
+export const {useGetCategoriesQuery,useGetCategoriesByIdQuery} =  categoryServices;
 export default categoryServices;

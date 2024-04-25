@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { motion } from "framer-motion";
 import {
@@ -28,6 +28,7 @@ import theme from "../../theme";
 import { emptyCart } from "../../assets/images";
 import "./Cart.scss";
 import CartBottom from "./cart-bottom/CartBottom";
+import { kFormatter } from "../../utils";
 
 const CartPage = () => {
   const products = useSelector((state) => state.product.products);
@@ -35,61 +36,48 @@ const CartPage = () => {
   const [totalPrice, setTotalPrice] = useState("");
   const [totalAdditionalPrice, setTotalAdditionalPrice] = useState(0);
   const [selectedItems, setSelectedItems] = useState([]);
-  useEffect(() => {
-    let additionalPrice = 0;
-    products.forEach((item) => {
-      additionalPrice += item.price;
-    });
-    setTotalAdditionalPrice(additionalPrice);
-  }, [products]);
+  const navigate = useNavigate();
 
   useEffect(() => {
     let Total = 0;
+    let additionalPrice = 0;
     products.forEach((item) => {
       Total += item.price * item.quantity;
+      additionalPrice += item.price;
     });
     setTotalPrice(Total.toFixed(2));
+    setTotalAdditionalPrice(additionalPrice);
   }, [products]);
 
   const handleAllCheck = (e) => {
-    let isSelected = e.target.checked;
-    let value = e.target.value;
-    if (isSelected) {
-      setSelectedItems([...selectedItems, value]);
-    } else {
-      setSelectedItems((prevData) => {
-        return prevData.filter((id) => {
-          return id !== value;
-        });
-      });
-    }
+    const isSelected = e.target.checked;
+    const value = e.target.value;
+    setSelectedItems((prevData) =>
+      isSelected ? [...prevData, value] : prevData.filter((id) => id !== value)
+    );
   };
 
   const checkAllHandler = () => {
-    if (products.length === selectedItems.length) {
-      setSelectedItems([]);
-    } else {
-      const postIds = products.map((item) => {
-        return item.id;
+    products.length === selectedItems.length
+      ? setSelectedItems([])
+      : setSelectedItems(products.map((item) => item.id));
+  };
+
+  const goToCheckout = () => {
+    selectedItems.length > 0 &&
+      navigate("/checkout", {
+        state: {
+          products: products.filter((item) => selectedItems.includes(item.id)),
+          totalPrice: products
+            .filter((item) => selectedItems.includes(item.id))
+            .reduce((acc, item) => acc + item.price * item.quantity, 0),
+        },
       });
-
-      setSelectedItems(postIds);
-    }
   };
-  const kFormatter = (num) => {
-    const formattedPrice = Math.abs(num)
-      .toString()
-      .split("")
-      .reverse()
-      .reduce((acc, digit, index) => {
-        return digit + (index !== 0 && index % 3 === 0 ? " " : "") + acc;
-      }, "");
 
-    return (num < 0 ? "-" : "") + formattedPrice + " сум";
-  };
   return (
     <Box className="cart-page" fontFamily={theme.fonts.fInter}>
-      <Container maxW={products.length > 0 ? "1424px" : "1200px"}>
+      <Container maxW={"1200px"}>
         {products.length > 0 ? (
           <h2 className="cart-title">Корзина</h2>
         ) : (
@@ -230,14 +218,16 @@ const CartPage = () => {
                   <Box className="cart-right_main">
                     <div className="cart-right_item">
                       <h2>Итого</h2>
-                      <p className="cart-right_price">{kFormatter(totalPrice)} </p>
+                      <p className="cart-right_price">
+                        {kFormatter(totalPrice)}{" "}
+                      </p>
                     </div>
                     <div className="cart-right_item">
                       <p className="cart-right_tovar">
                         Товары, {products.length} шт
                       </p>
                       <p className="cart-right_additional">
-                        {kFormatter(totalAdditionalPrice)} 
+                        {kFormatter(totalAdditionalPrice)}
                       </p>
                     </div>
                     <Box my={"16px"}>
@@ -247,7 +237,13 @@ const CartPage = () => {
                         placeholder="Введите промокод"
                       />
                     </Box>
-                    <button className="cart-right_btn">
+                    <button
+                      onClick={goToCheckout}
+                      className={`cart-right_btn ${
+                        !selectedItems.length ? "disabled" : ""
+                      }`}
+                      disabled={!selectedItems.length}
+                    >
                       Перейти к оформлению
                     </button>
                   </Box>

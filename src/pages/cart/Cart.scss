@@ -205,4 +205,9 @@
             color: #6E7C87;
         }
     }
+    .disabled {
+        pointer-events: none;
+        opacity: 0.5;
+      }
+      
 }

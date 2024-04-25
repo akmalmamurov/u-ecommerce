@@ -7,6 +7,8 @@ const Favourites = lazy(() => import("./pages/favourites/Favourites"));
 const Cart = lazy(() => import("./pages/cart/Cart"));
 const Category = lazy(() => import("./pages/category/Category"));
 const ProductsDetails = lazy(() => import("./pages/products/ProductsDetails"));
+const AnswerPage = lazy(() => import("./pages/answer"));
+const CheckoutPage = lazy(() => import("./pages/checkout/CheckoutPage"));
 
 function App() {
   return (
@@ -20,7 +22,9 @@ function App() {
             <Route path="category/:id" element={<Category />} />
             <Route path="verify-code" element={<VerifyCode />} />
             <Route path="products/:id" element={<ProductsDetails />} />
+            <Route path="answer" element={<AnswerPage />} />
           </Route>
+          <Route path="/checkout" element={<CheckoutPage />} />
         </Routes>
       </BrowserRouter>
     </Suspense>

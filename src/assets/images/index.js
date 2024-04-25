@@ -9,6 +9,7 @@ import emptyCart from "./emptyCart.png";
 import cartWhite from "./cartWhite.png";
 import heartWhite from "./heartWhite.png";
 import buyImg from "./buyImg.png";
+import chevronRight from "./chevron-right.png"
 export {
   logo,
   saleImg,
@@ -21,4 +22,5 @@ export {
   cartWhite,
   heartWhite,
   buyImg,
+  chevronRight
 };

@@ -17,6 +17,9 @@ const productAllServices = createApi({
     getProductById: builder.query({
       query: (id) => `/api/product/${id}`,
     }),
+    getProductsByCid: builder.query({
+      query: (cid) => `/api/product?cid=${cid}`,
+    })
   }),
 });
 
@@ -24,6 +27,7 @@ export const {
   useGetAllProductsQuery,
   useGetSearchProductsQuery,
   useGetProductByIdQuery,
+  useGetProductsByCidQuery,
 } = productAllServices;
 
 export default productAllServices;
