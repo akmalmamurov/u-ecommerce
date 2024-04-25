@@ -2,30 +2,20 @@ import { useState } from "react";
 import {
   Box,
   Container,
-  IconButton,
   Input,
   InputGroup,
   InputLeftElement,
-  Menu,
-  MenuButton,
-  MenuItem,
-  MenuList,
   Text,
   theme,
 } from "@chakra-ui/react";
 import { Link, useNavigate } from "react-router-dom";
 import { logo } from "../../assets/images";
-import {
-  CartIcon,
-  DropdownIcon,
-  HeartIcon,
-  SearchIcon,
-  UserIcon,
-} from "../../assets/icons";
+import { CartIcon, HeartIcon, SearchIcon, UserIcon } from "../../assets/icons";
 import { useModal } from "../../hooks/useModal";
 import { LoginModal } from "../modal/login/LoginModal";
 import { useGetSearchProductsQuery } from "../../redux/services/productAllServices";
 import { useDebounce } from "use-debounce";
+import { CatalogMenu } from "../catalog-menu";
 
 const HeaderMid = () => {
   const {
@@ -63,27 +53,8 @@ const HeaderMid = () => {
               <img src={logo} alt="logo" />
             </Link>
             {/* menu button */}
-            <Box>
-              <Menu className="header_menu">
-                <MenuButton
-                  py={"12px"}
-                  px={"16px"}
-                  className="headre_menu-btn"
-                  as={IconButton}
-                  aria-label="Options"
-                  variant="outline"
-                >
-                  <Box display={"flex"} gap={"16px"}>
-                    <DropdownIcon />
-                    <Text fontSize={"18px"} color={"#9C9C9C"}>
-                      Каталог
-                    </Text>
-                  </Box>
-                </MenuButton>
-                <MenuList>
-                  <MenuItem command="⌘T">New Tab</MenuItem>
-                </MenuList>
-              </Menu>
+            <Box position={"relative"}>
+              <CatalogMenu />
             </Box>
             {/* search input */}
             <Box className="header_search" ml={{ base: 0, lg: 3 }}>

@@ -87,7 +87,17 @@ const ProductsDetails = () => {
   const ratingChanged = (newRating) => {
     setRating(newRating);
   };
+  const kFormatter = (num) => {
+    const formattedPrice = Math.abs(num)
+      .toString()
+      .split("")
+      .reverse()
+      .reduce((acc, digit, index) => {
+        return digit + (index !== 0 && index % 3 === 0 ? " " : "") + acc;
+      }, "");
 
+    return (num < 0 ? "-" : "") + formattedPrice + " сум";
+  };
   return (
     <Box className="product-details" fontFamily={theme.fonts.fInter}>
       <Container maxW={"1200px"}>
@@ -140,7 +150,7 @@ const ProductsDetails = () => {
                     />
                     <p className="pr-details_rating-text">{rating}</p>
                   </div>
-                  <p className="pr-details_price">{data.price} сум</p>
+                  <p className="pr-details_price">{kFormatter(data.price)} </p>
                   <Divider border={"1px solid #98999A"} />
                   <Box
                     display={"flex"}

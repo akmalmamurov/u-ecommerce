@@ -1,25 +1,29 @@
 .product-card {
+  box-shadow: unset !important;
+  transition: .3s cubic-bezier(0.455, 0.03, 0.515, 0.955);
+  border: 1px solid white !important;
+  padding: 4px 0;
+
+  &:hover {
+    border-color: #9c9c9c !important;
+  }
+
   .card-body {
-    border-radius: 128px !important;
+    border-radius: 12px;
     padding: 0;
 
     .card-top {
-      padding: 4px 8px;
       background-color: white;
+      padding: 8px;
 
       img {
-        transition: 0.3s ease-in-out;
-
-        &:hover {
-          transform: scale(1.05);
-        }
+        height: 200px;
       }
     }
 
     .card-bottom {
-      padding: 4px 8px;
+      padding: 0 8px;
       background-color: white;
-      height: 128px !important;
 
       .product-name {
         font-size: 14px;
@@ -28,26 +32,38 @@
         text-align: justify;
         line-height: 18px;
         letter-spacing: -0.15px;
+        min-height: 32px;
       }
 
-      .product-rating {
+      .product-rating,
+      .product-orders,
+      .product-price {
         font-size: 12px;
         font-weight: 500;
-        color: #9C9C9C;
+        color: #9c9c9c;
+        display: flex;
+        align-items: center;
+        gap: 4px;
       }
 
       .product-price {
-        font-weight: 500;
         font-size: 14px;
-        line-height: 16.94px;
+        font-weight: 500;
         color: #000000;
+        line-height: 16.94px;
       }
     }
   }
 
+  .card-footer {
+    align-items: center;
+    margin-top: 16px;
+    padding: 0 8px;
+  }
+
   .favourites-icon {
     position: absolute;
-    top: 5px;
+    top: 10px;
     right: 10px;
     color: white;
 
@@ -55,5 +71,4 @@
       color: red;
     }
   }
-
 }

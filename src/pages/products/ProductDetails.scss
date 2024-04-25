@@ -2,6 +2,7 @@
   padding: 16px 0;
   .product-details_left {
     display: flex;
+    align-items: center;
     gap: 20px;
 
     .product-img_left {
@@ -20,7 +21,6 @@
 
     .product-img_right {
       width: 416px;
-      height: 714px;
 
       img {
         width: 416px;

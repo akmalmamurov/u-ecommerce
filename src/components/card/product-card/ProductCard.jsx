@@ -13,7 +13,11 @@ import {
   useToast,
 } from "@chakra-ui/react";
 import theme from "../../../theme";
-import { ShoppingIcon, StarIcon, FavouritesIcon } from "../../../assets/icons";
+import {
+  ShoppingIcon,
+  StarIcon,
+  CartFavouritIcon,
+} from "../../../assets/icons";
 import { addToCart } from "../../../redux/slices/productSlices";
 import { toggleFavourit } from "../../../redux/slices/favouritSlices";
 import "./ProductCard.scss";
@@ -27,32 +31,41 @@ export const ProductCard = (props) => {
   const toast = useToast();
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const kFormatter = (num) => {
+    const formattedPrice = Math.abs(num)
+      .toString()
+      .split("")
+      .reverse()
+      .reduce((acc, digit, index) => {
+        return digit + (index !== 0 && index % 3 === 0 ? " " : "") + acc;
+      }, "");
+
+    return (num < 0 ? "-" : "") + formattedPrice + " сум";
+  };
+
   const goProductDetails = (id) => {
     navigate(`/products/${id}`);
   };
   return (
-    <Card
-      className="product-card"
-      maxW="sm"
-      cursor={"pointer"}
-      fontFamily={theme.fonts.fInter}
-    >
+    <Card className="product-card" maxW="sm" fontFamily={theme.fonts.fInter}>
       <motion.div
-        initial={{ y: 65, opacity: 0, scale: 1.3 }}
-        animate={{ y: 0, opacity: 1, scale: 1 }}
+        initial={{ y: 200, opacity: 0 }}
+        animate={{ y: 0, opacity: 1 }}
         transition={{ delay: 0.5, duration: 0.4 }}
       >
         <CardBody className="card-body">
           <Box className="card-top">
-            <Image
-              onClick={() => goProductDetails(id)}
-              src={main_image}
-              alt={name_ru}
-            />
+            <Image src={main_image} alt={name_ru} />
           </Box>
-          <Stack className="card-bottom" mt="6" spacing="3">
+          <Stack
+            cursor={"pointer"}
+            onClick={() => goProductDetails(id)}
+            className="card-bottom"
+            mt="6"
+            spacing="3"
+          >
             <Heading size="md" className="product-name">
-              {name_ru}
+            {name_ru.length > 38 ? name_ru.slice(0, 35) + "..." : name_ru}
             </Heading>
             <Text display={"flex"} gap={"4px"} alignItems={"center"}>
               <StarIcon />
@@ -61,8 +74,9 @@ export const ProductCard = (props) => {
             </Text>
           </Stack>
         </CardBody>
-        <CardFooter alignItems={"center"} justifyContent={"space-between"}>
-          <Text className="product-price">{`${price} сум`}</Text>
+        <CardFooter alignItems={"center"} justifyContent={"space-between"} className="card-footer">
+
+          <Text className="product-price">{`${kFormatter(price)}`}</Text>
           <button
             onClick={() =>
               dispatch(
@@ -88,8 +102,11 @@ export const ProductCard = (props) => {
           >
             <ShoppingIcon />
           </button>
+
         </CardFooter>
-        <button
+       
+      </motion.div>
+      <button
           onClick={() => {
             dispatch(
               toggleFavourit({
@@ -114,11 +131,10 @@ export const ProductCard = (props) => {
             });
           }}
         >
-          <FavouritesIcon
+          <CartFavouritIcon
             className={`favourites-icon ${isAddedToFavourites ? "added" : ""}`}
           />
         </button>
-      </motion.div>
     </Card>
   );
 };

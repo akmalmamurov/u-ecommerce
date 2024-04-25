@@ -22,3 +22,4 @@ export { default as CartArrowLeftIcon } from "./CartArrowLeftIcon.jsx";
 export { default as CartSucessIcon } from "./CartSucessIcon.jsx";
 export { default as NoRatingIcon } from "./NoRatingIcon.jsx";
 export { default as YesRatingIcon } from "./YesRatingIcon.jsx";
+export { default as RightArrowIcon } from "./RightArrowIcon.jsx";

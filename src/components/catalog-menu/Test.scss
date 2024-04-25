@@ -1,0 +1,69 @@
+$color_1: white;
+$color_2: black;
+$font-family_1: inherit;
+$background-color_1: #333;
+$background-color_2: inherit;
+$background-color_3: red;
+$background-color_4: #eee;
+.navbar {
+    overflow: hidden;
+    background-color: $background-color_1;
+    a {
+        float: left;
+        font-size: 16px;
+        color: $color_1;
+        text-align: center;
+        padding: 14px 16px;
+        text-decoration: none;
+
+        &:hover {
+            background-color: $background-color_3;
+        }
+    }
+}
+
+.subnav {
+    float: left;
+    overflow: hidden;
+
+    .subnavbtn {
+        font-size: 16px;
+        border: none;
+        outline: none;
+        color: $color_1;
+        padding: 14px 16px;
+        background-color: $background-color_2;
+        font-family: $font-family_1;
+        margin: 0;
+    }
+
+    &:hover {
+        .subnavbtn {
+            background-color: $background-color_3;
+        }
+
+        .subnav-content {
+            display: block;
+        }
+    }
+}
+
+.subnav-content {
+    display: none;
+    position: absolute;
+    left: 0;
+    background-color: $background-color_3;
+    width: 100%;
+    z-index: 1;
+
+    a {
+        float: left;
+        color: $color_1;
+        text-decoration: none;
+
+        &:hover {
+            background-color: $background-color_4;
+            color: $color_2;
+        }
+    }
+}
