@@ -14,6 +14,7 @@ export const ProductCard = (props) => {
   const { id, main_image, name_ru, price, rating, description_ru, quantity } = props;
   const favourites = useSelector((state) => state.favourit.favourites);
   const isAddedToFavourites = favourites.some((item) => item.id === id);
+  const isAuthenticated = useSelector((state) => state.authorization.auth);
   const toast = useToast();
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -21,6 +22,72 @@ export const ProductCard = (props) => {
   const goProductDetails = (id) => {
     navigate(`/products/${id}`);
   };
+
+  const handleAddToCart = () => {
+    if (!isAuthenticated) {
+      toast({
+        title: "Авторизуйтесь, чтобы добавить товар в корзину",
+        status: "error",
+        duration: 2000,
+        isClosable: true,
+      });
+      return;
+    }
+
+    dispatch(
+      addToCart(
+        {
+          id,
+          main_image,
+          price,
+          description_ru,
+          name_ru,
+          quantity: 1,
+        },
+        toast({
+          title: "Добавлено в корзину",
+          description: `${name_ru}`,
+          status: "success",
+          duration: 2000,
+          isClosable: true,
+        })
+      )
+    );
+  };
+
+  const handleToggleFavourit = () => {
+    if (!isAuthenticated) {
+      toast({
+        title: "Авторизуйтесь, чтобы добавить товар в избранное",
+        status: "error",
+        duration: 2000,
+        isClosable: true,
+      });
+      return;
+    }
+  
+    dispatch(
+      toggleFavourit({
+        id,
+        main_image,
+        price,
+        description_ru,
+        name_ru,
+        quantity,
+        rating,
+      })
+    );
+    const isAdded = !isAddedToFavourites;
+    toast({
+      title: isAdded ? "Добавлено в Избранное" : "Удалено из Избранного",
+      description: `${name_ru}`,
+      status: "success",
+      duration: 2000,
+      isClosable: true,
+    });
+  };
+  
+
   return (
     <Card className="product-card" maxW="sm" fontFamily={theme.fonts.fInter}>
       <motion.div
@@ -60,56 +127,12 @@ export const ProductCard = (props) => {
           className="card-footer"
         >
           <Text className="product-price">{`${kFormatter(price)}`}</Text>
-          <button
-            onClick={() =>
-              dispatch(
-                addToCart(
-                  {
-                    id,
-                    main_image,
-                    price,
-                    description_ru,
-                    name_ru,
-                    quantity: 1,
-                  },
-                  toast({
-                    title: "Добавлено в корзину",
-                    description: `${name_ru}`,
-                    status: "success",
-                    duration: 2000,
-                    isClosable: true,
-                  })
-                )
-              )
-            }
-          >
+          <button onClick={handleAddToCart}>
             <ShoppingIcon />
           </button>
         </CardFooter>
       </motion.div>
-      <button
-        onClick={() => {
-          dispatch(
-            toggleFavourit({
-              id,
-              main_image,
-              price,
-              description_ru,
-              name_ru,
-              quantity,
-              rating,
-            })
-          );
-          const isAdded = !isAddedToFavourites;
-          toast({
-            title: isAdded ? "Добавлено в Избранное" : "Удалено из Избранного",
-            description: `${name_ru}`,
-            status: "success",
-            duration: 2000,
-            isClosable: true,
-          });
-        }}
-      >
+      <button onClick={handleToggleFavourit}>
         <CartFavouritIcon
           className={`favourites-icon ${isAddedToFavourites ? "added" : ""}`}
         />
@@ -117,6 +140,7 @@ export const ProductCard = (props) => {
     </Card>
   );
 };
+
 ProductCard.propTypes = {
   id: PropTypes.string,
   main_image: PropTypes.string,
@@ -126,4 +150,5 @@ ProductCard.propTypes = {
   price: PropTypes.number,
   quantity: PropTypes.number,
 };
+
 export default ProductCard;

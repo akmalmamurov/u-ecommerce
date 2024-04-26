@@ -1,5 +1,4 @@
 import { useLocation } from "react-router-dom";
-
 const CheckoutPage = () => {
   const location = useLocation();
   const { products, totalPrice } = location.state
@@ -9,7 +8,7 @@ const CheckoutPage = () => {
   console.log(products);
 
   return (
-    <div>
+    <div className="checkout-page">
       {products.length > 0 ? (
         <>
           {products.map((product, index) => (

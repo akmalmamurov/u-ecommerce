@@ -15,8 +15,9 @@ import theme from "../../theme";
 import "./ProductDetails.scss";
 import { buyImg, cartWhite, heartWhite } from "../../assets/images";
 import { addToCart } from "../../redux/slices/productSlices";
-import { useDispatch } from "react-redux";
 import { toggleFavourit } from "../../redux/slices/favouritSlices";
+import { useDispatch, useSelector } from "react-redux";
+import { setAuth } from "../../redux/slices/authSlices";
 
 const ProductsDetails = () => {
   const { id } = useParams();
@@ -25,6 +26,7 @@ const ProductsDetails = () => {
   const [rating, setRating] = useState(3);
   const toast = useToast();
   const dispatch = useDispatch();
+  const isAuthenticated = useSelector((state) => state.authorization.auth);
 
   useEffect(() => {
     if (data && data.image_files.length > 0) {
@@ -42,7 +44,18 @@ const ProductsDetails = () => {
       mainImageElement.src = image.media_file;
     }
   };
+
   const handleAddToCart = () => {
+    if (!isAuthenticated) {
+      toast({
+        title: "Авторизуйтесь, чтобы добавить товар в корзину",
+        status: "error",
+        duration: 2000,
+        isClosable: true,
+      });
+      return;
+    }
+
     dispatch(
       addToCart(
         {
@@ -63,7 +76,18 @@ const ProductsDetails = () => {
       )
     );
   };
+
   const handleAddToFavourit = () => {
+    if (!isAuthenticated) {
+      toast({
+        title: "Авторизуйтесь, чтобы добавить товар в избранное",
+        status: "error",
+        duration: 2000,
+        isClosable: true,
+      });
+      return;
+    }
+
     dispatch(
       toggleFavourit(
         {
@@ -84,9 +108,11 @@ const ProductsDetails = () => {
       )
     );
   };
+
   const ratingChanged = (newRating) => {
     setRating(newRating);
   };
+
   const kFormatter = (num) => {
     const formattedPrice = Math.abs(num)
       .toString()
@@ -98,6 +124,7 @@ const ProductsDetails = () => {
 
     return (num < 0 ? "-" : "") + formattedPrice + " сум";
   };
+
   return (
     <Box className="product-details" fontFamily={theme.fonts.fInter}>
       <Container maxW={"1200px"}>

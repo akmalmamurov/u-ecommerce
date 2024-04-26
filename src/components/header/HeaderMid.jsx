@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {
   Box,
   Container,
@@ -25,6 +25,7 @@ const HeaderMid = () => {
   } = useModal();
 
   const [search, setSearch] = useState("");
+  const [searchHistory, setSearchHistory] = useState([]); // Initialize search history state
   const navigate = useNavigate();
   const [debouncedSearch] = useDebounce(search, 1000);
 
@@ -38,6 +39,30 @@ const HeaderMid = () => {
     navigate(`/products/${id}`);
     setSearch("");
   };
+
+  useEffect(() => {
+    const handleKeyPress = (event) => {
+      if (event.key === "Escape") {
+        setSearch("");
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyPress);
+
+    return () => {
+      window.removeEventListener("keydown", handleKeyPress);
+    };
+  }, []);
+
+  // const addToSearchHistory = () => {
+  //   if (search && !searchHistory.includes(search)) {
+  //     setSearchHistory([search, ...searchHistory]);
+  //   }
+  // };
+
+  // const clearSearchHistory = () => {
+  //   setSearchHistory([]);
+  // };
 
   return (
     <Box py={"29px"} className="header-mid">
@@ -84,7 +109,10 @@ const HeaderMid = () => {
               </InputGroup>
               <Box>
                 {search && (
-                  <div className="search-results">
+                  <div
+                    className="search-results"
+                    // onMouseEnter={addToSearchHistory}
+                  >
                     {isLoading ? (
                       <div>Loading...</div>
                     ) : data && data.length ? (
@@ -110,6 +138,20 @@ const HeaderMid = () => {
                   </div>
                 )}
               </Box>
+              {/* Search history */}
+              {/* {searchHistory.length > 0 && (
+                <div className="search-history">
+                  <Text fontWeight="bold">История поиска:</Text>
+                  <ul>
+                    {searchHistory.map((item, index) => (
+                      <li key={index} onClick={() => setSearch(item)}>
+                        {item}
+                      </li>
+                    ))}
+                  </ul>
+                  <button onClick={clearSearchHistory}>Очистить историю</button>
+                </div>
+              )} */}
             </Box>
             {/* auth favourit cart page here */}
             <Box display={"flex"} gap={"32px"} fontSize={"16px"}>
