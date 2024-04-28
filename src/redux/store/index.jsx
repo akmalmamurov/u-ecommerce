@@ -16,6 +16,8 @@ import favouritReducer from "../slices/favouritSlices";
 import productReducer from "../slices/productSlices";
 import authReducer from "../slices/authSlices";
 import loginServices from "../services/loginServices";
+import basketServices from "../services/basketServices";
+import verifyServices from "../services/verifyServices";
 
 const persistConfig = {
   key: "root",
@@ -25,20 +27,27 @@ const persistConfig = {
     "categoryServices",
     "productAllServices",
     "authServices",
+    "basket",
+    "login",
+    "verify",
+    "auth",
   ],
 };
 
 const persistedProductReducer = persistReducer(persistConfig, productReducer);
 const persistedFavouritReducer = persistReducer(persistConfig, favouritReducer);
+const persistedAuthReducer = persistReducer(persistConfig, authReducer);
 
 export const store = configureStore({
   reducer: {
     product: persistedProductReducer,
     favourit: persistedFavouritReducer,
-    authorization: authReducer,
+    auth: persistedAuthReducer,
     [categoryServices.reducerPath]: categoryServices.reducer,
     [productAllServices.reducerPath]: productAllServices.reducer,
     [loginServices.reducerPath]: loginServices.reducer,
+    [basketServices.reducerPath]: basketServices.reducer,
+    [verifyServices.reducerPath]: verifyServices.reducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
@@ -48,7 +57,9 @@ export const store = configureStore({
     }).concat(
       categoryServices.middleware,
       productAllServices.middleware,
-      loginServices.middleware
+      loginServices.middleware,
+      basketServices.middleware,
+      verifyServices.middleware
     ),
 });
 

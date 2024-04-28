@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback, memo } from "react";
 import {
   Box,
   Container,
@@ -16,29 +16,32 @@ import { LoginModal } from "../modal/login/LoginModal";
 import { useGetSearchProductsQuery } from "../../redux/services/productAllServices";
 import { useDebounce } from "use-debounce";
 import { CatalogMenu } from "../catalog-menu";
+import { useDispatch, useSelector } from "react-redux";
+import { logoutUser } from "../../redux/slices/authSlices";
 
-const HeaderMid = () => {
-  const {
-    isopen: isRegisterOpen,
-    open: onRegisterOpen,
-    close: onRegisterClose,
-  } = useModal();
+const HeaderMid = memo(() => {
+  const { isOpen, open, close } = useModal();
 
   const [search, setSearch] = useState("");
-  const [searchHistory, setSearchHistory] = useState([]); // Initialize search history state
   const navigate = useNavigate();
   const [debouncedSearch] = useDebounce(search, 1000);
 
   const { data, isLoading } = useGetSearchProductsQuery(debouncedSearch);
+  const isAuth = useSelector((state) => state.auth.isAuth);
+  const dispatch = useDispatch();
+  console.log(isAuth);
 
   const handleSearch = (e) => {
     setSearch(e.target.value);
   };
 
-  const goProductDetails = (id) => {
-    navigate(`/products/${id}`);
-    setSearch("");
-  };
+  const goProductDetails = useCallback(
+    (id) => {
+      navigate(`/products/${id}`);
+      setSearch("");
+    },
+    [navigate]
+  );
 
   useEffect(() => {
     const handleKeyPress = (event) => {
@@ -53,17 +56,11 @@ const HeaderMid = () => {
       window.removeEventListener("keydown", handleKeyPress);
     };
   }, []);
+  const handleLogout = useCallback(() => {
+    dispatch(logoutUser());
+  }, [dispatch]);
 
-  // const addToSearchHistory = () => {
-  //   if (search && !searchHistory.includes(search)) {
-  //     setSearchHistory([search, ...searchHistory]);
-  //   }
-  // };
-
-  // const clearSearchHistory = () => {
-  //   setSearchHistory([]);
-  // };
-
+  console.log("HEADERMID");
   return (
     <Box py={"29px"} className="header-mid">
       <Container maxW={"1200px"}>
@@ -109,10 +106,7 @@ const HeaderMid = () => {
               </InputGroup>
               <Box>
                 {search && (
-                  <div
-                    className="search-results"
-                    // onMouseEnter={addToSearchHistory}
-                  >
+                  <div className="search-results">
                     {isLoading ? (
                       <div>Loading...</div>
                     ) : data && data.length ? (
@@ -138,29 +132,25 @@ const HeaderMid = () => {
                   </div>
                 )}
               </Box>
-              {/* Search history */}
-              {/* {searchHistory.length > 0 && (
-                <div className="search-history">
-                  <Text fontWeight="bold">История поиска:</Text>
-                  <ul>
-                    {searchHistory.map((item, index) => (
-                      <li key={index} onClick={() => setSearch(item)}>
-                        {item}
-                      </li>
-                    ))}
-                  </ul>
-                  <button onClick={clearSearchHistory}>Очистить историю</button>
-                </div>
-              )} */}
             </Box>
             {/* auth favourit cart page here */}
             <Box display={"flex"} gap={"32px"} fontSize={"16px"}>
               <Box display={"flex"} alignItems={"center"} gap={"12px"}>
-                <Link className="header-mid_right" onClick={onRegisterOpen}>
-                  <UserIcon cursor={"pointer"} />
-                  <Text>Войти</Text>
-                </Link>
+                {isAuth ? (
+                  <>
+                    <div onClick={handleLogout}>
+                      <UserIcon cursor={"pointer"} />
+                    </div>
+                    <Text>User</Text>
+                  </>
+                ) : (
+                  <Link className="header-mid_right" onClick={open}>
+                    <UserIcon cursor={"pointer"} />
+                    <Text>Войти</Text>
+                  </Link>
+                )}
               </Box>
+
               <Box>
                 <Link to={"/favourites"} className="header-mid_right">
                   <HeartIcon />
@@ -177,9 +167,9 @@ const HeaderMid = () => {
           </Box>
         </Box>
       </Container>
-      <LoginModal isOpen={isRegisterOpen} onClose={onRegisterClose} />
+      <LoginModal isOpen={isOpen} onClose={close} />
     </Box>
   );
-};
-
+});
+HeaderMid.displayName = "HeaderMid";
 export default HeaderMid;

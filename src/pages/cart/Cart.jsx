@@ -36,6 +36,7 @@ const CartPage = () => {
   const [totalPrice, setTotalPrice] = useState("");
   const [totalAdditionalPrice, setTotalAdditionalPrice] = useState(0);
   const [selectedItems, setSelectedItems] = useState([]);
+  const [checked, setChekced] = useState(true);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -58,9 +59,11 @@ const CartPage = () => {
   };
 
   const checkAllHandler = () => {
-    products.length === selectedItems.length
-      ? setSelectedItems([])
-      : setSelectedItems(products.map((item) => item.id));
+    if (products.length === selectedItems.length) {
+      setSelectedItems([]);
+    } else {
+      setSelectedItems(products.map((item) => item.id));
+    }
   };
 
   const goToCheckout = () => {
@@ -103,7 +106,11 @@ const CartPage = () => {
                   >
                     <Box display={"flex"} alignItems={"center"} gap={"16px"}>
                       <div onClick={checkAllHandler}>
-                        <input type="checkbox" className="cart-check_input" />
+                        <input
+                          type="checkbox"
+                          className="cart-check_input"
+                          onClick={() => setChekced(!checked)}
+                        />
                       </div>
                       <p className="card-top_text">
                         Всего: {products.length} товара

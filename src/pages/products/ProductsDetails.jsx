@@ -16,8 +16,7 @@ import "./ProductDetails.scss";
 import { buyImg, cartWhite, heartWhite } from "../../assets/images";
 import { addToCart } from "../../redux/slices/productSlices";
 import { toggleFavourit } from "../../redux/slices/favouritSlices";
-import { useDispatch, useSelector } from "react-redux";
-import { setAuth } from "../../redux/slices/authSlices";
+import { useDispatch } from "react-redux";
 
 const ProductsDetails = () => {
   const { id } = useParams();
@@ -26,7 +25,6 @@ const ProductsDetails = () => {
   const [rating, setRating] = useState(3);
   const toast = useToast();
   const dispatch = useDispatch();
-  const isAuthenticated = useSelector((state) => state.authorization.auth);
 
   useEffect(() => {
     if (data && data.image_files.length > 0) {
@@ -46,16 +44,6 @@ const ProductsDetails = () => {
   };
 
   const handleAddToCart = () => {
-    if (!isAuthenticated) {
-      toast({
-        title: "Авторизуйтесь, чтобы добавить товар в корзину",
-        status: "error",
-        duration: 2000,
-        isClosable: true,
-      });
-      return;
-    }
-
     dispatch(
       addToCart(
         {
@@ -78,16 +66,6 @@ const ProductsDetails = () => {
   };
 
   const handleAddToFavourit = () => {
-    if (!isAuthenticated) {
-      toast({
-        title: "Авторизуйтесь, чтобы добавить товар в избранное",
-        status: "error",
-        duration: 2000,
-        isClosable: true,
-      });
-      return;
-    }
-
     dispatch(
       toggleFavourit(
         {

@@ -17,16 +17,19 @@ const loginServices = createApi({
         url: "/api/auth/login",
         method: "POST",
         body,
+        headers: {
+          "Content-type": "application/json",
+        },
       }),
     }),
-    updateCategory: builder.mutation({
+    updateLogin: builder.mutation({
       query: (body, id) => ({
         url: `/api/auth/${id}`,
         method: "PUT",
         body,
       }),
     }),
-    deleteCategory: builder.mutation({
+    deleteLogin: builder.mutation({
       query: (id) => ({
         url: `/api/auth/${id}`,
         method: "DELETE",
@@ -38,8 +41,8 @@ const loginServices = createApi({
 export const {
   useGetLoginQuery,
   useAddLoginMutation,
-  useUpdateCategoryMutation,
-  useDeleteCategoryMutation,
+  useUpdateLoginMutation,
+  useDeleteLoginMutation,
 } = loginServices;
 
 export default loginServices;

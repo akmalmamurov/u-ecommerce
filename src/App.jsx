@@ -1,7 +1,6 @@
 import { Suspense, lazy } from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { MainLayout } from "./components/layout";
-const VerifyCode = lazy(() => import("./pages/verify-code/VerifyCode"));
 const Home = lazy(() => import("./pages/home/Home"));
 const Favourites = lazy(() => import("./pages/favourites/Favourites"));
 const Cart = lazy(() => import("./pages/cart/Cart"));
@@ -20,7 +19,6 @@ function App() {
             <Route path="favourites" element={<Favourites />} />
             <Route path="cart" element={<Cart />} />
             <Route path="category/:id" element={<Category />} />
-            <Route path="verify-code" element={<VerifyCode />} />
             <Route path="products/:id" element={<ProductsDetails />} />
             <Route path="answer" element={<AnswerPage />} />
           </Route>

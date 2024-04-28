@@ -1,4 +1,3 @@
-import { useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import PropTypes from "prop-types";
 import {
@@ -15,57 +14,42 @@ import {
   ModalOverlay,
   Text,
   Box,
-  useToast,
 } from "@chakra-ui/react";
 import "../../modal/Modal.css";
 import theme from "../../../theme";
 import { useAddLoginMutation } from "../../../redux/services/loginServices";
+import { useState } from "react";
+import VerifyModal from "../verfiy/VerifyModal";
 
 export const LoginModal = ({ isOpen, onClose }) => {
-  const toast = useToast();
-  const navigate = useNavigate();
+  const [phoneValue, setPhoneValue] = useState("");
+  const [isSuccess, setIsSuccess] = useState(false);
+  const [openVerifyModal, setOpenVerifyModal] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
   const {
     handleSubmit,
     register,
     reset,
-    formState: { errors, isSubmitting },
+    formState: { errors },
   } = useForm();
+
   const [addLogin] = useAddLoginMutation();
   const onSubmit = async (values) => {
-    console.log(values);
+    setIsSubmitting(true);
+    setPhoneValue(values.phone_number);
     try {
-      const response = await addLogin(values);
-      if (response.error) {
-        console.error(response.error);
-        toast({
-          title: "Error",
-          description: "An error occurred. Please try again later.",
-          status: "error",
-          duration: 5000,
-          isClosable: true,
-        });
-      } else {
-        toast({
-          title: "Login",
-          description: "Successfully registered!",
-          status: "success",
-          duration: 5000,
-          isClosable: true,
-        });
-        reset();
-        navigate("/verify-code");
-      }
+      await addLogin({ source: values.phone_number, type: "phone_number" });
+      setIsSuccess(true);
+      setOpenVerifyModal(true);
+      reset({ phone_number: "" });
     } catch (err) {
-      console.error(err);
-      toast({
-        title: "Error",
-        description: "An error occurred. Please try again later.",
-        status: "error",
-        duration: 5000,
-        isClosable: true,
-      });
+      console.log(err);
+    } finally {
+      setIsSubmitting(false);
     }
   };
+  console.log("LOGIN");
 
   return (
     <div>
@@ -82,7 +66,6 @@ export const LoginModal = ({ isOpen, onClose }) => {
                 <FormLabel>Введите номер телефона </FormLabel>
                 <Input
                   {...register("phone_number", {
-                    value: "9989",
                     required: "Пожалуйста, введите свой номер телефона",
                     maxLength: {
                       value: 13,
@@ -93,6 +76,7 @@ export const LoginModal = ({ isOpen, onClose }) => {
                     errors.phone_number ? "error-input" : ""
                   }`}
                 />
+
                 {errors.phone_number && (
                   <span className="error-message">
                     {errors.phone_number.message}
@@ -121,8 +105,21 @@ export const LoginModal = ({ isOpen, onClose }) => {
           </ModalContent>
         </form>
       </Modal>
+      {isSuccess && openVerifyModal && (
+        <VerifyModal
+          source={phoneValue}
+          isOpen={isOpen}
+          onClose={onClose}
+          onOpen={() => setOpenVerifyModal(false)}
+        />
+      )}
     </div>
   );
+};
+
+LoginModal.propTypes = {
+  isOpen: PropTypes.bool,
+  onClose: PropTypes.func,
 };
 
 LoginModal.propTypes = {
