@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
 import { motion } from "framer-motion";
 import {
   Box,
   Center,
+  Checkbox,
   Container,
   Divider,
   Grid,
@@ -18,70 +18,142 @@ import {
   CartFavouritIcon,
   CartSucessIcon,
 } from "../../assets/icons";
-import {
-  decrementQuantity,
-  deleteItem,
-  incrementQuantity,
-  resetCart,
-} from "../../redux/slices/productSlices";
 import theme from "../../theme";
 import { emptyCart } from "../../assets/images";
 import "./Cart.scss";
 import CartBottom from "./cart-bottom/CartBottom";
 import { kFormatter } from "../../utils";
+import {
+  useDeleteBasketMutation,
+  useGetBasketQuery,
+  useUpdateBasketMutation,
+} from "../../redux/services/basketServices";
+import Loading from "../../components/loading/Loading";
 
 const CartPage = () => {
-  const products = useSelector((state) => state.product.products);
-  const dispatch = useDispatch();
-  const [totalPrice, setTotalPrice] = useState("");
+  const { data } = useGetBasketQuery();
+  const [deleteBasket] = useDeleteBasketMutation();
+  const [updateBasket] = useUpdateBasketMutation();
+  const [totalPrice, setTotalPrice] = useState(data?.total_price);
   const [totalAdditionalPrice, setTotalAdditionalPrice] = useState(0);
-  const [selectedItems, setSelectedItems] = useState([]);
-  const [checked, setChekced] = useState(true);
+  const [checkedItems, setCheckedItems] = useState([]);
+  const [totalProducts, setTotalProducts] = useState(0);
+  const [loading, setLoading] = useState(false);
+  const allChecked = checkedItems.every(Boolean);
+  const isIndeterminate = checkedItems.some(Boolean) && !allChecked;
   const navigate = useNavigate();
 
   useEffect(() => {
-    let Total = 0;
-    let additionalPrice = 0;
-    products.forEach((item) => {
-      Total += item.price * item.quantity;
-      additionalPrice += item.price;
-    });
-    setTotalPrice(Total.toFixed(2));
-    setTotalAdditionalPrice(additionalPrice);
-  }, [products]);
+    if (data?.products) {
+      setCheckedItems(data.products.map(() => true));
+    }
+  }, [data]);
 
-  const handleAllCheck = (e) => {
-    const isSelected = e.target.checked;
-    const value = e.target.value;
-    setSelectedItems((prevData) =>
-      isSelected ? [...prevData, value] : prevData.filter((id) => id !== value)
-    );
+  useEffect(() => {
+    let totalPrice = 0;
+    let totalAdditionalPrice = 0;
+
+    if (data?.products) {
+      data.products.forEach((item, index) => {
+        if (checkedItems[index]) {
+          totalPrice += item.price * item.quantity;
+          totalAdditionalPrice += item.price;
+        }
+      });
+      setTotalPrice(totalPrice.toFixed(2));
+      setTotalAdditionalPrice(totalAdditionalPrice);
+      const selectedProducts = data.products.filter(
+        (_, index) => checkedItems[index]
+      );
+      setTotalProducts(selectedProducts.length);
+    }
+  }, [checkedItems, data]);
+
+  const handleCheckboxChange = (index) => {
+    const newCheckedItems = [...checkedItems];
+    newCheckedItems[index] = !newCheckedItems[index];
+    setCheckedItems(newCheckedItems);
   };
 
-  const checkAllHandler = () => {
-    if (products.length === selectedItems.length) {
-      setSelectedItems([]);
-    } else {
-      setSelectedItems(products.map((item) => item.id));
-    }
+  const handleChangeAll = (e) => {
+    const isChecked = e.target.checked;
+    const newCheckedItems = Array(data?.products?.length).fill(isChecked);
+    setCheckedItems(newCheckedItems);
   };
 
   const goToCheckout = () => {
-    selectedItems.length > 0 &&
+    if (data?.products && checkedItems.length > 0) {
       navigate("/checkout", {
         state: {
-          products: products.filter((item) => selectedItems.includes(item.id)),
-          totalPrice: products
-            .filter((item) => selectedItems.includes(item.id))
+          products: data.products.filter((item) =>
+            checkedItems.includes(item.id)
+          ),
+          totalPrice: data.products
+            .filter((item) => checkedItems.includes(item.id))
             .reduce((acc, item) => acc + item.price * item.quantity, 0),
         },
       });
+    }
   };
 
+  const deleteItem = async (id) => {
+    const productData = {
+      product_id: id,
+    };
+    try {
+      setLoading(true);
+      await deleteBasket(productData);
+    } catch (err) {
+      console.log(err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const deleteAllItems = async () => {
+    if (data && data.products && data.products.length > 0) {
+      for (const item of data.products) {
+        await deleteItem(item.id);
+      }
+    }
+  };
+
+  const decrementQuantity = async (id) => {
+    const item = data.products.find((item) => item.id === id);
+    if (item && item.quantity > 1) {
+      const updates = {
+        product_id: id,
+        quantity: item.quantity - 1,
+      };
+      await updateBasket(updates);
+    }
+  };
+
+  const incrementQuantity = async (id) => {
+    const item = data.products.find((item) => item.id === id);
+    if (item) {
+      const updates = {
+        product_id: id,
+        quantity: item.quantity + 1,
+      };
+      await updateBasket(updates);
+    }
+  };
   return (
     <Box className="cart-page" fontFamily={theme.fonts.fInter}>
       <Container maxW={"1200px"}>
-        {products.length > 0 ? (
+        {loading ? (
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              minHeight: "100vh",
+            }}
+          >
+            <Loading />
+          </div>
+        ) : data?.products?.length > 0 ? (
           <h2 className="cart-title">Корзина</h2>
         ) : (
           <div className="cart-empty_link">
@@ -94,7 +166,7 @@ const CartPage = () => {
             </div>
           </div>
         )}
-        {products.length > 0 ? (
+        {data?.products?.length > 0 ? (
           <>
             <Grid templateColumns="repeat(12,1fr)" gap={"24px"}>
               <GridItem colSpan={8}>
@@ -105,39 +177,32 @@ const CartPage = () => {
                     justifyContent={"space-between"}
                   >
                     <Box display={"flex"} alignItems={"center"} gap={"16px"}>
-                      <div onClick={checkAllHandler}>
-                        <input
-                          type="checkbox"
-                          className="cart-check_input"
-                          onClick={() => setChekced(!checked)}
-                        />
-                      </div>
+                      <Checkbox
+                        isChecked={allChecked}
+                        isIndeterminate={isIndeterminate}
+                        onChange={handleChangeAll}
+                      />
+
                       <p className="card-top_text">
-                        Всего: {products.length} товара
+                        Всего: {data.products.length} товара
                       </p>
                     </Box>
-                    <Box>
-                      <button
-                        onClick={() => dispatch(resetCart())}
-                        className="cart-button_text"
-                      >
+                    <Box onClick={() => deleteAllItems()}>
+                      <button className="cart-button_text">
                         <CartEmptyIcon />
                         <span>Очистить корзину</span>
                       </button>
                     </Box>
                   </Box>
 
-                  {products.map((item) => (
+                  {data.products.map((item, index) => (
                     <Box key={item.id} className="cart-left_main">
                       <Box display={"flex"} justifyContent={"space-between"}>
                         <Box display={"flex"} gap={"16px"}>
                           <Box display={"flex"} alignItems={"center"}>
-                            <input
-                              onChange={handleAllCheck}
-                              type="checkbox"
-                              checked={selectedItems.includes(item.id)}
-                              value={item.id}
-                              className="cart-check_input"
+                            <Checkbox
+                              isChecked={checkedItems[index]}
+                              onChange={() => handleCheckboxChange(index)}
                             />
                           </Box>
                           <img
@@ -162,7 +227,7 @@ const CartPage = () => {
                                 <Divider orientation="vertical" />
                               </Center>
                               <button
-                                onClick={() => dispatch(deleteItem(item.id))}
+                                onClick={() => deleteItem(item.id)}
                                 className="cart-button_text"
                               >
                                 <CartDeleteIcon className="cart-button_icon" />
@@ -185,9 +250,7 @@ const CartPage = () => {
                             alignItems={"center"}
                           >
                             <button
-                              onClick={() =>
-                                dispatch(decrementQuantity(item.id))
-                              }
+                              onClick={() => decrementQuantity(item.id)}
                               className="cart-product_btn"
                             >
                               -
@@ -196,9 +259,7 @@ const CartPage = () => {
                               {item.quantity}
                             </p>
                             <button
-                              onClick={() =>
-                                dispatch(incrementQuantity(item.id))
-                              }
+                              onClick={() => incrementQuantity(item.id)}
                               className="cart-product_btn"
                             >
                               +
@@ -226,33 +287,28 @@ const CartPage = () => {
                     <div className="cart-right_item">
                       <h2>Итого</h2>
                       <p className="cart-right_price">
-                        {kFormatter(totalPrice)}{" "}
+                        {kFormatter(totalPrice)}
                       </p>
                     </div>
                     <div className="cart-right_item">
                       <p className="cart-right_tovar">
-                        Товары, {products.length} шт
+                        Товары, {totalProducts} шт
                       </p>
                       <p className="cart-right_additional">
                         {kFormatter(totalAdditionalPrice)}
                       </p>
                     </div>
-                    <Box my={"16px"}>
-                      <input
-                        type="text"
-                        className="cart-right_input"
-                        placeholder="Введите промокод"
-                      />
+                    <Box pt={"16px"}>
+                      <button
+                        onClick={goToCheckout}
+                        className={`cart-right_btn ${
+                          checkedItems.includes(true) ? "" : "disabled"
+                        }`}
+                        disabled={!checkedItems.includes(true)}
+                      >
+                        Перейти к оформлению
+                      </button>
                     </Box>
-                    <button
-                      onClick={goToCheckout}
-                      className={`cart-right_btn ${
-                        !selectedItems.length ? "disabled" : ""
-                      }`}
-                      disabled={!selectedItems.length}
-                    >
-                      Перейти к оформлению
-                    </button>
                   </Box>
                 </Box>
               </GridItem>

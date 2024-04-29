@@ -4,16 +4,13 @@ import { useGetAllProductsQuery } from "../../../../redux/services/productAllSer
 import GridProduct from "../../../../components/product-grid/GridProduct";
 import { ProductCard } from "../../../../components/card/product-card";
 import "./Product.scss";
-const Product = () => {
+import { memo } from "react";
+const Product = memo(() => {
   const { data: products, isLoading } = useGetAllProductsQuery();
   return (
     <section className="home-product">
       <Container maxW={"1200px"}>
-        <motion.h1
-          
-        >
-          Все продукты
-        </motion.h1>
+        <motion.h1>Все продукты</motion.h1>
         <GridProduct>
           {isLoading ? (
             <div>...Loading</div>
@@ -26,6 +23,6 @@ const Product = () => {
       </Container>
     </section>
   );
-};
-
+});
+Product.displayName = "Product";
 export default Product;

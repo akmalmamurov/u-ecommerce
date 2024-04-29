@@ -18,10 +18,10 @@ import {
 import "../../modal/Modal.css";
 import theme from "../../../theme";
 import { useAddLoginMutation } from "../../../redux/services/loginServices";
-import { useState } from "react";
+import { memo, useState } from "react";
 import VerifyModal from "../verfiy/VerifyModal";
 
-export const LoginModal = ({ isOpen, onClose }) => {
+export const LoginModal = memo(({ isOpen, onClose }) => {
   const [phoneValue, setPhoneValue] = useState("");
   const [isSuccess, setIsSuccess] = useState(false);
   const [openVerifyModal, setOpenVerifyModal] = useState(false);
@@ -49,7 +49,6 @@ export const LoginModal = ({ isOpen, onClose }) => {
       setIsSubmitting(false);
     }
   };
-  console.log("LOGIN");
 
   return (
     <div>
@@ -115,12 +114,8 @@ export const LoginModal = ({ isOpen, onClose }) => {
       )}
     </div>
   );
-};
-
-LoginModal.propTypes = {
-  isOpen: PropTypes.bool,
-  onClose: PropTypes.func,
-};
+});
+LoginModal.displayName = "LoginModal";
 
 LoginModal.propTypes = {
   isOpen: PropTypes.bool,

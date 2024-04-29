@@ -14,12 +14,12 @@ const basketServices = createApi({
       headers.set("Content-Type", "application/json");
       return headers;
     },
+    tagTypes: ["Basket"],
   }),
   endpoints: (builder) => ({
     getBasket: builder.query({
-      query: () => {
-        return `/api/basket`;
-      },
+      query: () => `/api/basket`,
+      providesTags: ["Basket"],
     }),
     addBasket: builder.mutation({
       query: (body) => ({
@@ -27,19 +27,23 @@ const basketServices = createApi({
         method: "POST",
         body,
       }),
+      invalidatesTags: ["Basket"],
     }),
     updateBasket: builder.mutation({
-      query: (body, id) => ({
-        url: `/api/basket/${id}`,
+      query: (body) => ({
+        url: `/api/basket`,
         method: "PUT",
         body,
       }),
+      invalidatesTags: ["Basket"],
     }),
     deleteBasket: builder.mutation({
-      query: (id) => ({
-        url: `/api/basket/${id}`,
+      query: (body) => ({
+        url: `/api/basket`,
         method: "DELETE",
+        body,
       }),
+      invalidatesTags: ["Basket"],
     }),
   }),
 });

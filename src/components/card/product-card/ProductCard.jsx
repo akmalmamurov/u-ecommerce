@@ -26,26 +26,62 @@ import { useAddBasketMutation } from "../../../redux/services/basketServices";
 import { useEffect } from "react";
 
 export const ProductCard = (props) => {
-  const { id, main_image, name_ru, price, rating, description_ru, quantity } =
-    props;
+  const { id, main_image, name_ru, price, rating, description_ru } = props;
   const favourites = useSelector((state) => state.favourit.favourites);
+  const isAuth = useSelector((state) => state.auth.isAuth);
   const isAddedToFavourites = favourites.some((item) => item.id === id);
   const toast = useToast();
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  useEffect(() => {}, [favourites]);
+  useEffect(() => {}, [isAuth]);
   const [mutateAddBasket, { isSuccess, isError }] = useAddBasketMutation();
   const goProductDetails = (id) => {
     navigate(`/products/${id}`);
   };
 
-  const handleAddToCart = () => {
+  const handleAddToCart = async () => {
     const productData = {
       product_id: id,
       quantity: 1,
     };
-    mutateAddBasket(productData);
+    try {
+      await mutateAddBasket(productData);
+    } catch (err) {
+      console.log(err);
+    }
   };
 
+  //   if (isAuth) {
+  //     dispatch(
+  //       addToCart(
+  //         {
+  //           id,
+  //           main_image,
+  //           price,
+  //           description_ru,
+  //           name_ru,
+  //           rating,
+  //           quantity: 1,
+  //         },
+  //         toast({
+  //           title: "Добавлено в корзину",
+  //           description: `${name_ru}`,
+  //           status: "success",
+  //           duration: 2000,
+  //           isClosable: true,
+  //         })
+  //       )
+  //     );
+  //   } else {
+  //     toast({
+  //       title: "Авторизуйтесь, чтобы добавить товар в корзину",
+  //       status: "error",
+  //       duration: 2000,
+  //       isClosable: true,
+  //     });
+  //   }
+  // };
   useEffect(() => {
     if (isSuccess) {
       toast({
@@ -57,12 +93,12 @@ export const ProductCard = (props) => {
       });
     }
   }, [isSuccess]);
-
   useEffect(() => {
     if (isError) {
+      console.log(isError);
       toast({
-        title: "Авторизуйтесь, чтобы добавить товар в корзину",
-        description: "Что-то пошло не так",
+        title: "Произошла ошибка",
+        description: "Произошла ошибка при добавлении в корзину",
         status: "error",
         duration: 2000,
         isClosable: true,
@@ -70,33 +106,34 @@ export const ProductCard = (props) => {
     }
   }, [isError]);
   const handleToggleFavourit = () => {
-    toast({
-      title: "Авторизуйтесь, чтобы добавить товар в избранное",
-      status: "error",
-      duration: 2000,
-      isClosable: true,
-    });
-
-    dispatch(
-      toggleFavourit({
-        id,
-        main_image,
-        price,
-        description_ru,
-        name_ru,
-        rating,
-      })
-    );
-    const isAdded = !isAddedToFavourites;
-    toast({
-      title: isAdded ? "Добавлено в Избранное" : "Удалено из Избранного",
-      description: `${name_ru}`,
-      status: "success",
-      duration: 2000,
-      isClosable: true,
-    });
+    if (isAuth) {
+      dispatch(
+        toggleFavourit({
+          id,
+          main_image,
+          price,
+          description_ru,
+          name_ru,
+          rating,
+        })
+      );
+      const isAdded = !isAddedToFavourites;
+      toast({
+        title: isAdded ? "Добавлено в избранное" : "Удалено из избранного",
+        description: `${name_ru}`,
+        status: "success",
+        duration: 2000,
+        isClosable: true,
+      });
+    } else {
+      toast({
+        title: "Авторизуйтесь, чтобы добавить товар в избранное",
+        status: "error",
+        duration: 2000,
+        isClosable: true,
+      });
+    }
   };
-
   return (
     <Card className="product-card" maxW="sm" fontFamily={theme.fonts.fInter}>
       <motion.div

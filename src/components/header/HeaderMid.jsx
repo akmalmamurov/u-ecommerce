@@ -29,7 +29,6 @@ const HeaderMid = memo(() => {
   const { data, isLoading } = useGetSearchProductsQuery(debouncedSearch);
   const isAuth = useSelector((state) => state.auth.isAuth);
   const dispatch = useDispatch();
-  console.log(isAuth);
 
   const handleSearch = (e) => {
     setSearch(e.target.value);
@@ -60,7 +59,6 @@ const HeaderMid = memo(() => {
     dispatch(logoutUser());
   }, [dispatch]);
 
-  console.log("HEADERMID");
   return (
     <Box py={"29px"} className="header-mid">
       <Container maxW={"1200px"}>

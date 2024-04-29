@@ -42,8 +42,6 @@ export const {
   decrementQuantity,
   resetCart,
   deleteItem,
-  toggleAllChecked,
-  toggleItemChecked,
 } = productSlices.actions;
 
 export default productSlices.reducer;

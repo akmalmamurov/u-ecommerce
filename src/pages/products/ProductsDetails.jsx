@@ -16,11 +16,15 @@ import "./ProductDetails.scss";
 import { buyImg, cartWhite, heartWhite } from "../../assets/images";
 import { addToCart } from "../../redux/slices/productSlices";
 import { toggleFavourit } from "../../redux/slices/favouritSlices";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 const ProductsDetails = () => {
   const { id } = useParams();
   const { data } = useGetProductByIdQuery(id);
+  const isAuth = useSelector((state) => state.auth.isAuth);
+  useEffect(() => {
+    isAuth;
+  }, [isAuth]);
   const [mainImage, setMainImage] = useState(null);
   const [rating, setRating] = useState(3);
   const toast = useToast();
@@ -44,47 +48,65 @@ const ProductsDetails = () => {
   };
 
   const handleAddToCart = () => {
-    dispatch(
-      addToCart(
-        {
-          id: data.id,
-          main_image: data.main_image,
-          price: data.price,
-          description_ru: data.description_ru,
-          name_ru: data.name_ru,
-          quantity: 1,
-        },
-        toast({
-          title: "Добавлено в корзину",
-          description: `${data.name_ru}`,
-          status: "success",
-          duration: 2000,
-          isClosable: true,
-        })
-      )
-    );
+    if (isAuth) {
+      dispatch(
+        addToCart(
+          {
+            id: data.id,
+            main_image: data.main_image,
+            price: data.price,
+            description_ru: data.description_ru,
+            name_ru: data.name_ru,
+            quantity: 1,
+          },
+          toast({
+            title: "Добавлено в корзину",
+            description: `${data.name_ru}`,
+            status: "success",
+            duration: 2000,
+            isClosable: true,
+          })
+        )
+      );
+    } else {
+      toast({
+        title: "Авторизуйтесь, чтобы добавить товар в корзину",
+        status: "error",
+        duration: 2000,
+        isClosable: true,
+      });
+    }
   };
 
   const handleAddToFavourit = () => {
-    dispatch(
-      toggleFavourit(
-        {
-          id: data.id,
-          main_image: data.main_image,
-          price: data.price,
-          description_ru: data.description_ru,
-          name_ru: data.name_ru,
-          quantity: 1,
-        },
-        toast({
-          title: "Добавлено в Избранное",
-          description: `${data.name_ru}`,
-          status: "success",
-          duration: 2000,
-          isClosable: true,
-        })
-      )
-    );
+    if (isAuth) {
+      dispatch(
+        toggleFavourit(
+          {
+            id: data.id,
+            main_image: data.main_image,
+            price: data.price,
+            description_ru: data.description_ru,
+            name_ru: data.name_ru,
+            quantity: 1,
+          },
+          toast({
+            title: "Добавлено в Избранное",
+            description: `${data.name_ru}`,
+            status: "success",
+            duration: 2000,
+            isClosable: true,
+          })
+        )
+      );
+    } else {
+      toast({
+        title: "Авторизуйтесь, чтобы добавить товар в Избранное",
+        status: "error",
+        duration: 2000,
+        isClosable: true,
+      });
+    }
   };
 
   const ratingChanged = (newRating) => {
