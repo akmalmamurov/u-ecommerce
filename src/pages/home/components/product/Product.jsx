@@ -7,6 +7,7 @@ import "./Product.scss";
 import { memo } from "react";
 const Product = memo(() => {
   const { data: products, isLoading } = useGetAllProductsQuery();
+
   return (
     <section className="home-product">
       <Container maxW={"1200px"}>

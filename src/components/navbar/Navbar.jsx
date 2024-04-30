@@ -3,6 +3,7 @@ import { Box, Container } from "@chakra-ui/react";
 import theme from "../../theme";
 import { useGetCategoriesQuery } from "../../redux/services/categoryServices";
 import "./Navbar.scss";
+import Loading from "../loading/Loading";
 
 const Navbar = () => {
   const { data: categories, isLoading } = useGetCategoriesQuery();
@@ -11,7 +12,7 @@ const Navbar = () => {
     <nav>
       <Container maxW={"1200px"}>
         {isLoading ? (
-          "...Loading"
+          <Loading />
         ) : (
           <Box display={"flex"} gap={"38.8px"} fontFamily={theme.fonts.fSF}>
             {categories.map((category) => {

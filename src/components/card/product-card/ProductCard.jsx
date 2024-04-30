@@ -24,6 +24,7 @@ import { toggleFavourit } from "../../../redux/slices/favouritSlices";
 import "./ProductCard.scss";
 import { useAddBasketMutation } from "../../../redux/services/basketServices";
 import { useEffect } from "react";
+import { addToCart } from "../../../redux/slices/productSlices";
 
 export const ProductCard = (props) => {
   const { id, main_image, name_ru, price, rating, description_ru } = props;
@@ -35,104 +36,52 @@ export const ProductCard = (props) => {
   const navigate = useNavigate();
   useEffect(() => {}, [favourites]);
   useEffect(() => {}, [isAuth]);
-  const [mutateAddBasket, { isSuccess, isError }] = useAddBasketMutation();
   const goProductDetails = (id) => {
     navigate(`/products/${id}`);
   };
 
   const handleAddToCart = async () => {
-    const productData = {
-      product_id: id,
-      quantity: 1,
-    };
-    try {
-      await mutateAddBasket(productData);
-    } catch (err) {
-      console.log(err);
-    }
-  };
-
-  //   if (isAuth) {
-  //     dispatch(
-  //       addToCart(
-  //         {
-  //           id,
-  //           main_image,
-  //           price,
-  //           description_ru,
-  //           name_ru,
-  //           rating,
-  //           quantity: 1,
-  //         },
-  //         toast({
-  //           title: "Добавлено в корзину",
-  //           description: `${name_ru}`,
-  //           status: "success",
-  //           duration: 2000,
-  //           isClosable: true,
-  //         })
-  //       )
-  //     );
-  //   } else {
-  //     toast({
-  //       title: "Авторизуйтесь, чтобы добавить товар в корзину",
-  //       status: "error",
-  //       duration: 2000,
-  //       isClosable: true,
-  //     });
-  //   }
-  // };
-  useEffect(() => {
-    if (isSuccess) {
-      toast({
-        title: "Добавлено в корзину",
-        description: `${name_ru}`,
-        status: "success",
-        duration: 2000,
-        isClosable: true,
-      });
-    }
-  }, [isSuccess]);
-  useEffect(() => {
-    if (isError) {
-      console.log(isError);
-      toast({
-        title: "Произошла ошибка",
-        description: "Произошла ошибка при добавлении в корзину",
-        status: "error",
-        duration: 2000,
-        isClosable: true,
-      });
-    }
-  }, [isError]);
-  const handleToggleFavourit = () => {
-    if (isAuth) {
-      dispatch(
-        toggleFavourit({
+    dispatch(
+      addToCart(
+        {
           id,
           main_image,
           price,
-          description_ru,
           name_ru,
+          description_ru,
           rating,
+          quantity: 1,
+        },
+        toast({
+          title: "Добавлено в избранное",
+          description: `${name_ru}`,
+          status: "success",
+          duration: 2000,
+          isClosable: true,
         })
-      );
-      const isAdded = !isAddedToFavourites;
-      toast({
-        title: isAdded ? "Добавлено в избранное" : "Удалено из избранного",
-        description: `${name_ru}`,
-        status: "success",
-        duration: 2000,
-        isClosable: true,
-      });
-    } else {
-      toast({
-        title: "Авторизуйтесь, чтобы добавить товар в избранное",
-        status: "error",
-        duration: 2000,
-        isClosable: true,
-      });
-    }
+      )
+    );
+  };
+
+  const handleToggleFavourit = () => {
+    dispatch(
+      toggleFavourit({
+        id,
+        main_image,
+        price,
+        description_ru,
+        name_ru,
+        rating,
+      })
+    );
+    const isAdded = !isAddedToFavourites;
+    toast({
+      title: isAdded ? "Добавлено в избранное" : "Удалено из избранного",
+      description: `${name_ru}`,
+      status: "success",
+      duration: 2000,
+      isClosable: true,
+    });
   };
   return (
     <Card className="product-card" maxW="sm" fontFamily={theme.fonts.fInter}>
@@ -150,13 +99,16 @@ export const ProductCard = (props) => {
           >
             <Image src={main_image} alt={name_ru} />
           </Box>
+
           <Stack
             cursor={"pointer"}
             onClick={() => goProductDetails(id)}
             className="card-bottom"
             mt="6"
-            spacing="3"
+            spacing="2"
           >
+          <Text className="product-price">{`${kFormatter(price)}`}</Text>
+            
             <Heading size="md" className="product-name">
               {name_ru.length > 38 ? name_ru.slice(0, 34) + "..." : name_ru}
             </Heading>
@@ -172,17 +124,17 @@ export const ProductCard = (props) => {
           justifyContent={"space-between"}
           className="card-footer"
         >
-          <Text className="product-price">{`${kFormatter(price)}`}</Text>
           <button onClick={handleAddToCart}>
             <ShoppingIcon />
           </button>
-        </CardFooter>
-      </motion.div>
-      <button onClick={handleToggleFavourit}>
+          <button onClick={handleToggleFavourit}>
         <CartFavouritIcon
           className={`favourites-icon ${isAddedToFavourites ? "added" : ""}`}
         />
       </button>
+        </CardFooter>
+      </motion.div>
+    
     </Card>
   );
 };

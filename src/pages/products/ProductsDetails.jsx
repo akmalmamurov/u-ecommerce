@@ -31,7 +31,7 @@ const ProductsDetails = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    if (data && data.image_files.length > 0) {
+    if (data && data?.image_files?.length > 0) {
       setMainImage(data.image_files.media_file);
     }
     if (data && data.rating) {

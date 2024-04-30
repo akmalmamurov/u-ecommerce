@@ -9,9 +9,10 @@ import "./CatalogMenu.scss";
 import { useGetCategoriesQuery } from "../../redux/services/categoryServices";
 import theme from "../../theme";
 import { useNavigate } from "react-router-dom";
+import Loading from "../loading/Loading";
 
 const CatalogMenu = () => {
-  const { data } = useGetCategoriesQuery();
+  const { data, isLoading } = useGetCategoriesQuery();
   const [hoveredCategoryId, setHoveredCategoryId] = useState(null);
   const [menuOpen, setMenuOpen] = useState(false);
   const navigate = useNavigate();
@@ -25,7 +26,7 @@ const CatalogMenu = () => {
   };
 
   const addToCategory = (id) => {
-    setMenuOpen(false); // Close the menu after selecting a category
+    setMenuOpen(false);
     navigate(`/category/${id}`);
   };
 
@@ -51,55 +52,62 @@ const CatalogMenu = () => {
         </MenuButton>
         {menuOpen && (
           <MenuList className="catalog-menu_list-wrapper">
-            {data && data.length > 0 && (
-              <>
-                <Box className="catalog-menu_sidebar">
-                  {data.map((el) => (
-                    <Box
-                      key={el.id}
-                      className="catalog-menu_content"
-                      onMouseEnter={() => handleMouseEnter(el.id)}
-                    >
-                      <Box
-                        className="catalog-menu_item"
-                        cursor={"pointer"}
-                        onClick={() => addToCategory(el.id)}
-                      >
-                        <img src={el.image} alt="" className="" />
-                        <Text className="catalog-menu_link">{el.name_ru}</Text>
-                      </Box>
-                      <RightArrowIcon />
-                    </Box>
-                  ))}
-                </Box>
-                <Box className="catalog-menu_right">
-                  {data &&
-                    data.map((el) => (
+            {isLoading ? (
+              <Loading />
+            ) : (
+              data &&
+              data.length > 0 && (
+                <>
+                  <Box className="catalog-menu_sidebar">
+                    {data.map((el) => (
                       <Box
                         key={el.id}
-                        className="sub-categories"
-                        style={{
-                          display:
-                            hoveredCategoryId === el.id ? "block" : "none",
-                        }}
+                        className="catalog-menu_content"
+                        onMouseEnter={() => handleMouseEnter(el.id)}
                       >
-                        <h1 className="subcategory-title">{el.name_ru}</h1>
-                        {el.subcategories &&
-                          el.subcategories.map((subcat) => (
-                            <Box key={subcat.id} mb={"12px"}>
-                              <Box
-                                cursor={"pointer"}
-                                onClick={() => addToCategory(subcat.id)}
-                                className="sub-category"
-                              >
-                                {subcat.name_ru}
-                              </Box>
-                            </Box>
-                          ))}
+                        <Box
+                          className="catalog-menu_item"
+                          cursor={"pointer"}
+                          onClick={() => addToCategory(el.id)}
+                        >
+                          <img src={el.image} alt="" className="" />
+                          <Text className="catalog-menu_link">
+                            {el.name_ru}
+                          </Text>
+                        </Box>
+                        <RightArrowIcon />
                       </Box>
                     ))}
-                </Box>
-              </>
+                  </Box>
+                  <Box className="catalog-menu_right">
+                    {data &&
+                      data.map((el) => (
+                        <Box
+                          key={el.id}
+                          className="sub-categories"
+                          style={{
+                            display:
+                              hoveredCategoryId === el.id ? "block" : "none",
+                          }}
+                        >
+                          <h1 className="subcategory-title">{el.name_ru}</h1>
+                          {el.subcategories &&
+                            el.subcategories.map((subcat) => (
+                              <Box key={subcat.id} mb={"12px"}>
+                                <Box
+                                  cursor={"pointer"}
+                                  onClick={() => addToCategory(subcat.id)}
+                                  className="sub-category"
+                                >
+                                  {subcat.name_ru}
+                                </Box>
+                              </Box>
+                            ))}
+                        </Box>
+                      ))}
+                  </Box>
+                </>
+              )
             )}
           </MenuList>
         )}

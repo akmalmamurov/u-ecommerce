@@ -45,7 +45,7 @@ const Category = () => {
           </GridItem>
           <GridItem colSpan={10}>
             {products && (
-              <Grid templateColumns="repeat(4, 1fr)" gap={"6px"}>
+              <Grid templateColumns="repeat(3, 1fr)" gap={"6px"}>
                 {products.map((product) => (
                   <div key={product.id}>
                     <GridItem>
