@@ -19,6 +19,7 @@ import { LeftArrowIcon } from "../../../assets/icons";
 import { useAddVerifyMutation } from "../../../redux/services/verifyServices";
 import { useDispatch } from "react-redux";
 import { setUser } from "../../../redux/slices/authSlices";
+import { Link } from "react-router-dom";
 
 const VerifyModal = ({ isOpen, onClose, source, onOpen }) => {
   const {
@@ -40,9 +41,9 @@ const VerifyModal = ({ isOpen, onClose, source, onOpen }) => {
       code: fullCode,
     };
     try {
-      const response = await addVerify(requestData);
-      console.log(response);
-      dispatch(setUser(response.data.token));
+      const res = await addVerify(requestData);
+      console.log(res.data);
+      dispatch(setUser(res.data.token));
       onClose();
       reset();
     } catch (err) {
@@ -85,7 +86,18 @@ const VerifyModal = ({ isOpen, onClose, source, onOpen }) => {
               </FormControl>
             </ModalBody>
 
-            <ModalFooter>
+            <ModalFooter className="modal-footer">
+              <Button colorScheme={"blue"}>
+                <Link
+                  to={"https://t.me/ulabMarket_bot"}
+                  className="code_tg"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  Login in with Telegram
+                </Link>
+              </Button>
+
               <Button
                 type="submit"
                 colorScheme="blue"

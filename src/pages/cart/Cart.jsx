@@ -10,6 +10,7 @@ import {
   Grid,
   GridItem,
   Text,
+  useToast,
 } from "@chakra-ui/react";
 import {
   CartArrowLeftIcon,
@@ -31,17 +32,20 @@ import {
   incrementQuantity,
   resetCart,
 } from "../../redux/slices/productSlices";
+import { useAddBasketMutation } from "../../redux/services/basketServices";
 
 const CartPage = () => {
   const products = useSelector((state) => state.product.products);
   const isAuth = useSelector((state) => state.auth.auth);
-  const [addBasket] = useAddBasketMutation()
+  const token = useSelector((state)=> state.auth.token);
+  console.log(token);
+  const [addBasket] = useAddBasketMutation();
   const [totalPrice, setTotalPrice] = useState(0);
   const [totalAdditionalPrice, setTotalAdditionalPrice] = useState(0);
   const [checkedItems, setCheckedItems] = useState([]);
   const navigate = useNavigate();
   const dispatch = useDispatch();
-
+  const toast = useToast();
   useEffect(() => {
     if (products) {
       setCheckedItems(products.map(() => true));
@@ -77,10 +81,27 @@ const CartPage = () => {
     setCheckedItems(newCheckedItems);
   };
 
-  const goToCheckout = () => {
+  const goToCheckout = async () => {
+    // if (!isAuth) {
+    //   toast({
+    //     title: "Please log in to proceed to checkout.",
+    //     status: "error",
+    //     duration: 3000,
+    //     isClosable: true,
+    //   });
+    //   return;
+    // }
+    const basketItems = products.map((item, index) => ({
+      product_id: item.id,
+      quantity: item.quantity,
+    }));
+    try {
+      await addBasket(basketItems);
       navigate("/checkout");
+    } catch (err) {
+      console.log(err);
     }
-  
+  };
 
   const checkedProductsCount = products.reduce((count, item, index) => {
     return checkedItems[index] ? count + 1 : count;

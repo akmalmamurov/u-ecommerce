@@ -11,7 +11,6 @@ const authSlice = createSlice({
   reducers: {
     setUser: (state, action) => {
       Cookies.set("token", action.payload);
-      state.name = action.payload.name;
       state.token = action.payload.token;
       state.isAuth = true;
     },
