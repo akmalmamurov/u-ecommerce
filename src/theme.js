@@ -8,13 +8,20 @@ const theme = extendTheme({
     xl: "80em",
     "2xl": "96em",
   },
-  colors: {},
+  colors: {
+    lightBlue: "#0074EB33",
+    black: "#000000",
+    cascadWhite: "#F6F6F6",
+    codexGrey: "#9C9C9C",
+    skyBlue: "#0E73F6",
+    white: "#ffffff",
+  },
   fonts: {
-    fAbhay: `AbhayaLibre,sans-serif`,
-    fInter: `Inter,sans-serif`,
-    fPoppins: `Poppins,sans-serif`,
-    fSF: `SFPRODISPLAY,sans-serif`,
-    fRevalia: `Revalia,sans-serif`,
+    fAbhay: "AbhayaLibre,sans-serif",
+    fInter: "Inter,sans-serif",
+    fPoppins: "Poppins,sans-serif",
+    fSF: "SFPRODISPLAY,sans-serif",
+    fRevalia: "Revalia,sans-serif",
   },
 });
 export default theme;

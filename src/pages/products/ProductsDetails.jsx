@@ -26,7 +26,7 @@ const ProductsDetails = () => {
     isAuth;
   }, [isAuth]);
   const [mainImage, setMainImage] = useState(null);
-  const [rating, setRating] = useState(3);
+  const [rating, setRating] = useState(0);
   const toast = useToast();
   const dispatch = useDispatch();
 
@@ -48,65 +48,47 @@ const ProductsDetails = () => {
   };
 
   const handleAddToCart = () => {
-    if (isAuth) {
-      dispatch(
-        addToCart(
-          {
-            id: data.id,
-            main_image: data.main_image,
-            price: data.price,
-            description_ru: data.description_ru,
-            name_ru: data.name_ru,
-            quantity: 1,
-          },
-          toast({
-            title: "Добавлено в корзину",
-            description: `${data.name_ru}`,
-            status: "success",
-            duration: 2000,
-            isClosable: true,
-          })
-        )
-      );
-    } else {
-      toast({
-        title: "Авторизуйтесь, чтобы добавить товар в корзину",
-        status: "error",
-        duration: 2000,
-        isClosable: true,
-      });
-    }
+    dispatch(
+      addToCart(
+        {
+          id: data.id,
+          main_image: data.main_image,
+          price: data.price,
+          description_ru: data.description_ru,
+          name_ru: data.name_ru,
+          quantity: 1,
+        },
+        toast({
+          title: "Добавлено в корзину",
+          description: `${data.name_ru}`,
+          status: "success",
+          duration: 2000,
+          isClosable: true,
+        })
+      )
+    );
   };
 
   const handleAddToFavourit = () => {
-    if (isAuth) {
-      dispatch(
-        toggleFavourit(
-          {
-            id: data.id,
-            main_image: data.main_image,
-            price: data.price,
-            description_ru: data.description_ru,
-            name_ru: data.name_ru,
-            quantity: 1,
-          },
-          toast({
-            title: "Добавлено в Избранное",
-            description: `${data.name_ru}`,
-            status: "success",
-            duration: 2000,
-            isClosable: true,
-          })
-        )
-      );
-    } else {
-      toast({
-        title: "Авторизуйтесь, чтобы добавить товар в Избранное",
-        status: "error",
-        duration: 2000,
-        isClosable: true,
-      });
-    }
+    dispatch(
+      toggleFavourit(
+        {
+          id: data.id,
+          main_image: data.main_image,
+          price: data.price,
+          description_ru: data.description_ru,
+          name_ru: data.name_ru,
+          quantity: 1,
+        },
+        toast({
+          title: "Добавлено в Избранное",
+          description: `${data.name_ru}`,
+          status: "success",
+          duration: 2000,
+          isClosable: true,
+        })
+      )
+    );
   };
 
   const ratingChanged = (newRating) => {

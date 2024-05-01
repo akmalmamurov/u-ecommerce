@@ -1,33 +1,35 @@
 import { useState, useEffect, useCallback, memo } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { Link, useNavigate } from "react-router-dom";
 import {
+  Badge,
   Box,
   Container,
   Input,
   InputGroup,
   InputLeftElement,
   Text,
-  theme,
 } from "@chakra-ui/react";
-import { Link, useNavigate } from "react-router-dom";
+import { useDebounce } from "use-debounce";
 import { logo } from "../../assets/images";
 import { CartIcon, HeartIcon, SearchIcon, UserIcon } from "../../assets/icons";
 import { useModal } from "../../hooks/useModal";
 import { LoginModal } from "../modal/login/LoginModal";
 import { useGetSearchProductsQuery } from "../../redux/services/productAllServices";
-import { useDebounce } from "use-debounce";
 import { CatalogMenu } from "../catalog-menu";
-import { useDispatch, useSelector } from "react-redux";
 import { logoutUser } from "../../redux/slices/authSlices";
+import Loading from "../loading/Loading";
+import theme from "../../theme";
 
 const HeaderMid = memo(() => {
-  const { isOpen, open, close } = useModal();
-
   const [search, setSearch] = useState("");
-  const navigate = useNavigate();
+  const [isScrolled, setIsScrolled] = useState(false);
   const [debouncedSearch] = useDebounce(search, 1000);
-
   const { data, isLoading } = useGetSearchProductsQuery(debouncedSearch);
   const isAuth = useSelector((state) => state.auth.isAuth);
+  const products = useSelector((state) => state.product.products);
+  const { isOpen, open, close } = useModal();
+  const navigate = useNavigate();
   const dispatch = useDispatch();
 
   const handleSearch = (e) => {
@@ -58,17 +60,28 @@ const HeaderMid = memo(() => {
   const handleLogout = useCallback(() => {
     dispatch(logoutUser());
   }, [dispatch]);
+  useEffect(() => {
+    
+    const handleScroll = () => {
+      if (window.scrollY > 59) {
+        setIsScrolled(true);
+      } else {
+        setIsScrolled(false);
+      }
+    };
 
+    window.addEventListener("scroll", handleScroll);
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
   return (
-    <Box py={"29px"} className="header-mid">
+    <Box py={"29px"} className={`header-mid ${isScrolled ? "fixed" : ""}`}>
       <Container maxW={"1200px"}>
         <Box fontFamily={theme.fonts.fSF}>
           {/* logo */}
-          <Box
-            display={"flex"}
-            alignItems={"center"}
-            justifyContent={"space-between"}
-          >
+          <Box className="header-mid_content">
             <Link to={"/"}>
               <img src={logo} alt="logo" />
             </Link>
@@ -77,36 +90,38 @@ const HeaderMid = memo(() => {
               <CatalogMenu />
             </Box>
             {/* search input */}
-            <Box className="header_search" ml={{ base: 0, lg: 3 }}>
+            <Box className="header_search">
               <InputGroup
-                w={"383px"}
-                bg={"#F6F6F6"}
-                color={"#9C9C9C"}
+                h={"48px"}
+                bg={theme.colors.cascadWhite}
+                color={theme.colors.codexGrey}
                 borderRadius={"8px"}
                 border={"none"}
                 py={"4px"}
                 px={"16px"}
               >
-                <InputLeftElement pointerEvents="none" top={"1"}>
+                <InputLeftElement pointerEvents="none" top={"1"} left={3}>
                   <SearchIcon />
                 </InputLeftElement>
                 <Input
                   onChange={handleSearch}
                   value={search}
                   border={"none"}
-                  fontSize={"18px"}
-                  fontWeight={"400"}
                   className="header_search-input"
                   type="text"
                   placeholder="Поиск товаров и категорий"
-                  p={"12px, 16px"}
+                  p={"15px, 19px"}
                 />
               </InputGroup>
               <Box>
                 {search && (
-                  <div className="search-results">
+                  <Box
+                    className={`search-results`}
+                    bg={theme.colors.cascadWhite}
+                    color={theme.colors.black}
+                  >
                     {isLoading ? (
-                      <div>Loading...</div>
+                      <Loading />
                     ) : data && data.length ? (
                       <div>
                         {data?.map((product) => (
@@ -115,19 +130,20 @@ const HeaderMid = memo(() => {
                             className="search-result_content"
                           >
                             <img src={product?.main_image} alt="" />
-                            <div
+                            <Box
+                              color={theme.colors.black}
                               onClick={() => goProductDetails(product?.id)}
                               className="search-result_link"
                             >
                               {product?.name_ru}
-                            </div>
+                            </Box>
                           </div>
                         ))}
                       </div>
                     ) : (
                       <div>Товар не найден</div>
                     )}
-                  </div>
+                  </Box>
                 )}
               </Box>
             </Box>
@@ -157,7 +173,16 @@ const HeaderMid = memo(() => {
               </Box>
               <Box>
                 <Link to={"/cart"} className="header-mid_right">
-                  <CartIcon />
+                  <Box className="header-mid_right-cart">
+                    <CartIcon />
+                    <Badge
+                      className="header-mid_right-badge"
+                      bg={theme.colors.skyBlue}
+                      color={theme.colors.cascadWhite}
+                    >
+                      {products.length}
+                    </Badge>
+                  </Box>
                   <Text>Корзина</Text>
                 </Link>
               </Box>

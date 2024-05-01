@@ -14,7 +14,7 @@ import {
 } from "@chakra-ui/react";
 import { motion } from "framer-motion";
 import theme from "../../../theme";
-import { kFormatter } from "../../../utils";
+import { headingFormatter, kFormatter } from "../../../utils";
 import {
   ShoppingIcon,
   StarIcon,
@@ -22,8 +22,7 @@ import {
 } from "../../../assets/icons";
 import { toggleFavourit } from "../../../redux/slices/favouritSlices";
 import "./ProductCard.scss";
-import { useAddBasketMutation } from "../../../redux/services/basketServices";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { addToCart } from "../../../redux/slices/productSlices";
 
 export const ProductCard = (props) => {
@@ -32,6 +31,8 @@ export const ProductCard = (props) => {
   const isAuth = useSelector((state) => state.auth.isAuth);
   const isAddedToFavourites = favourites.some((item) => item.id === id);
   const toast = useToast();
+  const [isAddedToCart, setIsAddedToCart] = useState(false);
+
   const dispatch = useDispatch();
   const navigate = useNavigate();
   useEffect(() => {}, [favourites]);
@@ -41,6 +42,7 @@ export const ProductCard = (props) => {
   };
 
   const handleAddToCart = async () => {
+    setIsAddedToCart(true);
     dispatch(
       addToCart(
         {
@@ -90,7 +92,8 @@ export const ProductCard = (props) => {
         animate={{ y: 0, opacity: 1 }}
         transition={{ delay: 0.5, duration: 0.4 }}
       >
-        <CardBody className="card-body">
+           
+        <CardBody className="card-body"  cursor={"pointer"} onClick={() => goProductDetails(id)}>
           <Box
             className="card-top"
             display={"flex"}
@@ -102,15 +105,17 @@ export const ProductCard = (props) => {
 
           <Stack
             cursor={"pointer"}
-            onClick={() => goProductDetails(id)}
             className="card-bottom"
             mt="6"
-            spacing="2"
+            spacing="0.4rem"
           >
-          <Text className="product-price">{`${kFormatter(price)}`}</Text>
-            
+            <Text
+              className="product-price"
+              color={theme.colors.black}
+            >{`${kFormatter(price)}`}</Text>
+
             <Heading size="md" className="product-name">
-              {name_ru.length > 38 ? name_ru.slice(0, 34) + "..." : name_ru}
+              {headingFormatter(name_ru)}
             </Heading>
             <Text display={"flex"} gap={"4px"} alignItems={"center"}>
               <StarIcon />
@@ -124,17 +129,23 @@ export const ProductCard = (props) => {
           justifyContent={"space-between"}
           className="card-footer"
         >
-          <button onClick={handleAddToCart}>
+          <button
+            className="product-card_btn"
+            onClick={handleAddToCart}
+            disabled={isAddedToCart}
+          >
             <ShoppingIcon />
+            <span>В корзину</span>
           </button>
           <button onClick={handleToggleFavourit}>
-        <CartFavouritIcon
-          className={`favourites-icon ${isAddedToFavourites ? "added" : ""}`}
-        />
-      </button>
+            <CartFavouritIcon
+              className={`favourites-icon ${
+                isAddedToFavourites ? "added" : ""
+              }`}
+            />
+          </button>
         </CardFooter>
       </motion.div>
-    
     </Card>
   );
 };

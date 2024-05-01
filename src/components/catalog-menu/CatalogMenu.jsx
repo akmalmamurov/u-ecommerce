@@ -32,20 +32,22 @@ const CatalogMenu = () => {
 
   return (
     <div className="catalog-menu">
-      <Menu
-        className="catalog-menu_pos"
-        fontFamily={theme.fonts.fSf}
-        onClose={handleCloseMenu}
-      >
+      <Menu className="catalog-menu_pos" onClose={handleCloseMenu}>
         <MenuButton
+          h={"48px"}
           py={"12px"}
           px={"16px"}
+          bg={theme.colors.lightBlue}
           className="catalog_menu-btn"
           onClick={() => setMenuOpen(!menuOpen)}
         >
           <Box display={"flex"} gap={"16px"}>
             {menuOpen ? <CartDeleteIcon /> : <DropdownIcon />}
-            <Text fontSize={"18px"} color={"#9C9C9C"}>
+            <Text
+              fontSize={"18px"}
+              color={"#9C9C9C"}
+              fontFamily={theme.fonts.fSf}
+            >
               Каталог
             </Text>
           </Box>

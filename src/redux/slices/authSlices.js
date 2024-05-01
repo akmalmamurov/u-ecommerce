@@ -24,4 +24,11 @@ const authSlice = createSlice({
 });
 
 export const { setUser, logoutUser } = authSlice.actions;
+
+export const loadUserFromCookies = () => (dispatch) => {
+  const token = Cookies.get("token");
+  if (token) {
+    dispatch(setUser({ token }));
+  }
+};
 export default authSlice.reducer;

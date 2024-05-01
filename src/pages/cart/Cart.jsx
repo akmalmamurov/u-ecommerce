@@ -36,8 +36,8 @@ import { useAddBasketMutation } from "../../redux/services/basketServices";
 
 const CartPage = () => {
   const products = useSelector((state) => state.product.products);
-  const isAuth = useSelector((state) => state.auth.auth);
-  const token = useSelector((state)=> state.auth.token);
+  const isAuth = useSelector((state) => state.auth.isAuth);
+  const token = useSelector((state) => state.auth.token);
   console.log(token);
   const [addBasket] = useAddBasketMutation();
   const [totalPrice, setTotalPrice] = useState(0);
@@ -46,6 +46,7 @@ const CartPage = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const toast = useToast();
+  console.log(isAuth);
   useEffect(() => {
     if (products) {
       setCheckedItems(products.map(() => true));
@@ -82,21 +83,22 @@ const CartPage = () => {
   };
 
   const goToCheckout = async () => {
-    // if (!isAuth) {
-    //   toast({
-    //     title: "Please log in to proceed to checkout.",
-    //     status: "error",
-    //     duration: 3000,
-    //     isClosable: true,
-    //   });
-    //   return;
-    // }
+    if (!isAuth) {
+      toast({
+        title: "Please log in to proceed to checkout.",
+        status: "error",
+        duration: 3000,
+        isClosable: true,
+      });
+      return;
+    }
     const basketItems = products.map((item, index) => ({
       product_id: item.id,
       quantity: item.quantity,
     }));
     try {
-      await addBasket(basketItems);
+      const res = await addBasket(basketItems);
+      console.log(res);
       navigate("/checkout");
     } catch (err) {
       console.log(err);

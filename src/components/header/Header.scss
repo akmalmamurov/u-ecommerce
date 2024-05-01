@@ -2,35 +2,45 @@ header {
     .header-top {
         padding: 16px 0;
         background-color: #F2F4F8;
+
         .header-top_left {
             display: flex;
             align-items: center;
+
             @media (max-width:"972px") {
                 flex-direction: column;
             }
         }
     }
 
+    .header-mid.fixed {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        z-index: 999;
+        box-shadow: 10px 10px 5px 0px rgba(0, 0, 0, 0.014);
+    }
+
     .header-mid {
-        .hader_menu {
-            .header_menu_btn {
-                height: 48px;
-                background: #0074EB33;
+        background-color: white;
+        padding: 16px 0;
 
-                &:hover {
-                    background-color: #0074EB33;
-                }
-
-                &.active {
-                    background-color: #0074EB33;
-                }
-            }
+        .header-mid_content {
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 16px;
         }
 
         .header_search {
             position: relative;
+            flex: 1;
 
-            .handle_search_input {
+            .header_search-input {
+                font-family: "SFPRODISPLAY";
+                font-size: 18px;
+
                 &:focus {
                     outline: none;
                     border: none;
@@ -39,14 +49,11 @@ header {
         }
 
         .search-results {
-
             width: 100%;
             position: absolute;
             top: calc(100% + 0px);
             left: 0;
             height: 232px;
-            background-color: #F6F6F6;
-            color: #000000;
             padding: 10px;
             border-radius: 0px 0px 8px 8px;
             z-index: 999;
@@ -66,9 +73,7 @@ header {
                 .search-result_link {
                     font-size: 14px;
                     font-weight: 600;
-                    color: #000000;
                     cursor: pointer;
-
                 }
             }
         }
@@ -77,6 +82,25 @@ header {
             display: flex;
             align-items: center;
             gap: 12px;
+
+            .header-mid_right-cart {
+                position: relative;
+
+                .header-mid_right-badge {
+                    position: absolute;
+                    top: -12px;
+                    right: -14px;
+                    border-radius: 50%;
+                    font-size: 12px;
+                    font-weight: 300;
+                    width: 21px;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                }
+
+            }
+
         }
     }
 }

@@ -7,9 +7,9 @@
     font-family: SFPRODISPLAY;
     display: flex;
     align-items: center;
-    background-color: #0074eb33;
     gap: 16px;
     border-radius: 8px;
+
     &:hover {
       background-color: #0074eb33 !important;
     }
@@ -32,6 +32,7 @@
     padding: 16px 8px;
     border: none;
     box-shadow: none;
+
     .catalog-menu_sidebar {
       grid-column: span 4;
 
@@ -74,12 +75,14 @@
 
     .catalog-menu_right {
       grid-column: span 8;
+
       .subcategory-title {
         font-weight: 500;
         font-size: 24px;
         color: #000000;
         margin-bottom: 16px;
       }
+
       .sub-category {
         font-size: 20px;
         font-weight: 500;

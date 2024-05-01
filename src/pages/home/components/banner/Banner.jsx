@@ -1,5 +1,5 @@
 import { SwiperSlide, Swiper } from "swiper/react";
-import { Autoplay,Navigation } from "swiper/modules";
+import { Autoplay, Navigation } from "swiper/modules";
 import "swiper/css/navigation";
 import {
   bannerImgFour,
@@ -14,7 +14,7 @@ export const Banner = () => {
     <Box className="banner">
       <Container maxW={"1200px"}>
         <Swiper
-          modules={[Navigation,Autoplay]}
+          modules={[Navigation, Autoplay]}
           autoplay={{
             delay: 3000,
             disableOnInteraction: false,
