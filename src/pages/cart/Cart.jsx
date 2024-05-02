@@ -9,6 +9,7 @@ import {
   Divider,
   Grid,
   GridItem,
+  Heading,
   Text,
   useToast,
 } from "@chakra-ui/react";
@@ -16,7 +17,7 @@ import {
   CartArrowLeftIcon,
   CartDeleteIcon,
   CartEmptyIcon,
-  CartFavouritIcon,
+  CartFavouriteIcon,
   CartSucessIcon,
 } from "../../assets/icons";
 import theme from "../../theme";
@@ -33,11 +34,13 @@ import {
   resetCart,
 } from "../../redux/slices/productSlices";
 import { useAddBasketMutation } from "../../redux/services/basketServices";
+import { toggleFavourit } from "../../redux/slices/favouritSlices";
 
 const CartPage = () => {
   const products = useSelector((state) => state.product.products);
   const isAuth = useSelector((state) => state.auth.isAuth);
   const token = useSelector((state) => state.auth.token);
+
   console.log(token);
   const [addBasket] = useAddBasketMutation();
   const [totalPrice, setTotalPrice] = useState(0);
@@ -113,7 +116,14 @@ const CartPage = () => {
     <Box className="cart-page" fontFamily={theme.fonts.fInter}>
       <Container maxW={"1200px"}>
         {products?.length > 0 ? (
-          <h2 className="cart-title">Корзина</h2>
+          <Heading
+            as={"h1"}
+            className="cart-title"
+            fontFamily={theme.fonts.fInter}
+            color={theme.colors.black}
+          >
+            Корзина
+          </Heading>
         ) : (
           <div className="cart-empty_link">
             <Link to={"/"}>
@@ -128,7 +138,7 @@ const CartPage = () => {
         {products?.length > 0 ? (
           <>
             <Grid templateColumns="repeat(12,1fr)" gap={"24px"}>
-              <GridItem colSpan={8}>
+              <GridItem colSpan={7}>
                 <Box className="cart-left">
                   <Box
                     className="card-top"
@@ -145,9 +155,12 @@ const CartPage = () => {
                         onChange={handleChangeAll}
                       />
 
-                      <p className="card-top_text">
+                      <Text
+                        className="card-top_text"
+                        color={theme.colors.deepBlack}
+                      >
                         Всего: {checkedProductsCount} товара
-                      </p>
+                      </Text>
                     </Box>
                     <Box onClick={() => dispatch(resetCart())}>
                       <button className="cart-button_text">
@@ -160,7 +173,11 @@ const CartPage = () => {
                   {products.map((item, index) => (
                     <Box key={item.id} className="cart-left_main">
                       <Box display={"flex"} justifyContent={"space-between"}>
-                        <Box display={"flex"} gap={"16px"}>
+                        <Box
+                          display={"flex"}
+                          gap={"16px"}
+                          alignItems={"center"}
+                        >
                           <Box display={"flex"} alignItems={"center"}>
                             <Checkbox
                               isChecked={checkedItems[index]}
@@ -175,16 +192,45 @@ const CartPage = () => {
                           <Box
                             display={"flex"}
                             flexDirection={"column"}
-                            justifyContent={"space-between"}
+                            gap={"20px"}
                           >
-                            <h2 className="cart-product_name">
+                            <Heading
+                            onClick={() => navigate(`/products/${item.id}`)}
+                              as={"h2"}
+                              className="cart-product_name"
+                              cursor={"pointer"}
+                              fontFamily={theme.fonts.fInter}
+                              color={theme.colors.deepBlack}
+                            >
                               {item.name_ru}
-                            </h2>
+                            </Heading>
                             <Box display={"flex"} gap={"12px"}>
-                              <button className="cart-button_text">
-                                <CartFavouritIcon className="cart-button_icon" />
+                              <button
+                                className="cart-button_text"
+                                onClick={() => {
+                                  dispatch(
+                                    toggleFavourit({
+                                      id: item.id,
+                                      main_image: item.main_image,
+                                      price: item.price,
+                                      description_ru: item.description_ru,
+                                      name_ru: item.name_ru,
+                                      rating: item.rating,
+                                    })
+                                  );
+                                  toast({
+                                    title: "Добавлено в избранное",
+                                    description: `${item.name_ru}`,
+                                    status: "success",
+                                    duration: 2000,
+                                    isClosable: true,
+                                  });
+                                }}
+                              >
+                                <CartFavouriteIcon className="cart-button_icon" />
                                 <span>В избранное</span>
                               </button>
+
                               <Center height="28px">
                                 <Divider orientation="vertical" />
                               </Center>
@@ -198,13 +244,15 @@ const CartPage = () => {
                             </Box>
                           </Box>
                         </Box>
+
                         <Box
                           display={"flex"}
                           flexDirection={"column"}
                           justifyContent={"space-between"}
                         >
                           <p className="cart-product_price">
-                            {kFormatter(item.price * item.quantity)}
+                            {" "}
+                            {kFormatter(item.price * item.quantity)}{" "}
                           </p>
                           <Box
                             display={"flex"}
@@ -216,11 +264,13 @@ const CartPage = () => {
                                 dispatch(decrementQuantity(item.id))
                               }
                               className="cart-product_btn"
+                              disabled={item.quantity === 1}
                             >
                               -
                             </button>
                             <p className="cart-product_quantity">
-                              {item.quantity}
+                              {" "}
+                              {item.quantity}{" "}
                             </p>
                             <button
                               onClick={() =>
@@ -237,7 +287,7 @@ const CartPage = () => {
                   ))}
                 </Box>
               </GridItem>
-              <GridItem colSpan={4}>
+              <GridItem colSpan={5}>
                 <Box className="cart-right">
                   <Box className="cart-right_top" display={"flex"} gap={"16px"}>
                     <CartSucessIcon />

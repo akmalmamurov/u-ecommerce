@@ -18,7 +18,7 @@ import { headingFormatter, kFormatter } from "../../../utils";
 import {
   ShoppingIcon,
   StarIcon,
-  CartFavouritIcon,
+  ProductFavouritIcon,
 } from "../../../assets/icons";
 import { toggleFavourit } from "../../../redux/slices/favouritSlices";
 import "./ProductCard.scss";
@@ -138,7 +138,7 @@ export const ProductCard = (props) => {
             <span>В корзину</span>
           </button>
           <button onClick={handleToggleFavourit}>
-            <CartFavouritIcon
+            <ProductFavouritIcon
               className={`favourites-icon ${
                 isAddedToFavourites ? "added" : ""
               }`}

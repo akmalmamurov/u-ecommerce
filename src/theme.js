@@ -15,6 +15,9 @@ const theme = extendTheme({
     codexGrey: "#9C9C9C",
     skyBlue: "#0E73F6",
     white: "#ffffff",
+    boilingAcid: "#00EE0A",
+    manhatanMist: "#CDCFD0",
+    deepBlack: "#1A2024",
   },
   fonts: {
     fAbhay: "AbhayaLibre,sans-serif",

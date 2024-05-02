@@ -1,32 +1,36 @@
 import { useState, useEffect, Fragment } from "react";
 import { useParams } from "react-router-dom";
-import ReactStars from "react-rating-stars-component";
+import { useDispatch, useSelector } from "react-redux";
 import {
   Box,
+  Button,
   Container,
   Divider,
   Grid,
   GridItem,
+  Text,
   useToast,
 } from "@chakra-ui/react";
+import ReactStars from "react-rating-stars-component";
 import { NoRatingIcon, YesRatingIcon } from "../../assets/icons";
 import { useGetProductByIdQuery } from "../../redux/services/productAllServices";
-import theme from "../../theme";
-import "./ProductDetails.scss";
-import { buyImg, cartWhite, heartWhite } from "../../assets/images";
 import { addToCart } from "../../redux/slices/productSlices";
 import { toggleFavourit } from "../../redux/slices/favouritSlices";
-import { useDispatch, useSelector } from "react-redux";
+import { buyImg, cartWhite, heartWhite } from "../../assets/images";
+import theme from "../../theme";
+import "./ProductDetails.scss";
+import { kFormatter } from "../../utils";
 
 const ProductsDetails = () => {
   const { id } = useParams();
   const { data } = useGetProductByIdQuery(id);
   const isAuth = useSelector((state) => state.auth.isAuth);
-  useEffect(() => {
-    isAuth;
-  }, [isAuth]);
+
   const [mainImage, setMainImage] = useState(null);
   const [rating, setRating] = useState(0);
+  const [qty, setQty] = useState(1);
+  const [isAddedToCart, setIsAddedToCart] = useState(false);
+  const [isAddedToFavourit, setIsAddedToFavourit] = useState(false);
   const toast = useToast();
   const dispatch = useDispatch();
 
@@ -48,6 +52,7 @@ const ProductsDetails = () => {
   };
 
   const handleAddToCart = () => {
+    setIsAddedToCart(true);
     dispatch(
       addToCart(
         {
@@ -56,7 +61,7 @@ const ProductsDetails = () => {
           price: data.price,
           description_ru: data.description_ru,
           name_ru: data.name_ru,
-          quantity: 1,
+          quantity: qty,
         },
         toast({
           title: "Добавлено в корзину",
@@ -70,6 +75,7 @@ const ProductsDetails = () => {
   };
 
   const handleAddToFavourit = () => {
+    setIsAddedToFavourit(true);
     dispatch(
       toggleFavourit(
         {
@@ -78,7 +84,7 @@ const ProductsDetails = () => {
           price: data.price,
           description_ru: data.description_ru,
           name_ru: data.name_ru,
-          quantity: 1,
+          quantity: qty,
         },
         toast({
           title: "Добавлено в Избранное",
@@ -95,16 +101,16 @@ const ProductsDetails = () => {
     setRating(newRating);
   };
 
-  const kFormatter = (num) => {
-    const formattedPrice = Math.abs(num)
-      .toString()
-      .split("")
-      .reverse()
-      .reduce((acc, digit, index) => {
-        return digit + (index !== 0 && index % 3 === 0 ? " " : "") + acc;
-      }, "");
+  // Increment quantity
+  const incrementQty = () => {
+    setQty((prevQty) => prevQty + 1);
+  };
 
-    return (num < 0 ? "-" : "") + formattedPrice + " сум";
+  // Decrement quantity
+  const decrementQty = () => {
+    if (qty > 1) {
+      setQty((prevQty) => prevQty - 1);
+    }
   };
 
   return (
@@ -159,30 +165,49 @@ const ProductsDetails = () => {
                     />
                     <p className="pr-details_rating-text">{rating}</p>
                   </div>
-                  <p className="pr-details_price">{kFormatter(data.price)} </p>
-                  <Divider border={"1px solid #98999A"} />
+                  <p className="pr-details_price">
+                    {kFormatter(data.price * qty)}{" "}
+                  </p>
+                  <Divider border={"1px solid #98999A"} w={"100%"} />
                   <Box
                     display={"flex"}
                     my={"32px"}
                     alignItems={"center"}
-                    gap={"22px"}
+                    gap={"12px"}
                   >
                     <Box className="pr-details_quantity">
-                      <button className="pr-details_quantity-btn">-</button>
-                      <p>{data.quantity}</p>
-                      <button className="pr-details_quantity-btn">+</button>
+                      <Button
+                        className="pr-details_quantity-btn"
+                        onClick={decrementQty}
+                        color={theme.colors.manhatanMist}
+                        isDisabled={qty === 1}
+                      >
+                        -
+                      </Button>
+                      <p>{qty}</p>
+                      <Button
+                        className="pr-details_quantity-btn"
+                        onClick={incrementQty}
+                        color={theme.colors.manhatanMist}
+                      >
+                        +
+                      </Button>
                     </Box>
-                    <p>шт.</p>
+                    <Text color={theme.colors.codexGrey}>шт.</Text>
+                    <Text color={theme.colors.boilingAcid}>
+                      {data.quantity}
+                    </Text>
                   </Box>
                   <Divider
-                    w={"183px"}
+                    w={"100%"}
                     border={"1px solid #98999A"}
                     mb={"32px"}
                   />
-                  <Box display={"flex"} gap={"39px"}>
+                  <Box display={"flex"} gap={"16px"}>
                     <button
                       onClick={handleAddToCart}
                       className="pr-details_btn"
+                      disabled={isAddedToCart}
                     >
                       <img src={cartWhite} alt="cart" />
                       <span>В корзину</span>
@@ -190,12 +215,13 @@ const ProductsDetails = () => {
                     <button
                       onClick={handleAddToFavourit}
                       className="pr-details_btn"
+                      disabled={isAddedToFavourit}
                     >
                       <img src={heartWhite} alt="cart" />
                       <span>Избранное</span>
                     </button>
                   </Box>
-                  <Box mt={"14px"}>
+                  <Box mt={"24px"}>
                     <button className="pr-details_buy-btn">
                       <img src={buyImg} alt="buy" />
                       <span>Купить сейчас</span>
@@ -204,7 +230,7 @@ const ProductsDetails = () => {
                 </Box>
               </GridItem>
             </Grid>
-            <Box py={"24px"} className="pr-details_bottom">
+            <Box pt={"24px"} className="pr-details_bottom">
               <h2 className="pr-details_bottom-title">Описание товара</h2>
               <Box>
                 <Box className="pr-details_bottom-img">
