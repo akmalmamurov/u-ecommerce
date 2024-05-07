@@ -1,4 +1,4 @@
-import { useState, useEffect, Fragment } from "react";
+import { useEffect, Fragment, useState } from "react";
 import { useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -25,7 +25,7 @@ const ProductsDetails = () => {
   const { id } = useParams();
   const { data } = useGetProductByIdQuery(id);
   const isAuth = useSelector((state) => state.auth.isAuth);
-
+  console.log(isAuth);
   const [mainImage, setMainImage] = useState(null);
   const [rating, setRating] = useState(0);
   const [qty, setQty] = useState(1);
@@ -195,7 +195,7 @@ const ProductsDetails = () => {
                     </Box>
                     <Text color={theme.colors.codexGrey}>шт.</Text>
                     <Text color={theme.colors.boilingAcid}>
-                      {data.quantity}
+                    В наличии  {data.quantity}
                     </Text>
                   </Box>
                   <Divider

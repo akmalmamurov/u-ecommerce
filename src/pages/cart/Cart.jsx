@@ -95,18 +95,39 @@ const CartPage = () => {
       });
       return;
     }
-    const basketItems = products.map((item, index) => ({
-      product_id: item.id,
-      quantity: item.quantity,
-    }));
+  
+    const selectedProducts = products.filter((item, index) => checkedItems[index]);
+  
+    if (selectedProducts.length === 0) {
+      toast({
+        title: "Please select at least one product to proceed to checkout.",
+        status: "warning",
+        duration: 3000,
+        isClosable: true,
+      });
+      return;
+    }
+  
     try {
-      const res = await addBasket(basketItems);
-      console.log(res);
+      const requests = selectedProducts.map((item) =>
+        addBasket({ product_id: item.id, quantity: item.quantity })
+      );
+  
+      await Promise.all(requests);
+      
       navigate("/checkout");
     } catch (err) {
       console.log(err);
+      toast({
+        title: "Error",
+        description: "Failed to proceed to checkout. Please try again later.",
+        status: "error",
+        duration: 3000,
+        isClosable: true,
+      });
     }
   };
+  
 
   const checkedProductsCount = products.reduce((count, item, index) => {
     return checkedItems[index] ? count + 1 : count;
@@ -195,7 +216,7 @@ const CartPage = () => {
                             gap={"20px"}
                           >
                             <Heading
-                            onClick={() => navigate(`/products/${item.id}`)}
+                              onClick={() => navigate(`/products/${item.id}`)}
                               as={"h2"}
                               className="cart-product_name"
                               cursor={"pointer"}

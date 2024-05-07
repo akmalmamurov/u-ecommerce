@@ -23,7 +23,7 @@ const verifyServices = createApi({
         method: "POST",
         body,
       }),
-      invalidatesTags:["verify"]
+      providesTags:["verify"]
     }),
   }),
 });

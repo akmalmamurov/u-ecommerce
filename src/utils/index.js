@@ -10,5 +10,6 @@ export const kFormatter = (num) => {
 };
 
 export const headingFormatter = (text) => {
+  text.trim();
   return text.length > 38 ? text.slice(0, 45) + "..." : text;
 };

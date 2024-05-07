@@ -1,29 +1,15 @@
 import { useDispatch, useSelector } from "react-redux";
-import PropTypes from "prop-types";
 import { useNavigate } from "react-router-dom";
-import {
-  Box,
-  Card,
-  CardBody,
-  CardFooter,
-  Heading,
-  Image,
-  Stack,
-  Text,
-  useToast,
-} from "@chakra-ui/react";
+import PropTypes from "prop-types";
+import { Box, Card, CardBody, CardFooter, Heading, Image, Stack, Text, useToast, } from "@chakra-ui/react";
 import { motion } from "framer-motion";
 import theme from "../../../theme";
 import { headingFormatter, kFormatter } from "../../../utils";
-import {
-  ShoppingIcon,
-  StarIcon,
-  ProductFavouritIcon,
-} from "../../../assets/icons";
+import { ShoppingIcon, StarIcon, ProductFavouritIcon, } from "../../../assets/icons";
 import { toggleFavourit } from "../../../redux/slices/favouritSlices";
-import "./ProductCard.scss";
 import { useEffect, useState } from "react";
 import { addToCart } from "../../../redux/slices/productSlices";
+import "./ProductCard.scss";
 
 export const ProductCard = (props) => {
   const { id, main_image, name_ru, price, rating, description_ru } = props;

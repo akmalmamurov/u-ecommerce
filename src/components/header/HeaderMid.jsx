@@ -1,15 +1,7 @@
 import { useState, useEffect, useCallback, memo } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
-import {
-  Badge,
-  Box,
-  Container,
-  Input,
-  InputGroup,
-  InputLeftElement,
-  Text,
-} from "@chakra-ui/react";
+import { Badge, Box, Container, Input, InputGroup, InputLeftElement, Text, } from "@chakra-ui/react";
 import { useDebounce } from "use-debounce";
 import { logo } from "../../assets/images";
 import { CartIcon, HeartIcon, SearchIcon, UserIcon } from "../../assets/icons";
@@ -61,9 +53,8 @@ const HeaderMid = memo(() => {
     dispatch(logoutUser());
   }, [dispatch]);
   useEffect(() => {
-    
     const handleScroll = () => {
-      if (window.scrollY > 59) {
+      if (window.scrollY > 400) {
         setIsScrolled(true);
       } else {
         setIsScrolled(false);

@@ -24,3 +24,5 @@ export { default as NoRatingIcon } from "./NoRatingIcon.jsx";
 export { default as YesRatingIcon } from "./YesRatingIcon.jsx";
 export { default as RightArrowIcon } from "./RightArrowIcon.jsx";
 export { default as CartFavouriteIcon } from "./CartFavouriteIcon.jsx";
+export { default as CheckoutLeftArrowIcon } from "./CheckoutLeftArrowIcon.jsx";
+export { default as CheckoutUserIcon } from "./CheckoutUserIcon.jsx";

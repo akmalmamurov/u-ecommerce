@@ -1,15 +1,16 @@
 import { Link, useParams } from "react-router-dom";
-import { useGetProductsByCidQuery } from "../../redux/services/productAllServices";
-import "./Category.scss";
-import ProductCard from "../../components/card/product-card/ProductCard";
 import { Box, Container, Grid, GridItem } from "@chakra-ui/react";
-import { useGetCategoriesByIdQuery } from "../../redux/services/categoryServices";
+import { useGetProductsByCidQuery } from "../../redux/services/productAllServices";
+import { useGetCategoriesBrandQuery, useGetCategoriesByIdQuery, } from "../../redux/services/categoryServices";
+import ProductCard from "../../components/card/product-card/ProductCard";
 import theme from "../../theme";
+import "./Category.scss";
 
 const Category = () => {
   const { id } = useParams();
   const { data: products } = useGetProductsByCidQuery(id);
   const { data: category } = useGetCategoriesByIdQuery(id);
+  const { data: brand } = useGetCategoriesBrandQuery(id);
   return (
     <div className="category-page">
       <Container maxW={"1200px"}>
@@ -34,7 +35,10 @@ const Category = () => {
                 >
                   {category.subcategories.map((subcategory) => (
                     <Box key={subcategory.id}>
-                      <Link to={`/category/${subcategory.id}`} className="ctPage-subcategory_title">
+                      <Link
+                        to={`/category/${subcategory.id}`}
+                        className="ctPage-subcategory_title"
+                      >
                         {subcategory.name_ru}
                       </Link>
                     </Box>
@@ -44,17 +48,28 @@ const Category = () => {
             )}
           </GridItem>
           <GridItem colSpan={10}>
-            {products && (
-              <Grid templateColumns="repeat(3, 1fr)" gap={"6px"}>
-                {products.map((product) => (
-                  <div key={product.id}>
-                    <GridItem>
-                      <ProductCard {...product} />
-                    </GridItem>
-                  </div>
-                ))}
-              </Grid>
-            )}
+            <Box>
+                {brand && (
+              <Box display={"flex"} gap={10} px={10} mb={20} >
+                  {brand.map((brand,index)=>(
+                    <Link key={index}>{brand.name}</Link>
+                  ))}
+              </Box>
+                )}
+              <Box>
+                {products && (
+                  <Grid templateColumns="repeat(3, 1fr)" gap={"6px"}>
+                    {products.map((product) => (
+                      <div key={product.id}>
+                        <GridItem>
+                          <ProductCard {...product} />
+                        </GridItem>
+                      </div>
+                    ))}
+                  </Grid>
+                )}
+              </Box>
+            </Box>
           </GridItem>
         </Grid>
       </Container>

@@ -1,29 +1,26 @@
-import { useLocation } from "react-router-dom";
+import { Box, Grid, GridItem, Heading } from "@chakra-ui/react";
+import CheckoutTop from "./checkout-top/CheckoutTop";
+import theme from "../../theme";
+import "./Checkout.scss"
 const CheckoutPage = () => {
-  const location = useLocation();
-  const { products, totalPrice } = location.state
-    ? location.state
-    : { products: [], totalPrice: 0 };
 
-  console.log(products);
 
   return (
-    <div className="checkout-page">
-      {products.length > 0 ? (
-        <>
-          {products.map((product, index) => (
-            <div key={index}>
-              <p>{product.name}</p>
-              <p>Price: {product.price}</p>
-              <p>Quantity: {product.quantity}</p>
-            </div>
-          ))}
-          <p>Total Price: {totalPrice}</p>
-        </>
-      ) : (
-        <p>No products in the cart</p>
-      )}
-    </div>
+    <Box className="checkout-page" >
+            <CheckoutTop/>
+            <Box className="checkout-page_content" bg={theme.colors.whiteSmoke}>
+              <Box className="checkout-container" >
+                <Heading as={"h2"} fontFamily={theme.fonts.fInter} color={theme.colors.black} className="checkout-title">Оформление заказа</Heading>
+                  <Grid templateColumns={"repeat(2, 1fr)"} gap={"24px"}>
+                        <GridItem>
+                              <Box>
+                                
+                              </Box>
+                        </GridItem>
+                  </Grid>
+              </Box>
+            </Box>
+    </Box>
   );
 };
 
