@@ -67,11 +67,7 @@ const CatalogMenu = () => {
                         className="catalog-menu_content"
                         onMouseEnter={() => handleMouseEnter(el.id)}
                       >
-                        <Box
-                          className="catalog-menu_item"
-                          cursor={"pointer"}
-                          onClick={() => addToCategory(el.id)}
-                        >
+                        <Box className="catalog-menu_item">
                           <img src={el.image} alt="" className="" />
                           <Text className="catalog-menu_link">
                             {el.name_ru}
@@ -92,7 +88,12 @@ const CatalogMenu = () => {
                               hoveredCategoryId === el.id ? "block" : "none",
                           }}
                         >
-                          <h1 className="subcategory-title">{el.name_ru}</h1>
+                          <h1
+                            onClick={() => addToCategory(el.id)}
+                            className="subcategory-title"
+                          >
+                            {el.name_ru}
+                          </h1>
                           {el.subcategories &&
                             el.subcategories.map((subcat) => (
                               <Box key={subcat.id} mb={"12px"}>

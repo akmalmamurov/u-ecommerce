@@ -27,5 +27,15 @@
                 border-radius: 20px;
             }
         }
+        form{
+            .checkout-form_control{
+                margin-bottom: 28px;
+                .checkout-input{
+                    padding: 0 17px;
+                    height: 48px;
+                }
+            }
+            
+        }
     }
 }
