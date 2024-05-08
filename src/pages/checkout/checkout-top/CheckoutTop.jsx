@@ -1,4 +1,4 @@
-import { Box, Text } from "@chakra-ui/react";
+import { Box,  Text } from "@chakra-ui/react";
 import "./CheckoutTop.scss";
 import theme from "../../../theme";
 import { CheckoutLeftArrowIcon, CheckoutUserIcon } from "../../../assets/icons";
@@ -11,11 +11,12 @@ const CheckoutTop = () => {
       bg={theme.colors.white}
       fontFamily={theme.fonts.fInter}
     >
+
       <Box
         display={"flex"}
         justifyContent={"space-between"}
         alignItems={"center"}
-      >
+        >
         <Link to={"/cart"} className="checkout-top_link">
           <CheckoutLeftArrowIcon />
           <Text>Назад</Text>

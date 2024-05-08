@@ -1,15 +1,30 @@
 .checkout-page {
-    .checkout-page_content {
+    .checkout-title {
+        padding: 24px 0;
+        font-weight: 600;
+        font-size: 24px;
+        margin-bottom: 32px;
+    }
 
-        padding: 40px 60px;
-
-        .checkout-container {
-            max-width: 1096px;
-            width: 100%;
-            .checkout-title{
-                font-weight: 600;
-                font-size: 34px;
+    .checkout-left {
+        .checkout-page_title {
+            display: flex;
+            font-size: 18px;
+            font-weight: 500;
+            gap: 16px;
                 margin-bottom: 32px;
+            span {
+                width: 30px;
+                height: 30px;
+                background-color: #333;
+                font-size: 16px;
+                font-weight: 700;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                text-align: center;
+                color: #fff;
+                border-radius: 20px;
             }
         }
     }
