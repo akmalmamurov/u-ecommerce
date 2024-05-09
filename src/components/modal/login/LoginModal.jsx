@@ -55,7 +55,7 @@ export const LoginModal = memo(({ isOpen, onClose }) => {
       <Modal maxW="407px" isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
         <form onSubmit={handleSubmit(onSubmit)}>
-          <ModalContent fontFamily={theme.fonts.fSF}>
+          <ModalContent fontFamily={theme.fonts.fSF} className="auth-modal">
             <ModalHeader fontSize={"32px"} pt={"65px"}>
               Вход в аккаунт
             </ModalHeader>

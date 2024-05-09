@@ -9,7 +9,9 @@ import emptyCart from "./emptyCart.png";
 import cartWhite from "./cartWhite.png";
 import heartWhite from "./heartWhite.png";
 import buyImg from "./buyImg.png";
-import chevronRight from "./chevron-right.png"
+import chevronRight from "./chevron-right.png";
+import clickImg from "./click-img.webp";
+import paymeImg from "./payme-img.webp"
 export {
   logo,
   saleImg,
@@ -22,5 +24,7 @@ export {
   cartWhite,
   heartWhite,
   buyImg,
-  chevronRight
+  chevronRight,
+  clickImg,
+  paymeImg
 };

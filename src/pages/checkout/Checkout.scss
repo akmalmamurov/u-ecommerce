@@ -12,7 +12,8 @@
             font-size: 18px;
             font-weight: 500;
             gap: 16px;
-                margin-bottom: 32px;
+            margin-bottom: 32px;
+
             span {
                 width: 30px;
                 height: 30px;
@@ -27,15 +28,77 @@
                 border-radius: 20px;
             }
         }
-        form{
-            .checkout-form_control{
+
+        form {
+            .checkout-form_control {
                 margin-bottom: 28px;
-                .checkout-input{
+
+                .checkout-input {
                     padding: 0 17px;
                     height: 48px;
+                    border-radius: 12px;
                 }
             }
-            
+
+            .checkout-payment {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                padding: 1rem 0;
+                padding-left: 1.25rem;
+                padding-right: 1rem;
+                border: 1px solid;
+                border-color: rgb(236 236 236);
+                border-radius: .75rem;
+                margin-bottom: 40px;
+
+                .payment-selected {
+                    display: flex;
+                    align-items: center;
+                    gap: 12px;
+
+                    img {
+                        width: 54px;
+                        height: 21px;
+                    }
+                }
+
+                .checkout-change_btn {
+                    padding: 8px 14px;
+                    border: 2px solid rgb(238 238 238);
+                    border-radius: 12px;
+                    font-weight: 500;
+                }
+            }
         }
     }
+
+}
+
+
+.css-1u2cvaz {
+    top: 250px !important;
+    height: 100% !important;
+}
+
+.checkout-modal_content {
+    margin-bottom: -50px !important;
+    min-height: 230px !important;
+
+    .checkout-modal_img {
+        width: 50px;
+        height: 20px;
+    }
+}
+
+.css-14iyyou,
+.css-14iyyou {
+    display: flex !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+    width: 100% !important;
+}
+
+.checkout-modal_body {
+    flex: none !important;
 }
