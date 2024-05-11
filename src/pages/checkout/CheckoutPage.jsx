@@ -1,4 +1,18 @@
-import { Box, Button, Container, Divider, FormControl, FormLabel, Grid, GridItem, Heading, Input, Modal, ModalBody, ModalCloseButton, ModalContent,
+import {
+  Box,
+  Button,
+  Container,
+  Divider,
+  FormControl,
+  FormLabel,
+  Grid,
+  GridItem,
+  Heading,
+  Input,
+  Modal,
+  ModalBody,
+  ModalCloseButton,
+  ModalContent,
   ModalFooter,
   ModalHeader,
   ModalOverlay,
@@ -156,6 +170,21 @@ const CheckoutPage = () => {
                       </ModalFooter>
                     </ModalContent>
                   </Modal>
+                </Box>
+
+                <Box className="checkout-page_title">
+                  <span>3</span>
+                  Способ получения
+                </Box>
+                <Box w={"100%"}>
+                  <Box className="checkout-left_bottom">
+                    <RadioGroup>
+                      <Stack direction="row" justifyContent={"space-between"} className="checkout-radio">
+                        <Radio value="1">First</Radio>
+                        <Radio value="2">Second</Radio>
+                      </Stack>
+                    </RadioGroup>
+                  </Box>
                 </Box>
                 <Button type="submit">Submit</Button>
               </form>
