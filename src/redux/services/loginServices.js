@@ -5,12 +5,14 @@ const loginServices = createApi({
   reducerPath: "login",
   baseQuery: fetchBaseQuery({
     baseUrl: ENDPOINT,
+    tagTypes: ["login"],
   }),
   endpoints: (builder) => ({
     getLogin: builder.query({
       query: () => {
         return `/api/auth/login`;
       },
+      providesTags: ["login"],
     }),
     addLogin: builder.mutation({
       query: (body) => ({
@@ -21,6 +23,7 @@ const loginServices = createApi({
           "Content-type": "application/json",
         },
       }),
+      invalidatesTags: ["login"],
     }),
     updateLogin: builder.mutation({
       query: (body, id) => ({
@@ -28,12 +31,14 @@ const loginServices = createApi({
         method: "PUT",
         body,
       }),
+      invalidatesTags: ["login"],
     }),
     deleteLogin: builder.mutation({
       query: (id) => ({
         url: `/api/auth/${id}`,
         method: "DELETE",
       }),
+      invalidatesTags: ["login"],
     }),
   }),
 });

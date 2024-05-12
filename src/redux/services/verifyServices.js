@@ -14,7 +14,6 @@ const verifyServices = createApi({
       headers.set("Content-Type", "application/json");
       return headers;
     },
-    tagTypes: ["verify"]
   }),
   endpoints: (builder) => ({
     addVerify: builder.mutation({
@@ -23,7 +22,6 @@ const verifyServices = createApi({
         method: "POST",
         body,
       }),
-      providesTags:["verify"]
     }),
   }),
 });

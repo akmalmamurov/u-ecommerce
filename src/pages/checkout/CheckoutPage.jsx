@@ -18,6 +18,7 @@ import {
   ModalOverlay,
   Radio,
   RadioGroup,
+  Select,
   Stack,
   useDisclosure,
 } from "@chakra-ui/react";
@@ -27,17 +28,27 @@ import "./Checkout.scss";
 import { useForm } from "react-hook-form";
 import { useState } from "react";
 import { clickImg, paymeImg } from "../../assets/images";
+import { COUNTRIES } from "../../constants";
 
 const CheckoutPage = () => {
   const {
     register,
     handleSubmit,
+    setValue,
     formState: { errors },
   } = useForm();
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const [paymentSelected, setPaymentSelected] = useState(null);
+  const [paymentSelected, setPaymentSelected] = useState("Click");
+  const [selectedRegion, setSelectedRegion] = useState("Город Ташкент");
+  const [selectedCity, setSelectedCity] = useState("");
 
   const onSubmit = (data) => {
+    const payment = paymentSelected;
+    const region = selectedRegion;
+
+    data.payment = payment;
+    data.region = region;
+
     console.log(data);
   };
 
@@ -45,8 +56,22 @@ const CheckoutPage = () => {
     e.target.value = e.target.value.replace(/\D/g, "");
   };
 
-  const handlePaymentSelect = (value) => {
+  const handlePaymentChange = (value) => {
     setPaymentSelected(value);
+  };
+
+  const handleRegionChange = (e) => {
+    const selectedRegion = e.target.value;
+    setSelectedRegion(selectedRegion);
+  };
+
+  const handleCityChange = (e) => {
+    setSelectedCity(e.target.value);
+    setValue("city", e.target.value);
+  };
+
+  const findCountry = (region) => {
+    return COUNTRIES.find((country) => country.name === region);
   };
 
   return (
@@ -75,6 +100,7 @@ const CheckoutPage = () => {
                 Ваши данные
               </Box>
               <form onSubmit={handleSubmit(onSubmit)}>
+                {/* login */}
                 <FormControl isRequired className="checkout-form_control">
                   <FormLabel>Телефон</FormLabel>
                   <Input
@@ -102,6 +128,7 @@ const CheckoutPage = () => {
                     />
                   </FormControl>
                 </Box>
+                {/* to'lov */}
                 <Box className="checkout-page_title">
                   <span>2</span>
                   Oплаты
@@ -127,12 +154,8 @@ const CheckoutPage = () => {
                       <ModalBody className="checkout-modal_body">
                         <FormControl as="fieldset">
                           <RadioGroup
-                            defaultValue={
-                              paymentSelected
-                                ? paymentSelected
-                                : setPaymentSelected("Click")
-                            }
-                            onChange={(value) => handlePaymentSelect(value)}
+                            value={paymentSelected}
+                            onChange={handlePaymentChange}
                           >
                             <Stack
                               direction={"column"}
@@ -140,22 +163,24 @@ const CheckoutPage = () => {
                               className="checkout-radio"
                             >
                               <Radio
-                                {...register("payment")}
                                 value="Click"
                                 className="checkout-modal_radio"
                               >
                                 <p>Click</p>
                                 <img
                                   src={clickImg}
-                                  alt=""
+                                  alt="clickImg"
                                   className="checkout-modal_img"
                                 />
                               </Radio>
-                              <Radio {...register("payment")} value="Payme">
+                              <Radio
+                                value="Payme"
+                                className="checkout-modal_radio"
+                              >
                                 <p>Payme</p>
                                 <img
                                   src={paymeImg}
-                                  alt=""
+                                  alt="paymeImg"
                                   className="checkout-modal_img"
                                 />
                               </Radio>
@@ -171,21 +196,58 @@ const CheckoutPage = () => {
                     </ModalContent>
                   </Modal>
                 </Box>
-
+                {/* qabul qilish */}
                 <Box className="checkout-page_title">
                   <span>3</span>
                   Способ получения
                 </Box>
-                <Box w={"100%"}>
-                  <Box className="checkout-left_bottom">
-                    <RadioGroup>
-                      <Stack direction="row" justifyContent={"space-between"} className="checkout-radio">
-                        <Radio value="1">First</Radio>
-                        <Radio value="2">Second</Radio>
-                      </Stack>
-                    </RadioGroup>
+                <Box className="checkout-left_bottom">
+                  <RadioGroup value="delivery" mb={"28px"}>
+                    <Stack
+                      direction="row"
+                      justifyContent={"space-between"}
+                      className="checkout-radio"
+                      defaultValue={"delivery"}
+                    >
+                      <Radio value="delivery">Доставка</Radio>
+                      <Radio value="pickup" isDisabled>
+                        Самовывоз из магазина
+                      </Radio>
+                    </Stack>
+                  </RadioGroup>
+                  <Box className="checkout-delivery">
+                    <h1>Укажите адрес доставки</h1>
+                    <Box className="checkout-delivery_content">
+                      <Select
+                        className="select-region"
+                        onChange={handleRegionChange}
+                        value={selectedRegion}
+                      >
+                        {COUNTRIES.map((country, index) => (
+                          <option key={index} value={country.name}>
+                            {country.name}
+                          </option>
+                        ))}
+                      </Select>
+
+                      <Select
+                        placeholder="Выберите"
+                        className="select-city"
+                        value={selectedCity}
+                        onChange={handleCityChange}
+                      >
+                        {findCountry(selectedRegion)?.cities.map(
+                          (city, index) => (
+                            <option key={index} value={city}>
+                              {city}
+                            </option>
+                          )
+                        )}
+                      </Select>
+                    </Box>
                   </Box>
                 </Box>
+
                 <Button type="submit">Submit</Button>
               </form>
             </div>
