@@ -1,18 +1,40 @@
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import PropTypes from "prop-types";
-import { Box, Card, CardBody, CardFooter, Heading, Image, Stack, Text, useToast, } from "@chakra-ui/react";
+import {
+  Box,
+  Card,
+  CardBody,
+  CardFooter,
+  Heading,
+  Image,
+  Stack,
+  Text,
+  useToast,
+} from "@chakra-ui/react";
 import { motion } from "framer-motion";
 import theme from "../../../theme";
 import { headingFormatter, kFormatter } from "../../../utils";
-import { ShoppingIcon, StarIcon, ProductFavouritIcon, } from "../../../assets/icons";
+import {
+  ShoppingIcon,
+  StarIcon,
+  ProductFavouritIcon,
+} from "../../../assets/icons";
 import { toggleFavourit } from "../../../redux/slices/favouritSlices";
 import { useEffect, useState } from "react";
 import { addToCart } from "../../../redux/slices/productSlices";
 import "./ProductCard.scss";
 
 export const ProductCard = (props) => {
-  const { id, main_image, name_ru, price, rating, description_ru } = props;
+  const {
+    id,
+    main_image,
+    name_ru,
+    price,
+    rating,
+    description_ru,
+    quantity: zakaz,
+  } = props;
   const favourites = useSelector((state) => state.favourit.favourites);
   const isAuth = useSelector((state) => state.auth.isAuth);
   const isAddedToFavourites = favourites.some((item) => item.id === id);
@@ -78,8 +100,11 @@ export const ProductCard = (props) => {
         animate={{ y: 0, opacity: 1 }}
         transition={{ delay: 0.5, duration: 0.4 }}
       >
-           
-        <CardBody className="card-body"  cursor={"pointer"} onClick={() => goProductDetails(id)}>
+        <CardBody
+          className="card-body"
+          cursor={"pointer"}
+          onClick={() => goProductDetails(id)}
+        >
           <Box
             className="card-top"
             display={"flex"}
@@ -106,7 +131,7 @@ export const ProductCard = (props) => {
             <Text display={"flex"} gap={"4px"} alignItems={"center"}>
               <StarIcon />
               <span className="product-rating">{rating}</span>
-              <span className="product-rating">(0 заказов)</span>
+              <span className="product-rating">({zakaz} заказов)</span>
             </Text>
           </Stack>
         </CardBody>

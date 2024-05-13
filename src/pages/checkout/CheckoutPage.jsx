@@ -29,6 +29,7 @@ import { useForm } from "react-hook-form";
 import { useState } from "react";
 import { clickImg, paymeImg } from "../../assets/images";
 import { COUNTRIES } from "../../constants";
+import MapContainer from "../../components/map-container/MapContainer";
 
 const CheckoutPage = () => {
   const {
@@ -104,28 +105,54 @@ const CheckoutPage = () => {
                 <FormControl isRequired className="checkout-form_control">
                   <FormLabel>Телефон</FormLabel>
                   <Input
-                    className="checkout-input"
-                    {...register("phone")}
+                    className={`checkout-input ${
+                      errors.phone_number ? "error-input" : ""
+                    }`}
+                    {...register("phone_number", {
+                      required: "Пожалуйста, введите свой номер телефона",
+                      maxLength: {
+                        value: 13,
+                        message: "Введите корректный номер телефона",
+                      },
+                    })}
                     defaultValue="+998"
                     onChange={handleInputChange}
                   />
+                  {errors.phone_number && (
+                    <span className="error-message">
+                      {errors.phone_number.message}
+                    </span>
+                  )}
                 </FormControl>
                 <Box display={"flex"} gap={2}>
                   <FormControl isRequired className="checkout-form_control">
                     <FormLabel>Имя</FormLabel>
                     <Input
                       placeholder="Имя"
-                      className="checkout-input"
-                      {...register("name")}
+                      className={`checkout-input ${
+                        errors.firstName ? "error-input" : ""
+                      }`}
+                      {...register("firstName", { required: "Введите имя" })}
                     />
+                    {errors.firstName && (
+                      <span className="error-message">
+                        {errors.firstName.message}
+                      </span>
+                    )}
                   </FormControl>
                   <FormControl isRequired className="checkout-form_control">
                     <FormLabel>Фамилия</FormLabel>
                     <Input
-                      placeholder=" Фамилия"
-                      className="checkout-input"
-                      {...register("lastName")}
+                      className={`checkout-input ${
+                        errors.lastName ? "error-input" : ""
+                      }`}
+                      {...register("lastName", { required: "Введите фамилию" })}
                     />
+                    {errors.lastName && (
+                      <span className="error-message">
+                        {errors.lastName.message}
+                      </span>
+                    )}
                   </FormControl>
                 </Box>
                 {/* to'lov */}
@@ -215,7 +242,7 @@ const CheckoutPage = () => {
                       </Radio>
                     </Stack>
                   </RadioGroup>
-                  <Box className="checkout-delivery">
+                  {/* <Box className="checkout-delivery">
                     <h1>Укажите адрес доставки</h1>
                     <Box className="checkout-delivery_content">
                       <Select
@@ -245,10 +272,49 @@ const CheckoutPage = () => {
                         )}
                       </Select>
                     </Box>
-                  </Box>
+                    <Box className="checkout-delivery_adress">
+                      <div className="checkout-adress_left">
+                        <FormControl
+                          isRequired
+                          className="checkout-form_control"
+                        >
+                          <FormLabel>Адрес</FormLabel>
+                          <Input
+                            className={`checkout-input ${
+                              errors.adress ? "error-input" : ""
+                            }`}
+                            {...register("adress", {
+                              required: "Введите адрес",
+                            })}
+                            placeholder="Например, Юнусабад 13 квартал"
+                          />
+                          {errors.adress && (
+                            <span className="error-message">
+                              {errors.adress.message}
+                            </span>
+                          )}
+                        </FormControl>
+                      </div>
+                      <div className="checkout-adress_right">
+                        <FormControl className="checkout-form_control">
+                          <FormLabel>Этаж</FormLabel>
+                          <Input
+                            className="checkout-input"
+                            {...register("floor")}
+                            placeholder="Если есть"
+                          />
+                        </FormControl>
+                      </div>
+                    </Box>
+                  </Box> */}
+                  <div className="checkout-delivery">
+                    <MapContainer/>
+                  </div>
                 </Box>
 
-                <Button type="submit">Submit</Button>
+                <button className="checkout-btn" type="submit">
+                  Подтвердить заказ
+                </button>
               </form>
             </div>
           </GridItem>

@@ -79,3 +79,14 @@
 .css-cd0zg1:hover{
   background-color: none;
 }
+
+.error-message {
+  color: red;
+}
+.error-input {
+  border-color: red !important;
+}
+
+.error-input::placeholder {
+  color: red;
+}
