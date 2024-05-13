@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import {
   Box,
   Button,
@@ -18,7 +19,6 @@ import {
   ModalOverlay,
   Radio,
   RadioGroup,
-  Select,
   Stack,
   useDisclosure,
 } from "@chakra-ui/react";
@@ -28,51 +28,36 @@ import "./Checkout.scss";
 import { useForm } from "react-hook-form";
 import { useState } from "react";
 import { clickImg, paymeImg } from "../../assets/images";
-import { COUNTRIES } from "../../constants";
 import MapContainer from "../../components/map-container/MapContainer";
 
 const CheckoutPage = () => {
   const {
     register,
     handleSubmit,
-    setValue,
     formState: { errors },
   } = useForm();
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [paymentSelected, setPaymentSelected] = useState("Click");
-  const [selectedRegion, setSelectedRegion] = useState("Город Ташкент");
-  const [selectedCity, setSelectedCity] = useState("");
+  const [addressData, setAddressData] = useState({});
 
   const onSubmit = (data) => {
     const payment = paymentSelected;
-    const region = selectedRegion;
 
     data.payment = payment;
-    data.region = region;
 
     console.log(data);
   };
 
+  const handleMapSubmit = ({ coords, address }) => {
+    setAddressData({ coords, address });
+    console.log(coords, address);
+  };
   const handleInputChange = (e) => {
     e.target.value = e.target.value.replace(/\D/g, "");
   };
 
   const handlePaymentChange = (value) => {
     setPaymentSelected(value);
-  };
-
-  const handleRegionChange = (e) => {
-    const selectedRegion = e.target.value;
-    setSelectedRegion(selectedRegion);
-  };
-
-  const handleCityChange = (e) => {
-    setSelectedCity(e.target.value);
-    setValue("city", e.target.value);
-  };
-
-  const findCountry = (region) => {
-    return COUNTRIES.find((country) => country.name === region);
   };
 
   return (
@@ -242,73 +227,9 @@ const CheckoutPage = () => {
                       </Radio>
                     </Stack>
                   </RadioGroup>
-                  {/* <Box className="checkout-delivery">
-                    <h1>Укажите адрес доставки</h1>
-                    <Box className="checkout-delivery_content">
-                      <Select
-                        className="select-region"
-                        onChange={handleRegionChange}
-                        value={selectedRegion}
-                      >
-                        {COUNTRIES.map((country, index) => (
-                          <option key={index} value={country.name}>
-                            {country.name}
-                          </option>
-                        ))}
-                      </Select>
 
-                      <Select
-                        placeholder="Выберите"
-                        className="select-city"
-                        value={selectedCity}
-                        onChange={handleCityChange}
-                      >
-                        {findCountry(selectedRegion)?.cities.map(
-                          (city, index) => (
-                            <option key={index} value={city}>
-                              {city}
-                            </option>
-                          )
-                        )}
-                      </Select>
-                    </Box>
-                    <Box className="checkout-delivery_adress">
-                      <div className="checkout-adress_left">
-                        <FormControl
-                          isRequired
-                          className="checkout-form_control"
-                        >
-                          <FormLabel>Адрес</FormLabel>
-                          <Input
-                            className={`checkout-input ${
-                              errors.adress ? "error-input" : ""
-                            }`}
-                            {...register("adress", {
-                              required: "Введите адрес",
-                            })}
-                            placeholder="Например, Юнусабад 13 квартал"
-                          />
-                          {errors.adress && (
-                            <span className="error-message">
-                              {errors.adress.message}
-                            </span>
-                          )}
-                        </FormControl>
-                      </div>
-                      <div className="checkout-adress_right">
-                        <FormControl className="checkout-form_control">
-                          <FormLabel>Этаж</FormLabel>
-                          <Input
-                            className="checkout-input"
-                            {...register("floor")}
-                            placeholder="Если есть"
-                          />
-                        </FormControl>
-                      </div>
-                    </Box>
-                  </Box> */}
                   <div className="checkout-delivery">
-                    <MapContainer/>
+                    <MapContainer onSubmit={handleMapSubmit} />
                   </div>
                 </Box>
 
