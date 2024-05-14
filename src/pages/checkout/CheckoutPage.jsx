@@ -42,19 +42,17 @@ const CheckoutPage = () => {
 
   const onSubmit = (data) => {
     const payment = paymentSelected;
-
+    const coords = addressData;
+    data.coords = coords;
     data.payment = payment;
 
     console.log(data);
   };
 
-  const handleMapSubmit = ({ coords, address }) => {
-    setAddressData({ coords, address });
-    console.log(coords, address);
-  };
   const handleInputChange = (e) => {
     e.target.value = e.target.value.replace(/\D/g, "");
   };
+  console.log(addressData);
 
   const handlePaymentChange = (value) => {
     setPaymentSelected(value);
@@ -229,7 +227,7 @@ const CheckoutPage = () => {
                   </RadioGroup>
 
                   <div className="checkout-delivery">
-                    <MapContainer onSubmit={handleMapSubmit} />
+                    <MapContainer setAddressData={setAddressData} />
                   </div>
                 </Box>
 
