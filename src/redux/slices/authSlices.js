@@ -12,7 +12,7 @@ const authSlice = createSlice({
     setUser: (state, action) => {
       Cookies.set("token", action.payload);
       state.token = action.payload.token;
-      state.isAuth = true;
+      state.isAuth = true; 
     },
     logoutUser: (state) => {
       Cookies.remove("token");

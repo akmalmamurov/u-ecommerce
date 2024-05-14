@@ -1,3 +1,5 @@
+/* eslint-disable react-hooks/exhaustive-deps */
+import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
@@ -26,14 +28,16 @@ import "./Cart.scss";
 import CartBottom from "./cart-bottom/CartBottom";
 import { kFormatter } from "../../utils";
 
-import { useDispatch, useSelector } from "react-redux";
 import {
   decrementQuantity,
   deleteItem,
   incrementQuantity,
   resetCart,
 } from "../../redux/slices/productSlices";
-import { useAddBasketMutation } from "../../redux/services/basketServices";
+import {
+  useAddBasketMutation,
+  useDeleteBasketMutation,
+} from "../../redux/services/basketServices";
 import { toggleFavourit } from "../../redux/slices/favouritSlices";
 
 const CartPage = () => {
@@ -43,6 +47,7 @@ const CartPage = () => {
 
   console.log(token);
   const [addBasket] = useAddBasketMutation();
+  const [deleteBasket] = useDeleteBasketMutation();
   const [totalPrice, setTotalPrice] = useState(0);
   const [totalAdditionalPrice, setTotalAdditionalPrice] = useState(0);
   const [checkedItems, setCheckedItems] = useState([]);
@@ -95,9 +100,11 @@ const CartPage = () => {
       });
       return;
     }
-  
-    const selectedProducts = products.filter((item, index) => checkedItems[index]);
-  
+
+    const selectedProducts = products.filter(
+      (item, index) => checkedItems[index]
+    );
+
     if (selectedProducts.length === 0) {
       toast({
         title: "Please select at least one product to proceed to checkout.",
@@ -107,14 +114,14 @@ const CartPage = () => {
       });
       return;
     }
-  
+
     try {
       const requests = selectedProducts.map((item) =>
         addBasket({ product_id: item.id, quantity: item.quantity })
       );
-  
+
       await Promise.all(requests);
-      
+
       navigate("/checkout");
     } catch (err) {
       console.log(err);
@@ -127,7 +134,15 @@ const CartPage = () => {
       });
     }
   };
-  
+  const allProductDelete = () => {
+    if (products.length === 0) return;
+
+    products.forEach((item) => {
+      deleteBasket({ product_id: item.id });
+      dispatch(deleteItem(item.id));
+    });
+    dispatch(resetCart());
+  };
 
   const checkedProductsCount = products.reduce((count, item, index) => {
     return checkedItems[index] ? count + 1 : count;
@@ -183,7 +198,7 @@ const CartPage = () => {
                         Всего: {checkedProductsCount} товара
                       </Text>
                     </Box>
-                    <Box onClick={() => dispatch(resetCart())}>
+                    <Box onClick={allProductDelete}>
                       <button className="cart-button_text">
                         <CartEmptyIcon />
                         <span>Очистить корзину</span>

@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import { useEffect, useRef, useState } from "react";
 import axios from "axios";
 import {
@@ -28,6 +29,7 @@ const MapContainer = ({ setAddressData }) => {
         );
 
         const data = res.data;
+        // eslint-disable-next-line no-unused-vars
         const collection = data.response.GeoObjectCollection.featureMember.map(
           (item) => item.GeoObject
         );
@@ -58,7 +60,6 @@ const MapContainer = ({ setAddressData }) => {
     setNewCoords(formattedCoords);
   };
 
-  // Handle SearchControl outside JSX
   let searchControl = null;
   try {
     searchControl = <SearchControl options={{ float: "right" }} />;

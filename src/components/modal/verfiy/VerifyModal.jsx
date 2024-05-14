@@ -28,13 +28,12 @@ const VerifyModal = ({ isOpen, onClose, source, onOpen }) => {
     reset,
     formState: { errors, isSubmitting },
   } = useForm();
-  console.log();
+
   const dispatch = useDispatch();
   const [addVerify, { isSuccess, isError }] = useAddVerifyMutation();
 
   const onSubmit = async (value) => {
-    const { pin1, pin2, pin3, pin4, pin5, pin6 } = value;
-    const fullCode = `${pin1}${pin2}${pin3}${pin4}${pin5}${pin6}`;
+    const fullCode = Object.values(value).join("");
     const requestData = {
       source: source,
       type: "phone_number",
@@ -42,7 +41,10 @@ const VerifyModal = ({ isOpen, onClose, source, onOpen }) => {
     };
     try {
       const res = await addVerify(requestData);
-      console.log(res.data);
+      if (res.error) {
+        console.log(res.error); // muammo sodir bo'lganda konsolga chiqaring
+        return;
+      }
       dispatch(setUser(res.data.token));
       onClose();
       reset();
@@ -50,6 +52,7 @@ const VerifyModal = ({ isOpen, onClose, source, onOpen }) => {
       console.log(err);
     }
   };
+  
 
   return (
     <div>
