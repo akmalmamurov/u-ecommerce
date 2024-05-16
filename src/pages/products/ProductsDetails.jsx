@@ -77,23 +77,14 @@ const ProductsDetails = () => {
   const handleAddToFavourit = () => {
     setIsAddedToFavourit(true);
     dispatch(
-      toggleFavourit(
-        {
-          id: data.id,
-          main_image: data.main_image,
-          price: data.price,
-          description_ru: data.description_ru,
-          name_ru: data.name_ru,
-          quantity: qty,
-        },
-        toast({
-          title: "Добавлено в Избранное",
-          description: `${data.name_ru}`,
-          status: "success",
-          duration: 2000,
-          isClosable: true,
-        })
-      )
+      toggleFavourit({
+        id: data.id,
+        main_image: data.main_image,
+        price: data.price,
+        description_ru: data.description_ru,
+        name_ru: data.name_ru,
+        quantity: qty,
+      })
     );
   };
 
@@ -195,7 +186,7 @@ const ProductsDetails = () => {
                     </Box>
                     <Text color={theme.colors.codexGrey}>шт.</Text>
                     <Text color={theme.colors.boilingAcid}>
-                    В наличии  {data.quantity}
+                      В наличии {data.quantity}
                     </Text>
                   </Box>
                   <Divider
