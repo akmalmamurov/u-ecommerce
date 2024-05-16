@@ -16,7 +16,6 @@ import {
   useToast,
 } from "@chakra-ui/react";
 import {
-  CartArrowLeftIcon,
   CartDeleteIcon,
   CartEmptyIcon,
   CartFavouriteIcon,
@@ -143,26 +142,6 @@ const CartPage = () => {
   return (
     <Box className="cart-page" fontFamily={theme.fonts.fInter}>
       <Container maxW={"1200px"}>
-        {products?.length > 0 ? (
-          <Heading
-            as={"h1"}
-            className="cart-title"
-            fontFamily={theme.fonts.fInter}
-            color={theme.colors.black}
-          >
-            Корзина
-          </Heading>
-        ) : (
-          <div className="cart-empty_link">
-            <Link to={"/"}>
-              <CartArrowLeftIcon />
-            </Link>
-            <div className="cart-empty_right">
-              <p>Главная / </p>
-              <h2>Корзина</h2>
-            </div>
-          </div>
-        )}
         {products?.length > 0 ? (
           <>
             <Grid templateColumns="repeat(12,1fr)" gap={"24px"}>
@@ -374,6 +353,11 @@ const CartPage = () => {
             <Text fontFamily={theme.fonts.fSf} className="empty-cart_text">
               В корзине ничего нет
             </Text>
+            <Box fontFamily={theme.fonts.fInter} mt={"32px"}>
+              <Link to="/" className="empty-cart_btn">
+                Вернуться на главную страницу
+              </Link>
+            </Box>
           </motion.div>
         )}
       </Container>

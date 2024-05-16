@@ -32,7 +32,7 @@ const FavouritesPage = () => {
             <Text fontFamily={theme.fonts.fSf} className="empty-cart_text">
               В Избранное ничего нет
             </Text>
-            <Box fontFamily={theme.fonts.fInter} mt={"24px"}>
+            <Box fontFamily={theme.fonts.fInter} mt={"32px"}>
               <Link to="/" className="empty-cart_btn">
                 Вернуться на главную страницу
               </Link>

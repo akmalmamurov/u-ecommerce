@@ -5,7 +5,10 @@ import GridProduct from "../../../components/product-grid/GridProduct";
 import { ProductCard } from "../../../components/card/product-card";
 import "./CartBottom.scss";
 const CartBottom = () => {
-  const { data: products, isLoading } = useGetAllProductsQuery();
+  const { data: products, isLoading } = useGetAllProductsQuery({
+    limit: 20,
+    page: 1,
+  });
   return (
     <Box className="cart-bottom">
       <Container maxW={"1200px"}>
