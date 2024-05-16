@@ -4,6 +4,7 @@ header {
         align-items: center;
         min-height: 32px;
         background-color: #F2F4F8;
+
         .header-top_left {
             display: flex;
             align-items: center;
@@ -15,17 +16,44 @@ header {
     }
 
     .header-mid.fixed {
+        padding-bottom: 16px;
         position: fixed;
         top: 0;
         left: 0;
         width: 100%;
-        z-index: 999;
+        z-index: 10;
         box-shadow: 10px 10px 5px 0px rgba(0, 0, 0, 0.014);
     }
 
     .header-mid {
         background-color: white;
         padding: 16px 0 0;
+
+        .catalog_menu-btn {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            border-radius: 8px;
+
+            &:hover {
+                background-color: #0074eb33 !important;
+            }
+        }
+
+        .css-r6z5ec {
+            z-index: 999;
+            width: 100%;
+            transform: translateX(90px) !important;
+            transform: translateY(49px) !important;
+            background-color: white !important;
+            
+        }
+
+        .catalog-menu_list-wrapper {
+            box-shadow: none;
+            border: none;
+            padding: 0;
+        }
 
         .header-mid_content {
             display: flex;

@@ -8,18 +8,28 @@ import {
   Input,
   InputGroup,
   InputLeftElement,
+  Menu,
+  MenuButton,
+  MenuList,
   Text,
 } from "@chakra-ui/react";
 import { useDebounce } from "use-debounce";
-import { logo } from "../../assets/images";
-import { CartIcon, HeartIcon, SearchIcon, UserIcon } from "../../assets/icons";
+import { logo, menuImg } from "../../assets/images";
+import {
+  CartIcon,
+  HeartIcon,
+  MenuCloseIcon,
+  SearchIcon,
+  UserIcon,
+} from "../../assets/icons";
 import { useModal } from "../../hooks/useModal";
 import { LoginModal } from "../modal/login/LoginModal";
 import { useGetSearchProductsQuery } from "../../redux/services/productAllServices";
-import { CatalogMenu } from "../catalog-menu";
 import { logoutUser } from "../../redux/slices/authSlices";
 import Loading from "../loading/Loading";
 import theme from "../../theme";
+import { hideMenu, toggleMenu } from "../../redux/slices/menuSlices";
+import { CatalogMenu } from "../catalog-menu";
 
 const HeaderMid = memo(() => {
   const [search, setSearch] = useState("");
@@ -28,6 +38,7 @@ const HeaderMid = memo(() => {
   const { data, isLoading } = useGetSearchProductsQuery(debouncedSearch);
   const isAuth = useSelector((state) => state.auth.isAuth);
   const products = useSelector((state) => state.product.products);
+  const menuOpen = useSelector((state) => state.menu.menuOpen);
   const { isOpen, open, close } = useModal();
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -57,12 +68,14 @@ const HeaderMid = memo(() => {
       window.removeEventListener("keydown", handleKeyPress);
     };
   }, []);
+  
   const handleLogout = useCallback(() => {
     dispatch(logoutUser());
   }, [dispatch]);
+  
   useEffect(() => {
     const handleScroll = () => {
-      if (window.scrollY > 400) {
+      if (window.scrollY > 100) {
         setIsScrolled(true);
       } else {
         setIsScrolled(false);
@@ -75,6 +88,7 @@ const HeaderMid = memo(() => {
       window.removeEventListener("scroll", handleScroll);
     };
   }, []);
+
   return (
     <Box py={"29px"} className={`header-mid ${isScrolled ? "fixed" : ""}`}>
       <Container maxW={"1200px"}>
@@ -86,7 +100,36 @@ const HeaderMid = memo(() => {
             </Link>
             {/* menu button */}
             <Box position={"relative"}>
-              <CatalogMenu />
+              <Menu onClose={() => dispatch(hideMenu())} className="catalog_menu">
+                <MenuButton
+                  height={"40px"}
+                  py={"12px"}
+                  px={"16px"}
+                  bg={theme.colors.lightBlue}
+                  className="catalog_menu-btn"
+                  onClick={() => dispatch(toggleMenu())}
+                >
+                  <Box display={"flex"} alignItems={"center"} gap={"16px"}>
+                    {menuOpen ? (
+                      <MenuCloseIcon />
+                    ) : (
+                      <>
+                        <img src={menuImg} alt="" />
+                      </>
+                    )}
+                    <Text
+                      fontSize={"14px"}
+                      color={theme.colors.skyBlue}
+                      fontFamily={theme.fonts.fInter}
+                    >
+                      Каталог
+                    </Text>
+                  </Box>
+                </MenuButton>
+                <MenuList className="catalog-menu_list-wrapper">
+                  {menuOpen && <CatalogMenu />}
+                </MenuList>
+              </Menu>
             </Box>
             {/* search input */}
             <Box className="header_search">
@@ -192,5 +235,7 @@ const HeaderMid = memo(() => {
     </Box>
   );
 });
+
 HeaderMid.displayName = "HeaderMid";
+
 export default HeaderMid;

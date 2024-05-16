@@ -19,14 +19,17 @@ import authReducer from "../slices/authSlices";
 import loginServices from "../services/loginServices";
 import basketServices from "../services/basketServices";
 import verifyServices from "../services/verifyServices";
+import menuReducer from "../slices/menuSlices";
+import orderServices from "../services/orderServices";
 
 const persistConfig = {
   key: "root",
   storage,
   blacklist: [
-    "modal",
+    "menu",
     "categoryServices",
     "productAllServices",
+    "order",
     "authServices",
     "basket",
     "login",
@@ -44,11 +47,13 @@ export const store = configureStore({
     product: persistedProductReducer,
     favourit: persistedFavouritReducer,
     auth: persistedAuthReducer,
+    menu: menuReducer,
     [categoryServices.reducerPath]: categoryServices.reducer,
     [productAllServices.reducerPath]: productAllServices.reducer,
     [loginServices.reducerPath]: loginServices.reducer,
     [basketServices.reducerPath]: basketServices.reducer,
     [verifyServices.reducerPath]: verifyServices.reducer,
+    [orderServices.reducerPath]: orderServices.reducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
@@ -60,7 +65,8 @@ export const store = configureStore({
       productAllServices.middleware,
       loginServices.middleware,
       basketServices.middleware,
-      verifyServices.middleware
+      verifyServices.middleware,
+      orderServices.middleware
     ),
 });
 

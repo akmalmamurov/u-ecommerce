@@ -4,18 +4,26 @@ nav {
   .nav-list {
     display: flex;
     align-items: center;
-    gap: 38.8px;
+    justify-content: space-between;
 
     .navbar-link {
       font-size: 14px;
       font-weight: 500;
-      color: #9c9c9c;
+      color: #9c9c9c !important;
       transition: 0.3 ease-in-out;
       transition: 0.2s ease-in-out;
 
       &.active {
         color: #1f2026;
       }
+
+    }
+    .navbar-menu{
+      .navbar-menu_btn{
+        display: flex !important;
+      }
+    
+   
     }
   }
 

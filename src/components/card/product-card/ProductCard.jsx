@@ -12,7 +12,6 @@ import {
   Text,
   useToast,
 } from "@chakra-ui/react";
-import { motion } from "framer-motion";
 import theme from "../../../theme";
 import { headingFormatter, kFormatter } from "../../../utils";
 import {
@@ -95,11 +94,7 @@ export const ProductCard = (props) => {
   };
   return (
     <Card className="product-card" maxW="sm" fontFamily={theme.fonts.fInter}>
-      <motion.div
-        initial={{ y: 200, opacity: 0 }}
-        animate={{ y: 0, opacity: 1 }}
-        transition={{ delay: 0.5, duration: 0.4 }}
-      >
+      <div>
         <CardBody
           className="card-body"
           cursor={"pointer"}
@@ -156,7 +151,7 @@ export const ProductCard = (props) => {
             />
           </button>
         </CardFooter>
-      </motion.div>
+      </div>
     </Card>
   );
 };
