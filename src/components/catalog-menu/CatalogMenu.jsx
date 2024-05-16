@@ -8,7 +8,7 @@ import {
 import "./CatalogMenu.scss";
 import { useGetCategoriesQuery } from "../../redux/services/categoryServices";
 import theme from "../../theme";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Loading from "../loading/Loading";
 
 const CatalogMenu = () => {
@@ -16,7 +16,6 @@ const CatalogMenu = () => {
   const [hoveredCategoryId, setHoveredCategoryId] = useState(null);
   const [menuOpen, setMenuOpen] = useState(false);
   const navigate = useNavigate();
-
   const handleMouseEnter = (id) => {
     setHoveredCategoryId(id);
   };
@@ -25,9 +24,9 @@ const CatalogMenu = () => {
     setMenuOpen(false);
   };
 
-  const addToCategory = (id) => {
+  const addToCategory = (name, id) => {
     setMenuOpen(false);
-    navigate(`/category/${id}`);
+    navigate(`/category/${encodeURIComponent(name)}/${id}`);
   };
 
   return (
@@ -67,47 +66,43 @@ const CatalogMenu = () => {
                         className="catalog-menu_content"
                         onMouseEnter={() => handleMouseEnter(el.id)}
                       >
-                        <Box className="catalog-menu_item">
+                        <Link to="#" className="catalog-menu_item">
                           <img src={el.image} alt="" className="" />
                           <Text className="catalog-menu_link">
                             {el.name_ru}
                           </Text>
-                        </Box>
+                        </Link>
                         <RightArrowIcon />
                       </Box>
                     ))}
                   </Box>
                   <Box className="catalog-menu_right">
-                    {data &&
-                      data.map((el) => (
-                        <Box
-                          key={el.id}
-                          className="sub-categories"
-                          style={{
-                            display:
-                              hoveredCategoryId === el.id ? "block" : "none",
-                          }}
-                        >
-                          <h1
-                            onClick={() => addToCategory(el.id)}
-                            className="subcategory-title"
-                          >
-                            {el.name_ru}
-                          </h1>
-                          {el.subcategories &&
-                            el.subcategories.map((subcat) => (
-                              <Box key={subcat.id} mb={"12px"}>
-                                <Box
-                                  cursor={"pointer"}
-                                  onClick={() => addToCategory(subcat.id)}
-                                  className="sub-category"
-                                >
-                                  {subcat.name_ru}
-                                </Box>
+                    {data.map((el) => (
+                      <Box
+                        key={el.id}
+                        className="sub-categories"
+                        style={{
+                          display:
+                            hoveredCategoryId === el.id ? "block" : "none",
+                        }}
+                      >
+                        <h1 className="subcategory-title">{el.name_ru}</h1>
+                        {el.subcategories &&
+                          el.subcategories.map((subcat) => (
+                            <Box key={subcat.id} mb={"12px"}>
+                              <Box
+                                cursor={"pointer"}
+                                onClick={() =>
+                                  addToCategory(subcat.name_ru, subcat.id)
+                                }
+                                className="sub-category"
+                              >
+                                {subcat.name_ru}
                               </Box>
-                            ))}
-                        </Box>
-                      ))}
+                            </Box>
+                          ))}
+                      </Box>
+                    ))}
                   </Box>
                 </>
               )

@@ -1,15 +1,15 @@
 /* eslint-disable no-unused-vars */
+import { useForm } from "react-hook-form";
+
 import {
   Box,
   Button,
   Container,
   Divider,
   FormControl,
-  FormLabel,
   Grid,
   GridItem,
   Heading,
-  Input,
   Modal,
   ModalBody,
   ModalCloseButton,
@@ -25,17 +25,21 @@ import {
 import CheckoutTop from "./checkout-top/CheckoutTop";
 import theme from "../../theme";
 import "./Checkout.scss";
-import { useForm } from "react-hook-form";
 import { useState } from "react";
 import { clickImg, paymeImg } from "../../assets/images";
 import MapContainer from "../../components/map-container/MapContainer";
+import { useGetBasketQuery } from "../../redux/services/basketServices";
+import Footer from "../../components/footer/Footer";
+import CheckoutUserData from "./checkout-user/CheckoutUserData";
+import { useCallback } from "react";
 
 const CheckoutPage = () => {
   const {
-    register,
     handleSubmit,
-    formState: { errors },
+    register,
+    formState: { errors, isSubmitting },
   } = useForm();
+  const { data: baskets } = useGetBasketQuery();
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [paymentSelected, setPaymentSelected] = useState("Click");
   const [addressData, setAddressData] = useState({});
@@ -48,10 +52,11 @@ const CheckoutPage = () => {
 
     console.log(data);
   };
+  console.log(errors);
 
-  const handleInputChange = (e) => {
+  const handleInputChange = useCallback((e) => {
     e.target.value = e.target.value.replace(/\D/g, "");
-  };
+  }, []);
   console.log(addressData);
 
   const handlePaymentChange = (value) => {
@@ -85,59 +90,11 @@ const CheckoutPage = () => {
               </Box>
               <form onSubmit={handleSubmit(onSubmit)}>
                 {/* login */}
-                <FormControl isRequired className="checkout-form_control">
-                  <FormLabel>Телефон</FormLabel>
-                  <Input
-                    className={`checkout-input ${
-                      errors.phone_number ? "error-input" : ""
-                    }`}
-                    {...register("phone_number", {
-                      required: "Пожалуйста, введите свой номер телефона",
-                      maxLength: {
-                        value: 13,
-                        message: "Введите корректный номер телефона",
-                      },
-                    })}
-                    defaultValue="+998"
-                    onChange={handleInputChange}
-                  />
-                  {errors.phone_number && (
-                    <span className="error-message">
-                      {errors.phone_number.message}
-                    </span>
-                  )}
-                </FormControl>
-                <Box display={"flex"} gap={2}>
-                  <FormControl isRequired className="checkout-form_control">
-                    <FormLabel>Имя</FormLabel>
-                    <Input
-                      placeholder="Имя"
-                      className={`checkout-input ${
-                        errors.firstName ? "error-input" : ""
-                      }`}
-                      {...register("firstName", { required: "Введите имя" })}
-                    />
-                    {errors.firstName && (
-                      <span className="error-message">
-                        {errors.firstName.message}
-                      </span>
-                    )}
-                  </FormControl>
-                  <FormControl isRequired className="checkout-form_control">
-                    <FormLabel>Фамилия</FormLabel>
-                    <Input
-                      className={`checkout-input ${
-                        errors.lastName ? "error-input" : ""
-                      }`}
-                      {...register("lastName", { required: "Введите фамилию" })}
-                    />
-                    {errors.lastName && (
-                      <span className="error-message">
-                        {errors.lastName.message}
-                      </span>
-                    )}
-                  </FormControl>
-                </Box>
+                <CheckoutUserData
+                  register={register}
+                  errors={errors}
+                  handleInputChange={handleInputChange}
+                />
                 {/* to'lov */}
                 <Box className="checkout-page_title">
                   <span>2</span>
@@ -231,15 +188,28 @@ const CheckoutPage = () => {
                   </div>
                 </Box>
 
-                <button className="checkout-btn" type="submit">
+                <Button
+                  type="submit"
+                  isLoading={isSubmitting}
+                  className="checkout-btn"
+                >
                   Подтвердить заказ
-                </button>
+                </Button>
               </form>
             </div>
           </GridItem>
-          <GridItem colSpan={4}>1</GridItem>
+          <GridItem colSpan={4}>
+            <div className="checkout-right">
+              {baskets && (
+                <div>
+                  <h1>{baskets.name_ru}</h1>
+                </div>
+              )}
+            </div>
+          </GridItem>
         </Grid>
       </Container>
+      <Footer />
     </Box>
   );
 };

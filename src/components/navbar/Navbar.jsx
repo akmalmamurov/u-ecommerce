@@ -19,7 +19,7 @@ const Navbar = () => {
               return (
                 <NavLink
                   key={category.id}
-                  to={`/category/${category.id}`}
+                  to={`/category/${category.name_ru}/${category.id}`}
                   className="navbar-link"
                 >
                   {category.name_ru}

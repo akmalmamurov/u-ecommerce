@@ -33,12 +33,7 @@
     form {
       .checkout-form_control {
         margin-bottom: 28px;
-
-        .checkout-input {
-          padding: 0 17px;
-          height: 48px;
-          border-radius: 12px;
-        }
+       
       }
 
       .checkout-payment {
@@ -125,6 +120,11 @@
         border-radius: 10px;
       }
     }
+  }
+  .checkout-right{
+    padding: 10px;
+    background-color: white;
+    border: 1px solid black;
   }
 }
 

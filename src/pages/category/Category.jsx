@@ -1,7 +1,10 @@
 import { Link, useParams } from "react-router-dom";
-import { Box, Container, Grid, GridItem } from "@chakra-ui/react";
+import { Box, Container } from "@chakra-ui/react";
 import { useGetProductsByCidQuery } from "../../redux/services/productAllServices";
-import { useGetCategoriesBrandQuery, useGetCategoriesByIdQuery, } from "../../redux/services/categoryServices";
+import {
+  useGetCategoriesBrandQuery,
+  useGetCategoriesByIdQuery,
+} from "../../redux/services/categoryServices";
 import ProductCard from "../../components/card/product-card/ProductCard";
 import theme from "../../theme";
 import "./Category.scss";
@@ -11,21 +14,16 @@ const Category = () => {
   const { data: products } = useGetProductsByCidQuery(id);
   const { data: category } = useGetCategoriesByIdQuery(id);
   const { data: brand } = useGetCategoriesBrandQuery(id);
+
   return (
     <div className="category-page">
       <Container maxW={"1200px"}>
-        {category && (
-          <Box fontFamily={theme.fonts.fSf}>
-            <h1 className="category-page_title">{category.name_ru}</h1>
-          </Box>
-        )}
-        <Grid templateColumns={"repeat(12, 1fr)"}>
-          <GridItem colSpan={2}>
+        <div className="category-page_content">
+          <div className="category-page_left">
             {category && category.subcategories && (
               <Box
                 fontFamily={theme.fonts.fSf}
                 className="category-page_breadcrumb"
-                mb={"24px"}
               >
                 <Box
                   display={"flex"}
@@ -33,10 +31,13 @@ const Category = () => {
                   gap={"12px"}
                   className="category-page_subcategory"
                 >
+                  <Box fontFamily={theme.fonts.fSf}>
+                    <h1 className="category-page_title">{category.name_ru}</h1>
+                  </Box>
                   {category.subcategories.map((subcategory) => (
                     <Box key={subcategory.id}>
                       <Link
-                        to={`/category/${subcategory.id}`}
+                        to={`/category/${subcategory.name_ru}/${subcategory.id}`}
                         className="ctPage-subcategory_title"
                       >
                         {subcategory.name_ru}
@@ -46,32 +47,28 @@ const Category = () => {
                 </Box>
               </Box>
             )}
-          </GridItem>
-          <GridItem colSpan={10}>
+          </div>
+          <div className="category-page_right">
+            {brand && (
+              <Box display={"flex"} gap={10} px={10} mb={20}>
+                {brand.map((brand, index) => (
+                  <Link key={index}>{brand.name}</Link>
+                ))}
+              </Box>
+            )}
             <Box>
-                {brand && (
-              <Box display={"flex"} gap={10} px={10} mb={20} >
-                  {brand.map((brand,index)=>(
-                    <Link key={index}>{brand.name}</Link>
+              {products && (
+                <div style={{ display: "flex", flexWrap: "wrap", gap: "20px" }}>
+                  {products.map((product) => (
+                    <div key={product.id} style={{ flex: "0 0 33.33%" }}>
+                      <ProductCard {...product} />
+                    </div>
                   ))}
-              </Box>
-                )}
-              <Box>
-                {products && (
-                  <Grid templateColumns="repeat(3, 1fr)" gap={"6px"}>
-                    {products.map((product) => (
-                      <div key={product.id}>
-                        <GridItem>
-                          <ProductCard {...product} />
-                        </GridItem>
-                      </div>
-                    ))}
-                  </Grid>
-                )}
-              </Box>
+                </div>
+              )}
             </Box>
-          </GridItem>
-        </Grid>
+          </div>
+        </div>
       </Container>
     </div>
   );

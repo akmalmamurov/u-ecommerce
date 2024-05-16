@@ -26,7 +26,7 @@ import theme from "../../theme";
 import { emptyCart } from "../../assets/images";
 import "./Cart.scss";
 import CartBottom from "./cart-bottom/CartBottom";
-import { kFormatter } from "../../utils";
+import { calculateTotalPrice, kFormatter } from "../../utils";
 
 import {
   decrementQuantity,
@@ -62,20 +62,9 @@ const CartPage = () => {
   }, []);
 
   useEffect(() => {
-    let totalPrice = 0;
-    let totalAdditionalPrice = 0;
-
-    if (products) {
-      products.forEach((item, index) => {
-        if (checkedItems[index]) {
-          totalPrice += item.price * item.quantity;
-          totalAdditionalPrice += item.price;
-        }
-      });
-
-      setTotalPrice(totalPrice.toFixed(2));
-      setTotalAdditionalPrice(totalAdditionalPrice);
-    }
+    const { totalPrice, totalAdditionalPrice } = calculateTotalPrice(products, checkedItems);
+    setTotalPrice(totalPrice);
+    setTotalAdditionalPrice(totalAdditionalPrice);
   }, [products, checkedItems]);
 
   const handleCheckboxChange = (index) => {
@@ -91,6 +80,8 @@ const CartPage = () => {
   };
 
   const goToCheckout = async () => {
+   
+
     if (!isAuth) {
       toast({
         title: "Please log in to proceed to checkout.",
