@@ -8,6 +8,7 @@ import {
   Grid,
   GridItem,
   Heading,
+  useToast,
 } from "@chakra-ui/react";
 import CheckoutTop from "./components/checkout-top/CheckoutTop";
 import theme from "../../theme";
@@ -21,6 +22,7 @@ import CheckoutDelivery from "./components/checkout-delivery/CheckoutDelivery";
 import MapContainer from "../../components/map-container/MapContainer";
 import CheckoutProduct from "./components/checkout-product/CheckoutProduct";
 import { useAddOrderMutation } from "../../redux/services/orderServices";
+import { useNavigate } from "react-router-dom";
 
 const CheckoutPage = () => {
   const {
@@ -28,14 +30,12 @@ const CheckoutPage = () => {
     register,
     formState: { errors, isSubmitting },
   } = useForm();
-
+  const toast = useToast();
   const [addOrder] = useAddOrderMutation();
   const [addressData, setAddressData] = useState({});
   const [clStreet, setClStreet] = useState("");
   const [paymentType, setPaymentType] = useState("card");
-  console.log(addressData);
-  console.log(clStreet);
-
+  const navigate = useNavigate();
   const onSubmit = async (data) => {
     const delivery_addr_lat = +addressData.split(",")[0].trim();
     const delivery_addr_long = +addressData.split(",")[1].trim();
@@ -51,6 +51,15 @@ const CheckoutPage = () => {
     try {
       const response = await addOrder(data);
       console.log(response);
+      toast({
+        title: "Заказ оформлен",
+        description: "Ваш заказ успешно оформлен",
+        status: "success",
+        duration: 3000,
+        isClosable: true,
+        position: "top",
+      });
+      navigate("/");
     } catch (err) {
       console.log(err);
     }
@@ -97,7 +106,6 @@ const CheckoutPage = () => {
               <form onSubmit={handleSubmit(onSubmit)}>
                 {/* login */}
                 <CheckoutUserData
-             
                   register={register}
                   errors={errors}
                   handleInputChange={handleInputChange}
