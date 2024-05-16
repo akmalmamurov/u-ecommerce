@@ -6,7 +6,6 @@ import {
   Card,
   CardBody,
   CardFooter,
-  Heading,
   Image,
   Stack,
   Text,
@@ -83,14 +82,6 @@ export const ProductCard = (props) => {
         rating,
       })
     );
-    const isAdded = !isAddedToFavourites;
-    toast({
-      title: isAdded ? "Добавлено в избранное" : "Удалено из избранного",
-      description: `${name_ru}`,
-      status: "success",
-      duration: 2000,
-      isClosable: true,
-    });
   };
   return (
     <Card className="product-card" maxW="sm" fontFamily={theme.fonts.fInter}>
@@ -115,19 +106,12 @@ export const ProductCard = (props) => {
             mt="6"
             spacing="0.4rem"
           >
-            <Text
-              className="product-price"
-              color={theme.colors.black}
-            >{`${kFormatter(price)}`}</Text>
-
-            <Heading size="md" className="product-name">
-              {headingFormatter(name_ru)}
-            </Heading>
             <Text display={"flex"} gap={"4px"} alignItems={"center"}>
               <StarIcon />
               <span className="product-rating">{rating}</span>
-              <span className="product-rating">({zakaz} заказов)</span>
+              <span className="product-rating">({zakaz} В наличии )</span>
             </Text>
+            <p className="product-name">{headingFormatter(name_ru)}</p>
           </Stack>
         </CardBody>
         <CardFooter
@@ -135,22 +119,25 @@ export const ProductCard = (props) => {
           justifyContent={"space-between"}
           className="card-footer"
         >
+          <div className="">
+            <Text
+              className="product-price"
+              color={theme.colors.black}
+            >{`${kFormatter(price)}`}</Text>
+          </div>
           <button
             className="product-card_btn"
             onClick={handleAddToCart}
             disabled={isAddedToCart}
           >
             <ShoppingIcon />
-            <span>В корзину</span>
-          </button>
-          <button onClick={handleToggleFavourit}>
-            <ProductFavouritIcon
-              className={`favourites-icon ${
-                isAddedToFavourites ? "added" : ""
-              }`}
-            />
           </button>
         </CardFooter>
+        <button onClick={handleToggleFavourit}>
+          <ProductFavouritIcon
+            className={`favourites-icon ${isAddedToFavourites ? "added" : ""}`}
+          />
+        </button>
       </div>
     </Card>
   );

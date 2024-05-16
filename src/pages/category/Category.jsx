@@ -1,5 +1,5 @@
 import { Link, useParams } from "react-router-dom";
-import { Box, Container } from "@chakra-ui/react";
+import { Box, Container, Grid } from "@chakra-ui/react";
 import { useGetProductsByCidQuery } from "../../redux/services/productAllServices";
 import {
   useGetCategoriesBrandQuery,
@@ -58,13 +58,13 @@ const Category = () => {
             )}
             <Box>
               {products && (
-                <div style={{ display: "flex", flexWrap: "wrap", gap: "20px" }}>
+                <Grid templateColumns="repeat(3, 1fr)" gap={6}>
                   {products.map((product) => (
                     <div key={product.id} style={{ flex: "0 0 33.33%" }}>
                       <ProductCard {...product} />
                     </div>
                   ))}
-                </div>
+                </Grid>
               )}
             </Box>
           </div>
