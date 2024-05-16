@@ -95,6 +95,8 @@ const HeaderMid = memo(() => {
                   <SearchIcon />
                 </InputLeftElement>
                 <Input
+                fontFamily={theme.fonts.fInter}
+
                   onChange={handleSearch}
                   value={search}
                   border={"none"}

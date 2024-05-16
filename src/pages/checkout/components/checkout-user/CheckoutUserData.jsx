@@ -11,21 +11,21 @@ import "./CheckoutUserData.scss";
 const CheckoutUserData = ({ register, errors, handleInputChange }) => {
   return (
     <div className="checkout-userdata">
-      <FormControl isInvalid={errors.name} className="checkout-form_control">
+      <FormControl isRequired isInvalid={errors.name} className="checkout-form_control">
         <FormLabel>Телефон</FormLabel>
         <Input
           className={`checkout-input ${
-            errors.phone_number ? "error-input" : ""
+            errors.client_phone_number ? "error-input" : ""
           }`}
-          {...register("phone_number", {
-            required: true,
-            minLength: { value: 13, message: "Minimum length should be 13" },
+          {...register("client_phone_number", {
+            required: "enter phone_numer",
+            minLength: { value: 12, message: "Minimum length should be 13" },
           })}
           defaultValue="+998"
           onChange={handleInputChange}
         />
         <FormErrorMessage>
-          {errors.phone_number && errors.phone_number.type === "required" && (
+          {errors.client_phone_number && errors.client_phone_number.type === "required" && (
             <span className="error-input">Пожалуйста, введите свой номер телефона</span>
           )}
           {errors.name && errors.name.type === "maxLength" && (
@@ -34,27 +34,27 @@ const CheckoutUserData = ({ register, errors, handleInputChange }) => {
         </FormErrorMessage>
       </FormControl>
       <Box display={"flex"} gap={2}>
-        <FormControl isRequired className="checkout-form_control">
+        <FormControl isRequired isInvalid={errors.name} className="checkout-form_control">
           <FormLabel>Имя</FormLabel>
           <Input
             placeholder="Имя"
             className={`checkout-input ${
               errors.firstName ? "error-input" : ""
             }`}
-            {...register("firstName", { required: "Введите имя" })}
+            {...register("client_first_name", { required: "Введите имя" })}
           />
           <FormErrorMessage>
-            {errors.firstName && errors.firstName.message}
+            {errors.client_first_name && errors.client_first_name.message}
           </FormErrorMessage>
         </FormControl>
-        <FormControl isRequired className="checkout-form_control">
+        <FormControl isRequired isInvalid={errors.name} className="checkout-form_control">
           <FormLabel>Фамилия</FormLabel>
           <Input
-            className={`checkout-input ${errors.lastName ? "error-input" : ""}`}
-            {...register("lastName", { required: "Введите фамилию" })}
+            className={`checkout-input ${errors.client_last_name ? "error-input" : ""}`}
+            {...register("client_last_name", { required: "Введите фамилию" })}
           />
           <FormErrorMessage>
-            {errors.lastName && errors.lastName.message}
+            {errors.client_last_name && errors.client_last_name.message}
           </FormErrorMessage>
         </FormControl>
       </Box>

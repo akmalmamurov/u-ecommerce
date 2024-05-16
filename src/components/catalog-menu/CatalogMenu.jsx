@@ -45,7 +45,7 @@ const CatalogMenu = () => {
             <Text
               fontSize={"18px"}
               color={"#9C9C9C"}
-              fontFamily={theme.fonts.fSf}
+              fontFamily={theme.fonts.fInter}
             >
               Каталог
             </Text>

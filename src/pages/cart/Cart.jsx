@@ -62,7 +62,10 @@ const CartPage = () => {
   }, []);
 
   useEffect(() => {
-    const { totalPrice, totalAdditionalPrice } = calculateTotalPrice(products, checkedItems);
+    const { totalPrice, totalAdditionalPrice } = calculateTotalPrice(
+      products,
+      checkedItems
+    );
     setTotalPrice(totalPrice);
     setTotalAdditionalPrice(totalAdditionalPrice);
   }, [products, checkedItems]);
@@ -80,8 +83,6 @@ const CartPage = () => {
   };
 
   const goToCheckout = async () => {
-   
-
     if (!isAuth) {
       toast({
         title: "Please log in to proceed to checkout.",

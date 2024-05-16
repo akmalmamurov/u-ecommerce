@@ -17,9 +17,10 @@ import {
 } from "@chakra-ui/react";
 import { LeftArrowIcon } from "../../../assets/icons";
 import { useAddVerifyMutation } from "../../../redux/services/verifyServices";
-import { useDispatch } from "react-redux";
-import { setUser } from "../../../redux/slices/authSlices";
+import { useDispatch, useSelector } from "react-redux";
+import { setUser, setUserFromCookies } from "../../../redux/slices/authSlices";
 import { Link } from "react-router-dom";
+import { useEffect } from "react";
 
 const VerifyModal = ({ isOpen, onClose, source, onOpen }) => {
   const {
@@ -31,6 +32,8 @@ const VerifyModal = ({ isOpen, onClose, source, onOpen }) => {
 
   const dispatch = useDispatch();
   const [addVerify, { isSuccess, isError }] = useAddVerifyMutation();
+  const token = useSelector((state) => state.auth.token);
+  console.log(token);
 
   const onSubmit = async (value) => {
     const fullCode = Object.values(value).join("");
@@ -42,7 +45,7 @@ const VerifyModal = ({ isOpen, onClose, source, onOpen }) => {
     try {
       const res = await addVerify(requestData);
       if (res.error) {
-        console.log(res.error); // muammo sodir bo'lganda konsolga chiqaring
+        console.log(res.error);
         return;
       }
       dispatch(setUser(res.data.token));
@@ -52,8 +55,12 @@ const VerifyModal = ({ isOpen, onClose, source, onOpen }) => {
       console.log(err);
     }
   };
-  
 
+  useEffect(() => {
+    if (!token) {
+      dispatch(setUserFromCookies());
+    }
+  }, [dispatch, token]);
   return (
     <div>
       <Modal w={"455px"} isOpen={isOpen} onClose={onClose}>

@@ -1,0 +1,23 @@
+.checkout-delivery_page {
+  .checkout-left_bottom {
+    width: 100%;
+    margin-bottom: 28px;
+    .checkout-radio {
+      label {
+        border: 1px solid rgba(128, 128, 128, 0.192);
+        width: 100%;
+        padding: 10px 16px;
+        border-radius: 6px;
+        .css-vtg3j9 {
+          width: 24px !important;
+          height: 24px !important;
+        }
+        .css-vtg3j9[aria-checked="true"],
+        .css-vtg3j9[data-checked] {
+          background-color: #0e73f6 !important;
+          border: unset;
+        }
+      }
+    }
+  }
+}

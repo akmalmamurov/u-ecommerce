@@ -1,37 +1,25 @@
 /* eslint-disable no-unused-vars */
 import { useForm } from "react-hook-form";
-
 import {
   Box,
   Button,
   Container,
   Divider,
-  FormControl,
   Grid,
   GridItem,
   Heading,
-  Modal,
-  ModalBody,
-  ModalCloseButton,
-  ModalContent,
-  ModalFooter,
-  ModalHeader,
-  ModalOverlay,
-  Radio,
-  RadioGroup,
-  Stack,
-  useDisclosure,
 } from "@chakra-ui/react";
-import CheckoutTop from "./checkout-top/CheckoutTop";
+import CheckoutTop from "./components/checkout-top/CheckoutTop";
 import theme from "../../theme";
 import "./Checkout.scss";
 import { useState } from "react";
-import { clickImg, paymeImg } from "../../assets/images";
-import MapContainer from "../../components/map-container/MapContainer";
 import { useGetBasketQuery } from "../../redux/services/basketServices";
 import Footer from "../../components/footer/Footer";
-import CheckoutUserData from "./checkout-user/CheckoutUserData";
+import CheckoutUserData from "./components/checkout-user/CheckoutUserData";
 import { useCallback } from "react";
+import CheckoutPayment from "./components/checkout-payment/CheckoutPayment";
+import CheckoutDelivery from "./components/checkout-delivery/CheckoutDelivery";
+import MapContainer from "../../components/map-container/MapContainer";
 
 const CheckoutPage = () => {
   const {
@@ -39,29 +27,32 @@ const CheckoutPage = () => {
     register,
     formState: { errors, isSubmitting },
   } = useForm();
-  const { data: baskets } = useGetBasketQuery();
-  const { isOpen, onOpen, onClose } = useDisclosure();
-  const [paymentSelected, setPaymentSelected] = useState("Click");
+  const { data: { products, total_price } = {} } = useGetBasketQuery();
   const [addressData, setAddressData] = useState({});
+  const [clStreet, setClStreet] = useState("");
+  const [paymentType, setPaymentType] = useState("online");
+  console.log(addressData);
+  console.log(clStreet);
 
   const onSubmit = (data) => {
-    const payment = paymentSelected;
     const coords = addressData;
+    const street = clStreet;
     data.coords = coords;
-    data.payment = payment;
-
+    data.deliverType = street;
+    data.paymentType = paymentType;
     console.log(data);
   };
-  console.log(errors);
 
   const handleInputChange = useCallback((e) => {
     e.target.value = e.target.value.replace(/\D/g, "");
   }, []);
-  console.log(addressData);
-
-  const handlePaymentChange = (value) => {
-    setPaymentSelected(value);
-  };
+  const handlePaymentTypeChange = useCallback(
+    (e) => {
+      const selectedType = e.target.value;
+      setPaymentType(selectedType);
+    },
+    [setPaymentType]
+  );
 
   return (
     <Box className="checkout-page">
@@ -98,93 +89,24 @@ const CheckoutPage = () => {
                 {/* to'lov */}
                 <Box className="checkout-page_title">
                   <span>2</span>
-                  Oплаты
+                  Выберите способ оплаты
                 </Box>
-                <Box display={"flex"} className="checkout-payment">
-                  {paymentSelected && (
-                    <div className="payment-selected">
-                      <img
-                        src={paymentSelected === "Click" ? clickImg : paymeImg}
-                        alt={paymentSelected}
-                      />
-                      <p>{paymentSelected}</p>
-                    </div>
-                  )}
-                  <button className="checkout-change_btn" onClick={onOpen}>
-                    Изменить
-                  </button>
-                  <Modal size={"sm"} isOpen={isOpen} onClose={onClose}>
-                    <ModalOverlay className="checkout-modal" />
-                    <ModalContent className="checkout-modal_content">
-                      <ModalHeader>Картой онлайн</ModalHeader>
-                      <ModalCloseButton />
-                      <ModalBody className="checkout-modal_body">
-                        <FormControl as="fieldset">
-                          <RadioGroup
-                            value={paymentSelected}
-                            onChange={handlePaymentChange}
-                          >
-                            <Stack
-                              direction={"column"}
-                              spacing="24px"
-                              className="checkout-radio"
-                            >
-                              <Radio
-                                value="Click"
-                                className="checkout-modal_radio"
-                              >
-                                <p>Click</p>
-                                <img
-                                  src={clickImg}
-                                  alt="clickImg"
-                                  className="checkout-modal_img"
-                                />
-                              </Radio>
-                              <Radio
-                                value="Payme"
-                                className="checkout-modal_radio"
-                              >
-                                <p>Payme</p>
-                                <img
-                                  src={paymeImg}
-                                  alt="paymeImg"
-                                  className="checkout-modal_img"
-                                />
-                              </Radio>
-                            </Stack>
-                          </RadioGroup>
-                        </FormControl>
-                      </ModalBody>
-                      <ModalFooter w="100%">
-                        <Button w="100%" onClick={onClose}>
-                          Выбрать
-                        </Button>
-                      </ModalFooter>
-                    </ModalContent>
-                  </Modal>
-                </Box>
-                {/* qabul qilish */}
-                <Box className="checkout-page_title">
-                  <span>3</span>
-                  Способ получения
-                </Box>
-                <Box className="checkout-left_bottom">
-                  <RadioGroup value="delivery" mb={"28px"}>
-                    <Stack
-                      direction="row"
-                      justifyContent={"space-between"}
-                      className="checkout-radio"
-                      defaultValue={"delivery"}
-                    >
-                      <Radio value="delivery">Доставка</Radio>
-                      <Radio value="pickup" isDisabled>
-                        Самовывоз из магазина
-                      </Radio>
-                    </Stack>
-                  </RadioGroup>
+                <CheckoutPayment
+                  paymentType={paymentType}
+                  handlePaymentTypeChange={handlePaymentTypeChange}
+                />
 
-                  <div className="checkout-delivery">
-                    <MapContainer setAddressData={setAddressData} />
+                {/* qabul qilish */}
+                <Box mb={"20px"}>
+                  <CheckoutDelivery
+                    setAddressData={setAddressData}
+                    setClStreet={setClStreet}
+                  />
+                  <div className="checkout-delivery_map">
+                    <MapContainer
+                      setAddressData={setAddressData}
+                      setClStreet={setClStreet}
+                    />
                   </div>
                 </Box>
 
@@ -200,11 +122,13 @@ const CheckoutPage = () => {
           </GridItem>
           <GridItem colSpan={4}>
             <div className="checkout-right">
-              {baskets && (
-                <div>
-                  <h1>{baskets.name_ru}</h1>
-                </div>
-              )}
+              {products &&
+                products.map((product) => (
+                  <div key={product.id}>
+                    <h1>{product.name_ru}</h1>
+                  </div>
+                ))}
+              {total_price && <h2>Total Price: {total_price}</h2>}
             </div>
           </GridItem>
         </Grid>
