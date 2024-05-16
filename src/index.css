@@ -22,7 +22,7 @@
 
 @font-face {
   font-family: "Inter";
-  src: url("./assets/fonts/inter/Inter-Regular.ttf") format("ttf");
+  src: url("./assets/fonts/Inter/Inter-Regular.ttf") format("ttf");
   font-weight: 400;
 }
 @font-face {
@@ -73,10 +73,10 @@
 *:focus {
   box-shadow: none !important;
 }
-.css-cd0zg1{
+.css-cd0zg1 {
   background: none !important;
 }
-.css-cd0zg1:hover{
+.css-cd0zg1:hover {
   background-color: none;
 }
 

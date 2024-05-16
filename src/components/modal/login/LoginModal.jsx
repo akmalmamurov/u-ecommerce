@@ -96,8 +96,8 @@ export const LoginModal = memo(({ isOpen, onClose }) => {
               </Button>
               <Box w={"full"}>
                 <Text textAlign={"center"} fontSize={"14px"}>
-                  У вас еще нет аккаунта?{" "}
-                  <span style={{ color: "#0074EB" }}>Зарегистрироваться</span>
+                Авторизуясь, вы соглашаетесь c 
+                  <span style={{ color: "#0074EB" }}>политикой обработки персональных данных</span>
                 </Text>
               </Box>
             </ModalFooter>

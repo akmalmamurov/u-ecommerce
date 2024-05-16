@@ -1,8 +1,8 @@
-export const ENDPOINT = "https://ulab-market-backend.onrender.com";
+export const ENDPOINT = "https://ulab-market-v2.onrender.com";
+//  "https://ulab-market-backend.onrender.com";
 
 export const TOKEN = "LOGIN_TOKEN";
 
-// export const COUNTRIES = [
 //   {
 //     name: "Андижанская область",
 
@@ -68,5 +68,5 @@ export const TOKEN = "LOGIN_TOKEN";
 //     name: "Хорезмская область",
 //     cities: ["город Ургенч", "город Маргилан"],
 //   },
- 
+
 // ];

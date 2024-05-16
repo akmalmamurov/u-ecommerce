@@ -11,7 +11,8 @@ import heartWhite from "./heartWhite.png";
 import buyImg from "./buyImg.png";
 import chevronRight from "./chevron-right.png";
 import clickImg from "./click-img.webp";
-import paymeImg from "./payme-img.webp"
+import paymeImg from "./payme-img.webp";
+import menuImg from "./menu.png";
 export {
   logo,
   saleImg,
@@ -26,5 +27,6 @@ export {
   buyImg,
   chevronRight,
   clickImg,
-  paymeImg
+  paymeImg,
+  menuImg,
 };

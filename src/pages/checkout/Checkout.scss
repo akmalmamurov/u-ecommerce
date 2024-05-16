@@ -6,7 +6,6 @@
     font-size: 24px;
     margin-bottom: 32px;
   }
-
   .checkout-left {
     .checkout-page_title {
       display: flex;
@@ -14,7 +13,6 @@
       font-weight: 500;
       gap: 16px;
       margin-bottom: 32px;
-
       span {
         width: 30px;
         height: 30px;
@@ -34,7 +32,7 @@
       .checkout-form_control {
         margin-bottom: 28px;
       }
-     
+
       .checkout-btn {
         padding: 14px 0;
         width: 100%;
@@ -45,6 +43,7 @@
       }
     }
   }
+
   .checkout-right {
     padding: 10px;
     background-color: white;

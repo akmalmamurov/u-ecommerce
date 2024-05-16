@@ -11,8 +11,8 @@ const authSlice = createSlice({
   },
   reducers: {
     setUser: (state, action) => {
-      Cookies.set("token", action.payload.token,{expires: 7});
-      state.token = action.payload.token;
+      Cookies.set("token", action.payload, { expires: 7 });
+      state.token = action.payload;
       state.isAuth = true;
     },
     logoutUser: (state) => {

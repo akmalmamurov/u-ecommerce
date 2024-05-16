@@ -1,20 +1,22 @@
 nav {
   padding: 16px 0;
-  .navbar-link {
-    padding: 6px 0;
-    font-size: 18px;
-    font-weight: 500;
-    color: #9c9c9c;
-    transition: 0.3 ease-in-out;
+
+  .nav-list {
     display: flex;
-    justify-content: center;
     align-items: center;
-    border-radius: 456px;
-    transition: 0.2s ease-in-out;
-    &.active {
-      padding: 0px 34px;
-      background-color: #50cd47;
-      color: white;
+    gap: 38.8px;
+
+    .navbar-link {
+      font-size: 14px;
+      font-weight: 500;
+      color: #9c9c9c;
+      transition: 0.3 ease-in-out;
+      transition: 0.2s ease-in-out;
+
+      &.active {
+        color: #1f2026;
+      }
     }
   }
+
 }

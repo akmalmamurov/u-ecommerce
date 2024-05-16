@@ -1,7 +1,15 @@
 import { useState, useEffect, useCallback, memo } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
-import { Badge, Box, Container, Input, InputGroup, InputLeftElement, Text, } from "@chakra-ui/react";
+import {
+  Badge,
+  Box,
+  Container,
+  Input,
+  InputGroup,
+  InputLeftElement,
+  Text,
+} from "@chakra-ui/react";
 import { useDebounce } from "use-debounce";
 import { logo } from "../../assets/images";
 import { CartIcon, HeartIcon, SearchIcon, UserIcon } from "../../assets/icons";
@@ -70,7 +78,7 @@ const HeaderMid = memo(() => {
   return (
     <Box py={"29px"} className={`header-mid ${isScrolled ? "fixed" : ""}`}>
       <Container maxW={"1200px"}>
-        <Box fontFamily={theme.fonts.fSF}>
+        <Box fontFamily={theme.fonts.fInter}>
           {/* logo */}
           <Box className="header-mid_content">
             <Link to={"/"}>
@@ -83,20 +91,17 @@ const HeaderMid = memo(() => {
             {/* search input */}
             <Box className="header_search">
               <InputGroup
-                h={"48px"}
+                h={"40px"}
                 bg={theme.colors.cascadWhite}
                 color={theme.colors.codexGrey}
                 borderRadius={"8px"}
                 border={"none"}
-                py={"4px"}
-                px={"16px"}
               >
-                <InputLeftElement pointerEvents="none" top={"1"} left={3}>
+                <InputLeftElement pointerEvents="none" top={"0"} left={1}>
                   <SearchIcon />
                 </InputLeftElement>
                 <Input
-                fontFamily={theme.fonts.fInter}
-
+                  fontFamily={theme.fonts.fInter}
                   onChange={handleSearch}
                   value={search}
                   border={"none"}
@@ -141,7 +146,7 @@ const HeaderMid = memo(() => {
               </Box>
             </Box>
             {/* auth favourit cart page here */}
-            <Box display={"flex"} gap={"32px"} fontSize={"16px"}>
+            <Box display={"flex"} gap={"32px"}>
               <Box display={"flex"} alignItems={"center"} gap={"12px"}>
                 {isAuth ? (
                   <>
@@ -153,7 +158,7 @@ const HeaderMid = memo(() => {
                 ) : (
                   <Link className="header-mid_right" onClick={open}>
                     <UserIcon cursor={"pointer"} />
-                    <Text>Войти</Text>
+                    <Text className="header-mid_right-link">Войти</Text>
                   </Link>
                 )}
               </Box>
@@ -161,7 +166,7 @@ const HeaderMid = memo(() => {
               <Box>
                 <Link to={"/favourites"} className="header-mid_right">
                   <HeartIcon />
-                  <Text>Избранный</Text>
+                  <Text className="header-mid_right-link">Избранный</Text>
                 </Link>
               </Box>
               <Box>
@@ -176,7 +181,7 @@ const HeaderMid = memo(() => {
                       {products.length}
                     </Badge>
                   </Box>
-                  <Text>Корзина</Text>
+                  <Text className="header-mid_right-link">Корзина</Text>
                 </Link>
               </Box>
             </Box>

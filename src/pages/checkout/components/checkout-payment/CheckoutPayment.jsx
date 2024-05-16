@@ -1,7 +1,6 @@
 import { useState } from "react";
-
+import PropTypes from "prop-types";
 import {
-  Box,
   Modal,
   ModalBody,
   ModalCloseButton,
@@ -28,7 +27,7 @@ const CheckoutPayment = ({ handlePaymentTypeChange, paymentType }) => {
   };
   return (
     <div className="checkout-payment_page">
-      <Box className={"checkout-payment_type"}>
+      <div className={"checkout-payment_type"}>
         <label
           onClick={onOpen}
           htmlFor="payment-online"
@@ -60,9 +59,9 @@ const CheckoutPayment = ({ handlePaymentTypeChange, paymentType }) => {
             disabled={paymentType === "online"}
           />
         </label>
-      </Box>
+      </div>
 
-      <Box display={"flex"} className="checkout-payment">
+      <div className="checkout-payment">
         {paymentSelected && (
           <div className="payment-selected">
             <img
@@ -75,7 +74,12 @@ const CheckoutPayment = ({ handlePaymentTypeChange, paymentType }) => {
         <button className="checkout-change_btn" onClick={onOpen}>
           Изменить
         </button>
-        <Modal size={"sm"} isOpen={isOpen} onClose={onClose}>
+        <Modal
+          size={"sm"}
+          isOpen={isOpen}
+          onClose={onClose}
+          className="checkout-modal"
+        >
           <ModalOverlay className="checkout-modal" />
           <ModalContent className="checkout-modal_content">
             <ModalHeader>Картой онлайн</ModalHeader>
@@ -118,9 +122,13 @@ const CheckoutPayment = ({ handlePaymentTypeChange, paymentType }) => {
             </ModalFooter>
           </ModalContent>
         </Modal>
-      </Box>
+      </div>
     </div>
   );
 };
 
+CheckoutPayment.propTypes = {
+  handlePaymentTypeChange: PropTypes.func,
+  paymentType: PropTypes.string,
+};
 export default CheckoutPayment;

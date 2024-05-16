@@ -28,3 +28,4 @@ export { default as CheckoutLeftArrowIcon } from "./CheckoutLeftArrowIcon.jsx";
 export { default as CheckoutUserIcon } from "./CheckoutUserIcon.jsx";
 export { default as PaymentCardIcon } from "./PaymentCardIcon.jsx";
 export { default as PaymentCashIcon } from "./PaymentCashIcon.jsx";
+export { default as MenuCloseIcon } from "./MenuCloseIcon.jsx";

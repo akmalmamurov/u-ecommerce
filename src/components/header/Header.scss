@@ -1,8 +1,9 @@
 header {
     .header-top {
-        padding: 16px 0;
+        display: flex;
+        align-items: center;
+        min-height: 32px;
         background-color: #F2F4F8;
-
         .header-top_left {
             display: flex;
             align-items: center;
@@ -24,7 +25,7 @@ header {
 
     .header-mid {
         background-color: white;
-        padding: 16px 0;
+        padding: 16px 0 0;
 
         .header-mid_content {
             display: flex;
@@ -38,7 +39,7 @@ header {
             flex: 1;
 
             .header_search-input {
-                font-size: 18px;
+                font-size: 14px;
 
                 &:focus {
                     outline: none;
@@ -78,9 +79,24 @@ header {
         }
 
         .header-mid_right {
-            display: flex;
+            display: inline-flex;
             align-items: center;
+            padding: 0 8px;
+            min-height: 42px;
+            min-width: 42px;
             gap: 12px;
+            border-radius: 8px;
+            transition: 0.3 ease-in-out;
+
+            &:hover {
+                background-color: #e6e8ed;
+            }
+
+            .header-mid_right-link {
+                font-weight: 500;
+                color: #1f2026;
+                font-size: 14px;
+            }
 
             .header-mid_right-cart {
                 position: relative;

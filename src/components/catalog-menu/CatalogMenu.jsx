@@ -1,15 +1,12 @@
 import { useState } from "react";
 import { Box, Menu, MenuButton, MenuList, Text } from "@chakra-ui/react";
-import {
-  CartDeleteIcon,
-  DropdownIcon,
-  RightArrowIcon,
-} from "../../assets/icons";
+import { MenuCloseIcon, RightArrowIcon } from "../../assets/icons";
 import "./CatalogMenu.scss";
 import { useGetCategoriesQuery } from "../../redux/services/categoryServices";
 import theme from "../../theme";
 import { Link, useNavigate } from "react-router-dom";
 import Loading from "../loading/Loading";
+import { menuImg } from "../../assets/images";
 
 const CatalogMenu = () => {
   const { data, isLoading } = useGetCategoriesQuery();
@@ -33,18 +30,24 @@ const CatalogMenu = () => {
     <div className="catalog-menu">
       <Menu className="catalog-menu_pos" onClose={handleCloseMenu}>
         <MenuButton
-          h={"48px"}
+          height={"40px"}
           py={"12px"}
           px={"16px"}
           bg={theme.colors.lightBlue}
           className="catalog_menu-btn"
           onClick={() => setMenuOpen(!menuOpen)}
         >
-          <Box display={"flex"} gap={"16px"}>
-            {menuOpen ? <CartDeleteIcon /> : <DropdownIcon />}
+          <Box display={"flex"} alignItems={"center"} gap={"16px"}>
+            {menuOpen ? (
+              <MenuCloseIcon />
+            ) : (
+              <>
+                <img src={menuImg} alt="" />
+              </>
+            )}
             <Text
-              fontSize={"18px"}
-              color={"#9C9C9C"}
+              fontSize={"14px"}
+              color={theme.colors.skyBlue}
               fontFamily={theme.fonts.fInter}
             >
               Каталог
@@ -67,7 +70,7 @@ const CatalogMenu = () => {
                         onMouseEnter={() => handleMouseEnter(el.id)}
                       >
                         <Link to="#" className="catalog-menu_item">
-                          <img src={el.image} alt="" className="" />
+                          <img src={el.icon_id} alt="" className="" />
                           <Text className="catalog-menu_link">
                             {el.name_ru}
                           </Text>

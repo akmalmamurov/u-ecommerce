@@ -14,7 +14,7 @@ const Navbar = () => {
         {isLoading ? (
           <Loading />
         ) : (
-          <Box display={"flex"} gap={"38.8px"} fontFamily={theme.fonts.fSF}>
+          <Box className="nav-list" fontFamily={theme.fonts.fInter}>
             {categories.map((category) => {
               return (
                 <NavLink

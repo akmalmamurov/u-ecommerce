@@ -21,7 +21,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { setUser, setUserFromCookies } from "../../../redux/slices/authSlices";
 import { Link } from "react-router-dom";
 import { useEffect } from "react";
-
+import "../Modal.css";
 const VerifyModal = ({ isOpen, onClose, source, onOpen }) => {
   const {
     handleSubmit,
@@ -66,7 +66,7 @@ const VerifyModal = ({ isOpen, onClose, source, onOpen }) => {
       <Modal w={"455px"} isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
         <form onSubmit={handleSubmit(onSubmit)}>
-          <ModalContent py={"32px"} px={"40px"}>
+          <ModalContent py={"32px"} px={"40px"} className="auth-modal">
             <div onClick={onOpen} style={{ marginLeft: "15px" }}>
               <LeftArrowIcon cursor={"pointer"} />
             </div>
