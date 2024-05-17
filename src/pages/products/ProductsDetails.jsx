@@ -116,6 +116,7 @@ const ProductsDetails = () => {
                     <img
                       src={data.main_image}
                       alt=""
+                      className="product-details_img-sm"
                       onClick={() =>
                         handleThumbnailClick({ media_file: data.main_image })
                       }
@@ -126,7 +127,7 @@ const ProductsDetails = () => {
                           key={image.id}
                           src={image.media_file}
                           alt=""
-                          className=""
+                          className="product-details_img-sm"
                           onClick={() => handleThumbnailClick(image)}
                         />
                       ))}
@@ -134,6 +135,7 @@ const ProductsDetails = () => {
                   <Box className="product-img_right">
                     <img
                       id="mainImage"
+                      className="product-details_img-lg"
                       src={mainImage ? mainImage : data.main_image}
                       alt={data.name_ru}
                     />
