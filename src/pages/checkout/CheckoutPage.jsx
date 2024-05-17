@@ -13,7 +13,7 @@ import {
 import CheckoutTop from "./components/checkout-top/CheckoutTop";
 import theme from "../../theme";
 import "./Checkout.scss";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Footer from "../../components/footer/Footer";
 import CheckoutUserData from "./components/checkout-user/CheckoutUserData";
 import { useCallback } from "react";
@@ -72,7 +72,7 @@ const CheckoutPage = () => {
         isClosable: true,
         position: "top",
       });
-      dispatch(setUser({ name: data.client_first_name }));
+      dispatch(setUser(data.client_first_name));
       navigate("/");
       reset();
     } catch (err) {

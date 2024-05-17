@@ -1,5 +1,5 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-import { ENDPOINT } from "../../constants";
+import { ENDPOINT, TOKEN } from "../../constants";
 import Cookies from "js-cookie";
 
 const basketServices = createApi({
@@ -7,7 +7,7 @@ const basketServices = createApi({
   baseQuery: fetchBaseQuery({
     baseUrl: ENDPOINT,
     prepareHeaders: (headers) => {
-      const token = Cookies.get("token");
+      const token = Cookies.get(TOKEN);
       if (token) {
         headers.set("Authorization", `Bearer ${token}`);
       }

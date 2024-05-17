@@ -18,10 +18,11 @@ import {
 import { LeftArrowIcon } from "../../../assets/icons";
 import { useAddVerifyMutation } from "../../../redux/services/verifyServices";
 import { useDispatch, useSelector } from "react-redux";
-import { setUser, setUserFromCookies } from "../../../redux/slices/authSlices";
+import { setAuth } from "../../../redux/slices/authSlices";
 import { Link } from "react-router-dom";
-import { useEffect } from "react";
 import "../Modal.css";
+import Cookies from "js-cookie";
+import { TOKEN } from "../../../constants";
 const VerifyModal = ({ isOpen, onClose, source, onOpen }) => {
   const {
     handleSubmit,
@@ -48,7 +49,8 @@ const VerifyModal = ({ isOpen, onClose, source, onOpen }) => {
         console.log(res.error);
         return;
       }
-      dispatch(setUser({ token: res.data.token }));
+      Cookies.set(TOKEN, res.data.token);
+      dispatch(setAuth());
       onClose();
       reset();
     } catch (err) {
@@ -56,11 +58,6 @@ const VerifyModal = ({ isOpen, onClose, source, onOpen }) => {
     }
   };
 
-  useEffect(() => {
-    if (!token) {
-      dispatch(setUserFromCookies());
-    }
-  }, [dispatch, token]);
   return (
     <div>
       <Modal w={"455px"} isOpen={isOpen} onClose={onClose}>

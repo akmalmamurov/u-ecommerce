@@ -1,40 +1,31 @@
 import { createSlice } from "@reduxjs/toolkit";
 import Cookies from "js-cookie";
-import { useDispatch } from "react-redux";
+import { TOKEN } from "../../constants";
 
 const authSlice = createSlice({
   name: "auth",
   initialState: {
-    isAuth: false,
-    token: Cookies.get("token") || null,
-    name: Cookies.get("name") || null,
+    isAuth: Cookies.get(TOKEN) ? true : false,
+    user: localStorage.getItem("user") ? JSON.parse(localStorage.getItem("user")) : null,
   },
   reducers: {
-    setUser: (state, action) => {
-      const { token, name } = action.payload;
-      Cookies.set("token", token, { expires: 7 });
-      Cookies.set("name", name, { expires: 7 });
-      state.token = token;
-      state.name = name;
+    setAuth: (state) => {
       state.isAuth = true;
     },
+    setUser: (state, { payload }) => {
+      console.log(payload);
+      state.user = payload;
+      localStorage.setItem("user", JSON.stringify(payload));
+    },
     logoutUser: (state) => {
-      Cookies.remove("token");
-      state.name = null;
-      state.token = null;
+      Cookies.remove(TOKEN);
+      localStorage.removeItem("user");
+      state.user = null;
       state.isAuth = false;
     },
   },
 });
 
-export const { setUser, logoutUser } = authSlice.actions;
-
-export const setUserFromCookies = () => (dispatch) => {
-  const token = Cookies.get("token");
-  const name = Cookies.get("name");
-  if (token) {
-    dispatch(setUser({ token, name }));
-  }
-};
+export const { setUser, setAuth, logoutUser } = authSlice.actions;
 
 export default authSlice.reducer;

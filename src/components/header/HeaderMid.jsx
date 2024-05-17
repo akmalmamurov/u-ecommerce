@@ -37,7 +37,7 @@ const HeaderMid = memo(() => {
   const [debouncedSearch] = useDebounce(search, 1000);
   const { data, isLoading } = useGetSearchProductsQuery(debouncedSearch);
   const  isAuth = useSelector((state) => state.auth.isAuth);
-  const  name = useSelector((state) => state.auth.name);
+  const  name = useSelector((state) => state.auth.user);
   console.log(name);
   const products = useSelector((state) => state.product.products);
   const menuOpen = useSelector((state) => state.menu.menuOpen);

@@ -42,9 +42,7 @@ import { toggleFavourit } from "../../redux/slices/favouritSlices";
 const CartPage = () => {
   const products = useSelector((state) => state.product.products);
   const isAuth = useSelector((state) => state.auth.isAuth);
-  const token = useSelector((state) => state.auth.token);
 
-  console.log(token);
   const [addBasket] = useAddBasketMutation();
   const [deleteBasket] = useDeleteBasketMutation();
   const [totalPrice, setTotalPrice] = useState(0);
