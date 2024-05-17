@@ -1,4 +1,4 @@
-export const ENDPOINT = "https://ulab-market-v2.onrender.com";
+export const ENDPOINT = "https://ulab-market-v2-n6zf.onrender.com";
 //  "https://ulab-market-backend.onrender.com";
 
 export const TOKEN = "LOGIN_TOKEN";
