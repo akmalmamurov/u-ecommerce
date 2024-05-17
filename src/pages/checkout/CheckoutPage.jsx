@@ -23,27 +23,36 @@ import MapContainer from "../../components/map-container/MapContainer";
 import CheckoutProduct from "./components/checkout-product/CheckoutProduct";
 import { useAddOrderMutation } from "../../redux/services/orderServices";
 import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { deleteItems } from "../../redux/slices/productSlices";
+import { useGetBasketQuery } from "../../redux/services/basketServices";
+import { setUser } from "../../redux/slices/authSlices";
 
 const CheckoutPage = () => {
   const {
     handleSubmit,
     register,
+    reset,
     formState: { errors, isSubmitting },
   } = useForm();
   const toast = useToast();
+  const { data: { products, total_price } = {} } = useGetBasketQuery();
+
   const [addOrder] = useAddOrderMutation();
   const [addressData, setAddressData] = useState({});
   const [clStreet, setClStreet] = useState("");
   const [paymentType, setPaymentType] = useState("card");
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const onSubmit = async (data) => {
     const delivery_addr_lat = +addressData.split(",")[0].trim();
     const delivery_addr_long = +addressData.split(",")[1].trim();
     const street = clStreet;
-    const clientComment = "Nima Bu";
+    const clientComment = "";
     data.delivery_addr_lat = delivery_addr_lat;
     data.delivery_addr_long = delivery_addr_long;
-    data.delivery_type = street;
+    data.delivery_name = street;
+    data.delivery_type = "deliver";
     data.payment_type = paymentType;
     data.client_comment = clientComment;
 
@@ -51,6 +60,8 @@ const CheckoutPage = () => {
     try {
       const response = await addOrder(data);
       console.log(response);
+      const productIds = products.map((product) => product.id);
+      dispatch(deleteItems(productIds));
       toast({
         title: "Заказ оформлен",
         description: "Ваш заказ успешно оформлен",
@@ -59,7 +70,9 @@ const CheckoutPage = () => {
         isClosable: true,
         position: "top",
       });
+      dispatch(setUser({ name: data.client_first_name }));
       navigate("/");
+      reset();
     } catch (err) {
       console.log(err);
     }
@@ -145,7 +158,7 @@ const CheckoutPage = () => {
             </div>
           </GridItem>
           <GridItem colSpan={4}>
-            <CheckoutProduct />
+            <CheckoutProduct products={products} total_price={total_price} />
           </GridItem>
         </Grid>
       </Container>

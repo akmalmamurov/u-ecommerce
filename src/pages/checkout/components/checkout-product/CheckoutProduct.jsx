@@ -1,11 +1,10 @@
 import { Box } from "@chakra-ui/react";
-import { useGetBasketQuery } from "../../../../redux/services/basketServices";
+import PropTypes from "prop-types";
 import "./CheckoutProduct.scss";
 import theme from "../../../../theme";
 import { kFormatter } from "../../../../utils";
 import { Fragment } from "react";
-const CheckoutProduct = () => {
-  const { data: { products, total_price } = {} } = useGetBasketQuery();
+const CheckoutProduct = ({ products, total_price }) => {
   return (
     <Fragment>
       <Box
@@ -39,12 +38,19 @@ const CheckoutProduct = () => {
       <div className="checkout-product_bottom">
         <h1 className="checkout-product_title">Ваш заказ</h1>
         <Box display={"flex"} justifyContent={"space-between"}>
-          <p className="checkout-bottom_name"> {products?.length} товара на сумму</p>
+          <p className="checkout-bottom_name">
+            {" "}
+            {products?.length} товара на сумму
+          </p>
           <p className="checkout-bottom_total">{kFormatter(total_price)}</p>
         </Box>
       </div>
     </Fragment>
   );
+};
+CheckoutProduct.propTypes = {
+  products: PropTypes.array,
+  total_price: PropTypes.number,
 };
 
 export default CheckoutProduct;

@@ -48,7 +48,7 @@ const VerifyModal = ({ isOpen, onClose, source, onOpen }) => {
         console.log(res.error);
         return;
       }
-      dispatch(setUser(res.data.token));
+      dispatch(setUser({ token: res.data.token }));
       onClose();
       reset();
     } catch (err) {

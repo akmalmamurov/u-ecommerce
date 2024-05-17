@@ -5,14 +5,17 @@ import { useDispatch } from "react-redux";
 const authSlice = createSlice({
   name: "auth",
   initialState: {
-    name: null,
     isAuth: false,
     token: Cookies.get("token") || null,
+    name: Cookies.get("name") || null,
   },
   reducers: {
     setUser: (state, action) => {
-      Cookies.set("token", action.payload, { expires: 7 });
-      state.token = action.payload;
+      const { token, name } = action.payload;
+      Cookies.set("token", token, { expires: 7 });
+      Cookies.set("name", name, { expires: 7 });
+      state.token = token;
+      state.name = name;
       state.isAuth = true;
     },
     logoutUser: (state) => {
@@ -28,8 +31,9 @@ export const { setUser, logoutUser } = authSlice.actions;
 
 export const setUserFromCookies = () => (dispatch) => {
   const token = Cookies.get("token");
+  const name = Cookies.get("name");
   if (token) {
-    dispatch(setUser(token));
+    dispatch(setUser({ token, name }));
   }
 };
 

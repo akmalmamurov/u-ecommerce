@@ -36,7 +36,9 @@ const HeaderMid = memo(() => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [debouncedSearch] = useDebounce(search, 1000);
   const { data, isLoading } = useGetSearchProductsQuery(debouncedSearch);
-  const isAuth = useSelector((state) => state.auth.isAuth);
+  const  isAuth = useSelector((state) => state.auth.isAuth);
+  const  name = useSelector((state) => state.auth.name);
+  console.log(name);
   const products = useSelector((state) => state.product.products);
   const menuOpen = useSelector((state) => state.menu.menuOpen);
   const { isOpen, open, close } = useModal();
@@ -68,11 +70,11 @@ const HeaderMid = memo(() => {
       window.removeEventListener("keydown", handleKeyPress);
     };
   }, []);
-  
+
   const handleLogout = useCallback(() => {
     dispatch(logoutUser());
   }, [dispatch]);
-  
+
   useEffect(() => {
     const handleScroll = () => {
       if (window.scrollY > 100) {
@@ -100,7 +102,10 @@ const HeaderMid = memo(() => {
             </Link>
             {/* menu button */}
             <Box position={"relative"}>
-              <Menu onClose={() => dispatch(hideMenu())} className="catalog_menu">
+              <Menu
+                onClose={() => dispatch(hideMenu())}
+                className="catalog_menu"
+              >
                 <MenuButton
                   height={"40px"}
                   py={"12px"}
@@ -193,10 +198,10 @@ const HeaderMid = memo(() => {
               <Box display={"flex"} alignItems={"center"} gap={"12px"}>
                 {isAuth ? (
                   <>
-                    <div onClick={handleLogout}>
-                      <UserIcon cursor={"pointer"} />
-                    </div>
-                    <Text>User</Text>
+                    <Link onClick={handleLogout} className="header-mid_right">
+                      <UserIcon />
+                      <Text>{name || "User"}</Text>
+                    </Link>
                   </>
                 ) : (
                   <Link className="header-mid_right" onClick={open}>
