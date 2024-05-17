@@ -47,6 +47,7 @@ const CheckoutPage = () => {
   const onSubmit = async (data) => {
     const delivery_addr_lat = +addressData.split(",")[0].trim();
     const delivery_addr_long = +addressData.split(",")[1].trim();
+    const phone_number = data.client_phone_number.replace(/^\+/, "");
     const street = clStreet;
     const clientComment = "";
     data.delivery_addr_lat = delivery_addr_lat;
@@ -55,6 +56,7 @@ const CheckoutPage = () => {
     data.delivery_type = "deliver";
     data.payment_type = paymentType;
     data.client_comment = clientComment;
+    data.client_phone_number = phone_number;
 
     console.log(data);
     try {
@@ -79,7 +81,13 @@ const CheckoutPage = () => {
   };
 
   const handleInputChange = useCallback((e) => {
-    e.target.value = e.target.value.replace(/\D/g, "");
+    const inputValue = e.target.value;
+    const sanitizedValue = inputValue.replace(/[^\d+]/g, "");
+    const newValue =
+      sanitizedValue && !sanitizedValue.startsWith("+")
+        ? "+" + sanitizedValue
+        : sanitizedValue;
+    e.target.value = newValue;
   }, []);
 
   const handlePaymentTypeChange = useCallback(

@@ -18,7 +18,7 @@ import {
 import "../../modal/Modal.css";
 import theme from "../../../theme";
 import { useAddLoginMutation } from "../../../redux/services/loginServices";
-import { memo, useState } from "react";
+import { memo, useCallback, useState } from "react";
 import VerifyModal from "../verfiy/VerifyModal";
 
 export const LoginModal = memo(({ isOpen, onClose }) => {
@@ -37,9 +37,10 @@ export const LoginModal = memo(({ isOpen, onClose }) => {
   const [addLogin] = useAddLoginMutation();
   const onSubmit = async (values) => {
     setIsSubmitting(true);
-    setPhoneValue(values.phone_number);
+    const phone_number = values.phone_number.replace(/^\+/, '');
+    setPhoneValue(phone_number);
     try {
-      await addLogin({ source: values.phone_number, type: "phone_number" });
+      await addLogin({ source: phone_number, type: "phone_number" });
       setIsSuccess(true);
       setOpenVerifyModal(true);
       reset({ phone_number: "" });
@@ -49,7 +50,14 @@ export const LoginModal = memo(({ isOpen, onClose }) => {
       setIsSubmitting(false);
     }
   };
-
+  
+  const handleInputChange = useCallback((e) => {
+    const inputValue = e.target.value;
+    const sanitizedValue = inputValue.replace(/[^\d+]/g, "");
+    const newValue = sanitizedValue && !sanitizedValue.startsWith("+") ? "+" + sanitizedValue : sanitizedValue;
+    e.target.value = newValue;
+  }, []);
+  
   return (
     <div>
       <Modal maxW="407px" isOpen={isOpen} onClose={onClose}>
@@ -74,6 +82,8 @@ export const LoginModal = memo(({ isOpen, onClose }) => {
                   className={`auth-input ${
                     errors.phone_number ? "error-input" : ""
                   }`}
+                  defaultValue="+998"
+                  onChange={handleInputChange}
                 />
 
                 {errors.phone_number && (
