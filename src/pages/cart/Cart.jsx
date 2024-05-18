@@ -19,7 +19,6 @@ import {
   CartDeleteIcon,
   CartEmptyIcon,
   CartFavouriteIcon,
-  CartSucessIcon,
 } from "../../assets/icons";
 import theme from "../../theme";
 import { emptyCart } from "../../assets/images";
@@ -223,13 +222,6 @@ const CartPage = () => {
                                       rating: item.rating,
                                     })
                                   );
-                                  toast({
-                                    title: "Добавлено в избранное",
-                                    description: `${item.name_ru}`,
-                                    status: "success",
-                                    duration: 2000,
-                                    isClosable: true,
-                                  });
                                 }}
                               >
                                 <CartFavouriteIcon className="cart-button_icon" />
@@ -294,16 +286,6 @@ const CartPage = () => {
               </GridItem>
               <GridItem colSpan={5}>
                 <Box className="cart-right">
-                  <Box className="cart-right_top" display={"flex"} gap={"16px"}>
-                    <CartSucessIcon />
-                    <Box className="cart-right_text">
-                      <h3>Бесплатно доставим ваш заказ</h3>
-                      <p>в фирменный пункт выдачи</p>
-                      <span>
-                        Ещё 488 000 сум для бесплатной доставки до двери
-                      </span>
-                    </Box>
-                  </Box>
                   <Box className="cart-right_main">
                     <div className="cart-right_item">
                       <h2>Итого</h2>

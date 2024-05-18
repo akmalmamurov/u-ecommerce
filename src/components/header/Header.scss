@@ -29,6 +29,7 @@ header {
         background-color: white;
         padding: 16px 0 0;
 
+
         .catalog_menu-btn {
             display: flex;
             align-items: center;
@@ -40,13 +41,30 @@ header {
             }
         }
 
+        .header-menu_container {
+            position: relative;
+
+            .menu-icon {
+                transition: transform 0.3s ease, opacity 0.3s ease;
+            }
+
+            .menu-icon.open {
+                transform: rotate(90deg);
+                opacity: 1;
+            }
+
+            .menu-icon.closed {
+                transform: rotate(0deg);
+                opacity: 1;
+            }
+        }
+
         .css-r6z5ec {
             z-index: 999;
-            width: 100%;
             transform: translateX(90px) !important;
             transform: translateY(49px) !important;
             background-color: white !important;
-            
+
         }
 
         .catalog-menu_list-wrapper {

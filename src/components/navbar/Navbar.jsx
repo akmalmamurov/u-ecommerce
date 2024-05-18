@@ -1,22 +1,11 @@
 import { NavLink } from "react-router-dom";
-import {  useSelector } from "react-redux";
-import {
-  Box,
-  Container,
-  Menu,
-  MenuButton,
-  MenuList,
-} from "@chakra-ui/react";
+import { Box, Container } from "@chakra-ui/react";
 import theme from "../../theme";
 import { useGetCategoriesQuery } from "../../redux/services/categoryServices";
 import Loading from "../loading/Loading";
-import { ArrowBottomIcon } from "../../assets/icons";
 import "./Navbar.scss";
-import { CatalogMenu } from "../catalog-menu";
 const Navbar = () => {
   const { data: categories, isLoading } = useGetCategoriesQuery();
-  const menuOpen = useSelector((state) => state.menu.menuOpen);
-  // const dispatch = useDispatch();
 
   return (
     <nav>
@@ -35,18 +24,11 @@ const Navbar = () => {
               </NavLink>
             ))}
             {categories.length > 9 && (
-              <Menu className="navbar-menu">
-                <MenuButton
-                  className="navbar-link"
-                  // onClick={() => dispatch(toggleMenu())}
-                >
-                  <Box display={"flex"} gap={"1px"}>
-                    Ещё
-                    <ArrowBottomIcon />
-                  </Box>
-                </MenuButton>
-                <MenuList>{menuOpen && <CatalogMenu />}</MenuList>
-              </Menu>
+              <NavLink className="navbar-link" to={"/categories"}>
+                <Box display={"flex"} gap={"1px"}>
+                  Все категории
+                </Box>
+              </NavLink>
             )}
           </Box>
         )}

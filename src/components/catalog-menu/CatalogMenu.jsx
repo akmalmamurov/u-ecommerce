@@ -24,7 +24,7 @@ const CatalogMenu = () => {
   };
 
   return (
-    <div className="catalog-menu">
+    <div className="catalog-menu_container">
       {isLoading ? (
         <Loading />
       ) : (

@@ -5,6 +5,7 @@ import GridProduct from "../../../../components/product-grid/GridProduct";
 import { ProductCard } from "../../../../components/card/product-card";
 import "./Product.scss";
 import { memo, useState, useEffect } from "react";
+import Loading from "../../../../components/loading/Loading";
 
 const Product = memo(() => {
   const [page, setPage] = useState(1);
@@ -12,43 +13,37 @@ const Product = memo(() => {
   const [initialProducts, setInitialProducts] = useState([]);
 
   const [hasMore, setHasMore] = useState(true);
-  const [limit, setLimit] = useState(10);
+  const [limit, setLimit] = useState(20);
 
-  const {
-    data: products,
-    isLoading,
-    isFetching,
-  } = useGetAllProductsQuery({ page, limit });
+  const { data: products, isLoading, isFetching } = useGetAllProductsQuery({ page, limit });
 
   useEffect(() => {
-    console.log("Fetched products:", products);
     if (products) {
       setAllProducts((prevProducts) => {
         const productSet = new Set(prevProducts.map((p) => p.id));
         const newProducts = products.filter((p) => !productSet.has(p.id));
-        console.log("New products to add:", newProducts);
-        return [...prevProducts, ...newProducts];
+        const updatedProducts = [...prevProducts, ...newProducts];
+
+        // Store the initial set of products
+        if (page === 1) {
+          setInitialProducts(updatedProducts);
+        }
+
+        return updatedProducts;
       });
 
-      if (products.length < limit) {
-        setHasMore(false);
-      } else {
-        setHasMore(true);
-      }
+      setHasMore(products.length >= limit);
     }
-  }, [products, limit]);
+  }, [products, page, limit]);
 
   const handleShowMore = () => {
-    console.log("Showing more products...");
-    setInitialProducts(allProducts);
-    setLimit((prevLimit) => prevLimit + 10);
+    setLimit((prevLimit) => prevLimit + 20);
     setPage((prevPage) => prevPage + 1);
   };
 
   const handleHideProducts = () => {
-    console.log("Hiding products...");
-    setAllProducts(initialProducts);
-    setLimit(10);
+    setAllProducts(initialProducts.slice(0, 20));
+    setLimit(20);
     setPage(1);
     setHasMore(true);
   };
@@ -59,7 +54,7 @@ const Product = memo(() => {
         <motion.h1>Все продукты</motion.h1>
         <GridProduct>
           {isLoading && !allProducts.length ? (
-            <div>...Loading</div>
+            <Loading />
           ) : (
             allProducts.map((product) => (
               <ProductCard key={product.id} {...product} />
@@ -68,10 +63,10 @@ const Product = memo(() => {
         </GridProduct>
         <Box display={"flex"} justifyContent={"center"}>
           {isFetching ? (
-            <div>...Loading</div>
+            <Loading />
           ) : hasMore ? (
             <button className="show-product_btn" onClick={handleShowMore}>
-              показать еще 10
+              показать еще 20
             </button>
           ) : (
             <button className="show-product_btn" onClick={handleHideProducts}>

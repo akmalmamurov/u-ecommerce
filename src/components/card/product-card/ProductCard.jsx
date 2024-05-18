@@ -1,5 +1,5 @@
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import PropTypes from "prop-types";
 import {
   Box,
@@ -17,9 +17,10 @@ import {
   ShoppingIcon,
   StarIcon,
   ProductFavouritIcon,
+  ProductCartSucessIcon,
+  ProductFavouritActiveIcon,
 } from "../../../assets/icons";
 import { toggleFavourit } from "../../../redux/slices/favouritSlices";
-import { useEffect, useState } from "react";
 import { addToCart } from "../../../redux/slices/productSlices";
 import "./ProductCard.scss";
 
@@ -33,42 +34,40 @@ export const ProductCard = (props) => {
     description_ru,
     quantity: zakaz,
   } = props;
-  const favourites = useSelector((state) => state.favourit.favourites);
-  const isAuth = useSelector((state) => state.auth.isAuth);
-  const isAddedToFavourites = favourites.some((item) => item.id === id);
-  const toast = useToast();
-  const [isAddedToCart, setIsAddedToCart] = useState(false);
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  useEffect(() => {}, [favourites]);
-  useEffect(() => {}, [isAuth]);
+  const toast = useToast();
+
+  const favourites = useSelector((state) => state.favourit.favourites);
+  const cart = useSelector((state) => state.product.products);
+
+  const isAddedToFavourites = favourites.some((item) => item.id === id);
+  const isAddedToCart = cart.some((item) => item.id === id);
+
   const goProductDetails = (id) => {
     navigate(`/products/${id}`);
   };
 
-  const handleAddToCart = async () => {
-    setIsAddedToCart(true);
+  const handleAddToCart = () => {
     dispatch(
-      addToCart(
-        {
-          id,
-          main_image,
-          price,
-          name_ru,
-          description_ru,
-          rating,
-          quantity: 1,
-        },
-        toast({
-          title: "Добавлено в избранное",
-          description: `${name_ru}`,
-          status: "success",
-          duration: 2000,
-          isClosable: true,
-        })
-      )
+      addToCart({
+        id,
+        main_image,
+        price,
+        name_ru,
+        description_ru,
+        rating,
+        quantity: 1,
+      })
     );
+    toast({
+      title: "Добавлено в корзину",
+      description: `${name_ru}`,
+      status: "success",
+      duration: 2000,
+      isClosable: true,
+    });
   };
 
   const handleToggleFavourit = () => {
@@ -83,6 +82,7 @@ export const ProductCard = (props) => {
       })
     );
   };
+
   return (
     <Card className="product-card" maxW="sm" fontFamily={theme.fonts.fInter}>
       <div>
@@ -125,18 +125,22 @@ export const ProductCard = (props) => {
               color={theme.colors.black}
             >{`${kFormatter(price)}`}</Text>
           </div>
-          <button
-            className="product-card_btn"
-            onClick={handleAddToCart}
-            disabled={isAddedToCart}
-          >
-            <ShoppingIcon />
+          <button className="product-card_btn">
+            {isAddedToCart ? (
+              <Link to="/cart">
+                <ProductCartSucessIcon />
+              </Link>
+            ) : (
+              <ShoppingIcon onClick={handleAddToCart} />
+            )}
           </button>
         </CardFooter>
-        <button onClick={handleToggleFavourit}>
-          <ProductFavouritIcon
-            className={`favourites-icon ${isAddedToFavourites ? "added" : ""}`}
-          />
+        <button onClick={handleToggleFavourit} className="favourites-icon">
+          {isAddedToFavourites ? (
+            <ProductFavouritActiveIcon />
+          ) : (
+            <ProductFavouritIcon />
+          )}
         </button>
       </div>
     </Card>

@@ -37,7 +37,7 @@ export const LoginModal = memo(({ isOpen, onClose }) => {
   const [addLogin] = useAddLoginMutation();
   const onSubmit = async (values) => {
     setIsSubmitting(true);
-    const phone_number = values.phone_number.replace(/^\+/, '');
+    const phone_number = values.phone_number.replace(/^\+/, "");
     setPhoneValue(phone_number);
     try {
       await addLogin({ source: phone_number, type: "phone_number" });
@@ -50,14 +50,17 @@ export const LoginModal = memo(({ isOpen, onClose }) => {
       setIsSubmitting(false);
     }
   };
-  
+
   const handleInputChange = useCallback((e) => {
     const inputValue = e.target.value;
     const sanitizedValue = inputValue.replace(/[^\d+]/g, "");
-    const newValue = sanitizedValue && !sanitizedValue.startsWith("+") ? "+" + sanitizedValue : sanitizedValue;
+    const newValue =
+      sanitizedValue && !sanitizedValue.startsWith("+")
+        ? "+" + sanitizedValue
+        : sanitizedValue;
     e.target.value = newValue;
   }, []);
-  
+
   return (
     <div>
       <Modal maxW="407px" isOpen={isOpen} onClose={onClose}>
@@ -74,9 +77,9 @@ export const LoginModal = memo(({ isOpen, onClose }) => {
                 <Input
                   {...register("phone_number", {
                     required: "Пожалуйста, введите свой номер телефона",
-                    maxLength: {
-                      value: 13,
-                      message: "Minimum length should be 13",
+                    minLength: {
+                      value: 12,
+                      message: "Неверный номер телефона.Проверьте и повторите попытку.",
                     },
                   })}
                   className={`auth-input ${
@@ -106,8 +109,10 @@ export const LoginModal = memo(({ isOpen, onClose }) => {
               </Button>
               <Box w={"full"}>
                 <Text textAlign={"center"} fontSize={"14px"}>
-                Авторизуясь, вы соглашаетесь c 
-                  <span style={{ color: "#0074EB" }}>политикой обработки персональных данных</span>
+                  Авторизуясь, вы соглашаетесь c
+                  <span style={{ color: "#0074EB" }}>
+                    политикой обработки персональных данных
+                  </span>
                 </Text>
               </Box>
             </ModalFooter>

@@ -31,14 +31,12 @@
         }
     }
 
-    .cart-left,
-    .cart-right {
+    .cart-left {
         padding: 24px;
         border: 1px solid #DCDCDC;
         border-radius: 12px;
 
-        .card-top,
-        .cart-right_top {
+        .card-top {
             padding-bottom: 24px;
             border-bottom: 1px solid #DCDCDC;
 
@@ -94,35 +92,14 @@
     }
 
     .cart-right {
-        .cart-right_top {
-            .cart-right_text {
-                h3 {
-                    font-weight: 700;
-                    font-size: 16px;
-                    color: #000000;
-                }
-
-                p {
-                    font-size: 16px;
-                    font-weight: 400;
-                    color: #000000;
-                    margin-bottom: 10px;
-                }
-
-                span {
-                    font-weight: 400;
-                    font-size: 15px;
-                    color: #66686C;
-                }
-            }
-        }
-
+        padding: 12px 24px;
+        border: 1px solid #DCDCDC;
+        border-radius: 12px;
         .cart-right_main {
             .cart-right_item {
                 display: flex;
                 justify-content: space-between;
                 align-items: center;
-
                 h2 {
                     font-weight: 600;
                     font-size: 23px;
@@ -140,15 +117,11 @@
                     font-weight: 500;
                     font-size: 16px;
                     color: #6E7C87;
+                    margin-bottom: 12px;
                 }
             }
 
-            .cart-right_input {
-                padding: 8px 10px;
-                width: 100%;
-                border: 1px solid #CDCDCD;
-                border-radius: 8px;
-            }
+
 
             .cart-right_btn {
                 background-color: #0E73F6;
@@ -207,7 +180,8 @@
             font-weight: 500;
             color: #6E7C87;
         }
-        .empty-cart_btn{
+
+        .empty-cart_btn {
             padding: 12px 32px;
             background-color: #0E73F6;
             color: white;

@@ -1,19 +1,14 @@
 .product-card {
   box-shadow: unset !important;
-  transition: .3s cubic-bezier(0.455, 0.03, 0.515, 0.955);
-  border: 1px solid white !important;
-  padding: 4px 0;
-
-  &:hover {
-    border-color: #9c9c9c !important;
-  }
+  padding: 16px;
+  border: 1px solid #ececec !important;
 
   .card-body {
     border-radius: 12px;
     padding: 0;
 
     .card-top {
-      padding: 8px;
+      padding: 12px 8px;
 
       img {
         height: 200px;
@@ -25,7 +20,7 @@
       margin: 0;
       height: 83px;
 
-  
+
 
       .product-name {
         font-size: 14px;
@@ -53,28 +48,37 @@
     align-items: center;
     margin-top: 12px;
     padding: 0 8px !important;
+
     .product-price {
       font-size: 14px;
       font-weight: 600;
       line-height: 16.94px;
     }
+
     .product-card_btn {
-      &:disabled {
-        pointer-events: none;
-        opacity: 0.5;
-      }
+      width: 48px;
+      height: 38px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 2px solid #0074EB33;
+      border-radius: 10px;
+
     }
   }
 
   .favourites-icon {
-    color: #BDBDBD;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 32px;
+    height: 32px;
     position: absolute;
-    top: 0;
-    right: 5px;
-
-    &.added {
-      color: red;
-    }
+    top: 11px;
+    right: 11px;
+    background: hsla(0, 0%, 100%, .8);
+    border: 1px solid hsla(0, 0%, 93%, .5);
+    border-radius: 50%;
   }
 
 

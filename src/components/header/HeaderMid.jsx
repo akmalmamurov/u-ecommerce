@@ -36,8 +36,8 @@ const HeaderMid = memo(() => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [debouncedSearch] = useDebounce(search, 1000);
   const { data, isLoading } = useGetSearchProductsQuery(debouncedSearch);
-  const  isAuth = useSelector((state) => state.auth.isAuth);
-  const  name = useSelector((state) => state.auth.user);
+  const isAuth = useSelector((state) => state.auth.isAuth);
+  const name = useSelector((state) => state.auth.user);
   console.log(name);
   const products = useSelector((state) => state.product.products);
   const menuOpen = useSelector((state) => state.menu.menuOpen);
@@ -98,7 +98,7 @@ const HeaderMid = memo(() => {
           {/* logo */}
           <Box className="header-mid_content">
             <Link to={"/"}>
-              <img src={logo} alt="logo" />
+              <img src={logo} alt="logo" className="logo-img" />
             </Link>
             {/* menu button */}
             <Box position={"relative"}>
@@ -114,14 +114,17 @@ const HeaderMid = memo(() => {
                   className="catalog_menu-btn"
                   onClick={() => dispatch(toggleMenu())}
                 >
-                  <Box display={"flex"} alignItems={"center"} gap={"16px"}>
+                  <Box display={"flex"} alignItems={"center"} gap={"16px"} className="header-menu_container">
                     {menuOpen ? (
-                      <MenuCloseIcon />
+                      <div className="menu-icon open">
+                        <MenuCloseIcon />
+                      </div>
                     ) : (
-                      <>
-                        <img src={menuImg} alt="" />
-                      </>
+                      <div className="menu-icon closed">
+                        <img src={menuImg} alt="Menu" />
+                      </div>
                     )}
+
                     <Text
                       fontSize={"14px"}
                       color={theme.colors.skyBlue}
