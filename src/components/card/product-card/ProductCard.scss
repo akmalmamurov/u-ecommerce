@@ -83,3 +83,23 @@
 
 
 }
+
+
+
+@keyframes fly-to-cart {
+  0% {
+    opacity: 1;
+    transform: translate(0, 0) scale(1);
+  }
+
+  100% {
+    opacity: 0;
+    transform: translate(calc(100vw - 120px), -100vh) scale(0.2);
+  }
+}
+
+.fly-to-cart {
+  position: fixed;
+  z-index: 9999;
+  animation: fly-to-cart 2s forwards;
+}

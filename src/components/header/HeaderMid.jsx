@@ -25,12 +25,11 @@ import {
 import { useModal } from "../../hooks/useModal";
 import { LoginModal } from "../modal/login/LoginModal";
 import { useGetSearchProductsQuery } from "../../redux/services/productAllServices";
-import { logoutUser } from "../../redux/slices/authSlices";
 import Loading from "../loading/Loading";
 import theme from "../../theme";
 import { hideMenu, toggleMenu } from "../../redux/slices/menuSlices";
 import { CatalogMenu } from "../catalog-menu";
-
+import "./Header.scss";
 const HeaderMid = memo(() => {
   const [search, setSearch] = useState("");
   const [isScrolled, setIsScrolled] = useState(false);
@@ -38,7 +37,6 @@ const HeaderMid = memo(() => {
   const { data, isLoading } = useGetSearchProductsQuery(debouncedSearch);
   const isAuth = useSelector((state) => state.auth.isAuth);
   const name = useSelector((state) => state.auth.user);
-  console.log(name);
   const products = useSelector((state) => state.product.products);
   const menuOpen = useSelector((state) => state.menu.menuOpen);
   const { isOpen, open, close } = useModal();
@@ -71,10 +69,6 @@ const HeaderMid = memo(() => {
     };
   }, []);
 
-  const handleLogout = useCallback(() => {
-    dispatch(logoutUser());
-  }, [dispatch]);
-
   useEffect(() => {
     const handleScroll = () => {
       if (window.scrollY > 100) {
@@ -97,7 +91,7 @@ const HeaderMid = memo(() => {
         <Box fontFamily={theme.fonts.fInter}>
           {/* logo */}
           <Box className="header-mid_content">
-            <Link to={"/"}>
+            <Link to={"/"} style={{ width: "40px", height: "40px" }}>
               <img src={logo} alt="logo" className="logo-img" />
             </Link>
             {/* menu button */}
@@ -114,7 +108,12 @@ const HeaderMid = memo(() => {
                   className="catalog_menu-btn"
                   onClick={() => dispatch(toggleMenu())}
                 >
-                  <Box display={"flex"} alignItems={"center"} gap={"16px"} className="header-menu_container">
+                  <Box
+                    display={"flex"}
+                    alignItems={"center"}
+                    gap={"16px"}
+                    className="header-menu_container"
+                  >
                     {menuOpen ? (
                       <div className="menu-icon open">
                         <MenuCloseIcon />
@@ -201,9 +200,11 @@ const HeaderMid = memo(() => {
               <Box display={"flex"} alignItems={"center"} gap={"12px"}>
                 {isAuth ? (
                   <>
-                    <Link onClick={handleLogout} className="header-mid_right">
+                    <Link to={"/user"} className="header-mid_right">
                       <UserIcon />
-                      <Text>{name || "User"}</Text>
+                      <Text className="header-mid_right-link">
+                        {name || "User"}
+                      </Text>
                     </Link>
                   </>
                 ) : (
@@ -223,7 +224,7 @@ const HeaderMid = memo(() => {
               <Box>
                 <Link to={"/cart"} className="header-mid_right">
                   <Box className="header-mid_right-cart">
-                    <CartIcon />
+                    <CartIcon className="cart-icon" />
                     <Badge
                       className="header-mid_right-badge"
                       bg={theme.colors.skyBlue}

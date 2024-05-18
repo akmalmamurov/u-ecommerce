@@ -16,7 +16,7 @@ ReactDOM.createRoot(document.getElementById("root")).render(
       <PersistGate loading={"loading"} persistor={persistor}>
         <ChakraProvider
           theme={theme}
-          toastOptions={{ defaultOptions: { position: "top" } }}
+          toastOptions={{ defaultOptions: { position: "top-right" } }}
         >
           <App />
           <ToastContainer />

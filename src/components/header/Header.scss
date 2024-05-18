@@ -1,19 +1,19 @@
 header {
-    .header-top {
-        display: flex;
-        align-items: center;
-        min-height: 32px;
-        background-color: #F2F4F8;
+    // .header-top {
+    //     display: flex;
+    //     align-items: center;
+    //     min-height: 32px;
+    //     background-color: #F2F4F8;
 
-        .header-top_left {
-            display: flex;
-            align-items: center;
+    //     .header-top_left {
+    //         display: flex;
+    //         align-items: center;
 
-            @media (max-width:"972px") {
-                flex-direction: column;
-            }
-        }
-    }
+    //         @media (max-width:"972px") {
+    //             flex-direction: column;
+    //         }
+    //     }
+    // }
 
     .header-mid.fixed {
         padding-bottom: 16px;

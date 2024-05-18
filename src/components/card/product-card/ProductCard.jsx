@@ -1,12 +1,12 @@
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
+import { LazyLoadImage } from "react-lazy-load-image-component";
 import PropTypes from "prop-types";
 import {
   Box,
   Card,
   CardBody,
   CardFooter,
-  Image,
   Stack,
   Text,
   useToast,
@@ -23,6 +23,7 @@ import {
 import { toggleFavourit } from "../../../redux/slices/favouritSlices";
 import { addToCart } from "../../../redux/slices/productSlices";
 import "./ProductCard.scss";
+import { useRef } from "react";
 
 export const ProductCard = (props) => {
   const {
@@ -44,12 +45,41 @@ export const ProductCard = (props) => {
 
   const isAddedToFavourites = favourites.some((item) => item.id === id);
   const isAddedToCart = cart.some((item) => item.id === id);
+  const imgWrapperRef = useRef(null);
 
   const goProductDetails = (id) => {
     navigate(`/products/${id}`);
   };
 
   const handleAddToCart = () => {
+    const imgWrapperElement = imgWrapperRef.current;
+    if (imgWrapperElement) {
+      const imgElement = imgWrapperElement.querySelector("img");
+      const imgClone = imgElement.cloneNode(true);
+      imgClone.classList.add("fly-to-cart");
+
+      const { top, left, width, height } = imgElement.getBoundingClientRect();
+      imgClone.style.position = "fixed";
+      imgClone.style.top = `${top}px`;
+      imgClone.style.left = `${left}px`;
+      imgClone.style.width = `${width}px`;
+      imgClone.style.height = `${height}px`;
+
+      document.body.appendChild(imgClone);
+
+      const cartIcon = document.querySelector(".cart-icon");
+      const cartRect = cartIcon.getBoundingClientRect();
+      const xOffset = cartRect.left - left;
+      const yOffset = cartRect.top - top;
+
+      imgClone.style.transition = "transform 1s";
+      imgClone.style.transform = `translate(${xOffset}px, ${yOffset} px) scale(0.2)`;
+
+      setTimeout(() => {
+        document.body.removeChild(imgClone);
+      }, 1000);
+    }
+
     dispatch(
       addToCart({
         id,
@@ -64,7 +94,7 @@ export const ProductCard = (props) => {
     toast({
       title: "Добавлено в корзину",
       description: `${name_ru}`,
-      status: "success",
+      status: "info",
       duration: 2000,
       isClosable: true,
     });
@@ -97,7 +127,9 @@ export const ProductCard = (props) => {
             justifyContent={"center"}
             alignItems={"center"}
           >
-            <Image src={main_image} alt={name_ru} />
+            <div ref={imgWrapperRef}>
+              <LazyLoadImage src={main_image} alt={name_ru} />
+            </div>
           </Box>
 
           <Stack
@@ -125,15 +157,16 @@ export const ProductCard = (props) => {
               color={theme.colors.black}
             >{`${kFormatter(price)}`}</Text>
           </div>
-          <button className="product-card_btn">
-            {isAddedToCart ? (
-              <Link to="/cart">
-                <ProductCartSucessIcon />
-              </Link>
-            ) : (
-              <ShoppingIcon onClick={handleAddToCart} />
-            )}
-          </button>
+
+          {isAddedToCart ? (
+            <Link to="/cart" className="product-card_btn">
+              <ProductCartSucessIcon />
+            </Link>
+          ) : (
+            <button className="product-card_btn" onClick={handleAddToCart}>
+              <ShoppingIcon />
+            </button>
+          )}
         </CardFooter>
         <button onClick={handleToggleFavourit} className="favourites-icon">
           {isAddedToFavourites ? (

@@ -25,15 +25,15 @@ const ProductsDetails = () => {
   const { id } = useParams();
   const { data } = useGetProductByIdQuery(id);
   const isAuth = useSelector((state) => state.auth.isAuth);
+  const cart = useSelector((state) => state.product.products);
   console.log(isAuth);
   const [mainImage, setMainImage] = useState(null);
   const [rating, setRating] = useState(0);
   const [qty, setQty] = useState(1);
-  const [isAddedToCart, setIsAddedToCart] = useState(false);
   const [isAddedToFavourit, setIsAddedToFavourit] = useState(false);
   const toast = useToast();
   const dispatch = useDispatch();
-
+  const isAddedToCart = cart.some((item) => item.id === id);
   useEffect(() => {
     if (data && data?.image_files?.length > 0) {
       setMainImage(data.image_files.media_file);
@@ -52,7 +52,6 @@ const ProductsDetails = () => {
   };
 
   const handleAddToCart = () => {
-    setIsAddedToCart(true);
     dispatch(
       addToCart(
         {
@@ -66,7 +65,8 @@ const ProductsDetails = () => {
         toast({
           title: "Добавлено в корзину",
           description: `${data.name_ru}`,
-          status: "success",
+          status: "info",
+          position: "top-right",
           duration: 2000,
           isClosable: true,
         })
@@ -92,12 +92,10 @@ const ProductsDetails = () => {
     setRating(newRating);
   };
 
-  // Increment quantity
   const incrementQty = () => {
     setQty((prevQty) => prevQty + 1);
   };
 
-  // Decrement quantity
   const decrementQty = () => {
     if (qty > 1) {
       setQty((prevQty) => prevQty - 1);

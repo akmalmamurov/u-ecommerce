@@ -23,7 +23,7 @@ const CheckoutTop = () => {
           <CheckoutLeftArrowIcon />
           <Text>Назад</Text>
         </Link>
-        <Link to={"/"}>
+        <Link to={"/"} style={{width: "40px", height: "40px"}}>
           <img src={logo} alt="" />
         </Link>
 
