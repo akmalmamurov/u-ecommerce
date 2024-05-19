@@ -38,6 +38,7 @@ const HeaderMid = memo(() => {
   const isAuth = useSelector((state) => state.auth.isAuth);
   const name = useSelector((state) => state.auth.user);
   const products = useSelector((state) => state.product.products);
+  const favourites = useSelector((state) => state.favourit.favourites);
   const menuOpen = useSelector((state) => state.menu.menuOpen);
   const { isOpen, open, close } = useModal();
   const navigate = useNavigate();
@@ -217,21 +218,34 @@ const HeaderMid = memo(() => {
 
               <Box>
                 <Link to={"/favourites"} className="header-mid_right">
-                  <HeartIcon />
-                  <Text className="header-mid_right-link">Избранный</Text>
+                  <Box className="header-mid_right-favourit">
+                    <HeartIcon />
+                    {favourites.length > 0 && (
+                      <Badge
+                        className="header-mid_right-badge"
+                        bg={theme.colors.skyBlue}
+                        color={theme.colors.cascadWhite}
+                      >
+                        {favourites.length}
+                      </Badge>
+                    )}
+                  </Box>
+                  <Text className="header-mid_right-link">Избранное</Text>
                 </Link>
               </Box>
               <Box>
                 <Link to={"/cart"} className="header-mid_right">
                   <Box className="header-mid_right-cart">
                     <CartIcon className="cart-icon" />
-                    <Badge
-                      className="header-mid_right-badge"
-                      bg={theme.colors.skyBlue}
-                      color={theme.colors.cascadWhite}
-                    >
-                      {products.length}
-                    </Badge>
+                    {products.length > 0 && (
+                      <Badge
+                        className="header-mid_right-badge"
+                        bg={theme.colors.skyBlue}
+                        color={theme.colors.cascadWhite}
+                      >
+                        {products.length}
+                      </Badge>
+                    )}
                   </Box>
                   <Text className="header-mid_right-link">Корзина</Text>
                 </Link>

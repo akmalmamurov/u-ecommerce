@@ -2,7 +2,6 @@
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { motion } from "framer-motion";
 import {
   Box,
   Center,
@@ -50,7 +49,6 @@ const CartPage = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const toast = useToast();
-  console.log(isAuth);
   useEffect(() => {
     if (products) {
       setCheckedItems(products.map(() => true));
@@ -321,12 +319,7 @@ const CartPage = () => {
             </Box>
           </>
         ) : (
-          <motion.div
-            className="cart-empty"
-            initial={{ y: 70, opacity: 0 }}
-            animate={{ y: 0, opacity: 1 }}
-            transition={{ delay: 0.5, duration: 0.5 }}
-          >
+          <div className="cart-empty">
             <div>
               <img src={emptyCart} alt="emptyCart" />
             </div>
@@ -338,7 +331,7 @@ const CartPage = () => {
                 Вернуться на главную страницу
               </Link>
             </Box>
-          </motion.div>
+          </div>
         )}
       </Container>
     </Box>

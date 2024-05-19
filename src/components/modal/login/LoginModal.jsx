@@ -15,7 +15,7 @@ import {
   Text,
   Box,
 } from "@chakra-ui/react";
-import "../../modal/Modal.css";
+import "./LoginModal.css";
 import theme from "../../../theme";
 import { useAddLoginMutation } from "../../../redux/services/loginServices";
 import { memo, useCallback, useState } from "react";
@@ -66,12 +66,14 @@ export const LoginModal = memo(({ isOpen, onClose }) => {
       <Modal maxW="407px" isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
         <form onSubmit={handleSubmit(onSubmit)}>
-          <ModalContent fontFamily={theme.fonts.fSF} className="auth-modal">
-            <ModalHeader fontSize={"32px"} pt={"65px"}>
+          <ModalContent fontFamily={theme.fonts.fSF} className="login-modal">
+            <Box className="login-modal_close">
+              <ModalCloseButton className="register-close_button" />
+            </Box>
+            <ModalHeader className="login-modal_title" fontSize={"32px"}>
               Вход в аккаунт
             </ModalHeader>
-            <ModalCloseButton className="register-close_button" />
-            <ModalBody pb={6}>
+            <ModalBody className="login-modal_body">
               <FormControl mt={4}>
                 <FormLabel>Введите номер телефона </FormLabel>
                 <Input
@@ -79,10 +81,11 @@ export const LoginModal = memo(({ isOpen, onClose }) => {
                     required: "Пожалуйста, введите свой номер телефона",
                     minLength: {
                       value: 12,
-                      message: "Неверный номер телефона.Проверьте и повторите попытку.",
+                      message:
+                        "Неверный номер телефона.Проверьте и повторите попытку.",
                     },
                   })}
-                  className={`auth-input ${
+                  className={`login-input ${
                     errors.phone_number ? "error-input" : ""
                   }`}
                   defaultValue="+998"
@@ -96,20 +99,23 @@ export const LoginModal = memo(({ isOpen, onClose }) => {
                 )}
               </FormControl>
             </ModalBody>
-            <ModalFooter display={"flex"} flexDirection={"column"}>
+            <ModalFooter
+              className="login-modal_footer"
+              display={"flex"}
+              flexDirection={"column"}
+            >
               <Button
                 mb={"24px"}
                 isLoading={isSubmitting}
                 type="submit"
-                className="auth-button"
+                className="login-button"
                 colorScheme="blue"
-                mr={3}
               >
                 Продолжить
               </Button>
               <Box w={"full"}>
                 <Text textAlign={"center"} fontSize={"14px"}>
-                  Авторизуясь, вы соглашаетесь c
+                  Авторизуясь, вы соглашаетесь c{" "}
                   <span style={{ color: "#0074EB" }}>
                     политикой обработки персональных данных
                   </span>

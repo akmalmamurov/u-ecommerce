@@ -1,6 +1,7 @@
 import { Suspense, lazy } from "react";
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import { MainLayout } from "./components/layout";
+import { useSelector } from "react-redux";
 const Home = lazy(() => import("./pages/home/Home"));
 const Favourites = lazy(() => import("./pages/favourites/Favourites"));
 const Cart = lazy(() => import("./pages/cart/Cart"));
@@ -14,6 +15,7 @@ const AllCategories = lazy(() =>
 );
 
 function App() {
+  const isAuth = useSelector((state) => state.auth.isAuth);
   return (
     <Suspense>
       <BrowserRouter>
@@ -26,7 +28,7 @@ function App() {
             <Route path="products/:id" element={<ProductsDetails />} />
             <Route path="answer" element={<AnswerPage />} />
             <Route path="categories" element={<AllCategories />} />
-            <Route path="user" element={<User />} />
+            <Route path="user" element={ isAuth ? <User /> : <Navigate to="/" />} />
           </Route>
           <Route path="/checkout" element={<CheckoutPage />} />
         </Routes>

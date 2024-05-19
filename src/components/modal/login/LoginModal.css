@@ -1,0 +1,40 @@
+.login-modal {
+  width: 407px !important;
+  top: 180px;
+  min-height: 335px;
+  border-radius: 12px !important;
+  padding: 12px 16px !important;
+}
+.login-input {
+  border-radius: 8px !important;
+  background-color: #f5f6f8 !important;
+}
+.login-input::placeholder {
+  color: black;
+}
+.login-button {
+  width: 100%;
+}
+.login-modal_close {
+  position: absolute;
+  top: 12px;
+  right: 0px;
+}
+.login-modal_title {
+  margin-top: 65px !important;
+  padding: 0 !important;
+}
+.register-close_button {
+  background-color: #dcdcdc !important;
+  border-radius: 50% !important;
+  width: 30px !important;
+  height: 30px !important;
+}
+.login-modal_body {
+  padding: 0 !important;
+  margin-bottom: 32px;
+}
+.login-modal_footer {
+  padding: 0 !important;
+}
+

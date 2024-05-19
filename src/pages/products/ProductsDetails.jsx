@@ -1,5 +1,5 @@
 import { useEffect, Fragment, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import {
   Box,
@@ -20,11 +20,13 @@ import { buyImg, cartWhite, heartWhite } from "../../assets/images";
 import theme from "../../theme";
 import "./ProductDetails.scss";
 import { kFormatter } from "../../utils";
+import { useAddBasketMutation } from "../../redux/services/basketServices";
 
 const ProductsDetails = () => {
   const { id } = useParams();
   const { data } = useGetProductByIdQuery(id);
   const isAuth = useSelector((state) => state.auth.isAuth);
+  const [addBasket] = useAddBasketMutation();
   const cart = useSelector((state) => state.product.products);
   console.log(isAuth);
   const [mainImage, setMainImage] = useState(null);
@@ -34,6 +36,7 @@ const ProductsDetails = () => {
   const toast = useToast();
   const dispatch = useDispatch();
   const isAddedToCart = cart.some((item) => item.id === id);
+  const navigate = useNavigate();
   useEffect(() => {
     if (data && data?.image_files?.length > 0) {
       setMainImage(data.image_files.media_file);
@@ -99,6 +102,28 @@ const ProductsDetails = () => {
   const decrementQty = () => {
     if (qty > 1) {
       setQty((prevQty) => prevQty - 1);
+    }
+  };
+
+  const goToCheckout = async () => {
+    if (!isAuth) {
+      toast({
+        title: "Please log in to proceed to checkout.",
+        status: "error",
+        duration: 3000,
+        isClosable: true,
+      });
+      return;
+    }
+    try {
+      const res = await addBasket({
+        product_id: data.id,
+        quantity: qty,
+      });
+      console.log(res);
+      navigate("/checkout")
+    } catch (err) {
+      console.log(err);
     }
   };
 
@@ -213,7 +238,10 @@ const ProductsDetails = () => {
                     </button>
                   </Box>
                   <Box mt={"24px"}>
-                    <button className="pr-details_buy-btn">
+                    <button
+                      onClick={goToCheckout}
+                      className="pr-details_buy-btn"
+                    >
                       <img src={buyImg} alt="buy" />
                       <span>Купить сейчас</span>
                     </button>

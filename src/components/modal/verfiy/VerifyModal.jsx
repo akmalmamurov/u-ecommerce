@@ -10,19 +10,22 @@ import {
   ModalContent,
   ModalFooter,
   Box,
-  ModalHeader,
   ModalOverlay,
   PinInput,
   PinInputField,
+  Text,
 } from "@chakra-ui/react";
 import { LeftArrowIcon } from "../../../assets/icons";
 import { useAddVerifyMutation } from "../../../redux/services/verifyServices";
-import { useDispatch, useSelector } from "react-redux";
-import { setAuth } from "../../../redux/slices/authSlices";
+import { useDispatch } from "react-redux";
+import { setAuth, setPhoneNumber } from "../../../redux/slices/authSlices";
 import { Link } from "react-router-dom";
-import "../Modal.css";
 import Cookies from "js-cookie";
 import { TOKEN } from "../../../constants";
+import { useEffect, useState } from "react";
+import "./VerifyModal.scss";
+import theme from "../../../theme";
+
 const VerifyModal = ({ isOpen, onClose, source, onOpen }) => {
   const {
     handleSubmit,
@@ -33,8 +36,26 @@ const VerifyModal = ({ isOpen, onClose, source, onOpen }) => {
 
   const dispatch = useDispatch();
   const [addVerify, { isSuccess, isError }] = useAddVerifyMutation();
-  const token = useSelector((state) => state.auth.token);
-  console.log(token);
+  const [timer, setTimer] = useState(60);
+  const [showResend, setShowResend] = useState(false);
+
+  useEffect(() => {
+    if (isOpen) {
+      setTimer(60);
+      setShowResend(false);
+    }
+  }, [isOpen]);
+
+  useEffect(() => {
+    if (timer > 0) {
+      const intervalId = setInterval(() => {
+        setTimer((prev) => prev - 1);
+      }, 1000);
+      return () => clearInterval(intervalId);
+    } else {
+      setShowResend(true);
+    }
+  }, [timer]);
 
   const onSubmit = async (value) => {
     const fullCode = Object.values(value).join("");
@@ -49,8 +70,9 @@ const VerifyModal = ({ isOpen, onClose, source, onOpen }) => {
         console.log(res.error);
         return;
       }
-      Cookies.set(TOKEN, res.data.token);
+      Cookies.set(TOKEN, res.data.token, { expires: 7 });
       dispatch(setAuth());
+      dispatch(setPhoneNumber(source));
       onClose();
       reset();
     } catch (err) {
@@ -58,29 +80,48 @@ const VerifyModal = ({ isOpen, onClose, source, onOpen }) => {
     }
   };
 
+  const handleResend = () => {
+    setTimer(60);
+    setShowResend(false);
+    reset();
+  };
+
   return (
     <div>
       <Modal w={"455px"} isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
         <form onSubmit={handleSubmit(onSubmit)}>
-          <ModalContent py={"32px"} px={"40px"} className="auth-modal">
-            <div onClick={onOpen} style={{ marginLeft: "15px" }}>
-              <LeftArrowIcon cursor={"pointer"} />
-            </div>
-            <Box>
-              <ModalCloseButton />
+          <ModalContent
+            px={"40px"}
+            className="verify-modal"
+            fontFamily={theme.fonts.fSF}
+          >
+            <Box className="verify-modal_header">
+              <div onClick={onOpen}>
+                <LeftArrowIcon cursor={"pointer"} />
+              </div>
+              <Text fontFamily={theme.fonts.fSF} className="verify-modal_title">
+                Введите код
+              </Text>
             </Box>
 
-            <ModalHeader>Введите код</ModalHeader>
-            <ModalBody pb={6}>
-              <FormControl mt={4}>
-                <HStack spacing={2}>
-                  <PinInput>
+            <Box className="verify-modal_close">
+              <ModalCloseButton className="verify-modal_close-button" />
+            </Box>
+
+            <ModalBody className="verify-modal_body">
+              <FormControl>
+                <HStack spacing={4} className="verify-input_wrapper">
+                  <PinInput placeholder="">
                     {[1, 2, 3, 4, 5, 6].map((index) => (
                       <PinInputField
                         key={index}
-                        className={`auth-input ${
-                          errors[`pin${index}`] ? "error-input" : ""
+                        className={`verify-input ${
+                          timer === 0 && Object.keys(errors).length === 0
+                            ? "error-input"
+                            : errors[`pin${index}`]
+                            ? "error-input"
+                            : ""
                         }`}
                         {...register(`pin${index}`, { required: "Enter code" })}
                       />
@@ -91,28 +132,56 @@ const VerifyModal = ({ isOpen, onClose, source, onOpen }) => {
                   <span className="error-message">{errors.code.message}</span>
                 )}
               </FormControl>
+              {timer > 0 ? (
+                <Link className="verify-modal_link">
+                  Изменить номер телефона
+                </Link>
+              ) : (
+                <span className="error-message verify-modal_error">
+                  Время истекло
+                </span>
+              )}
+
+              <div className="verify-modal_timer">
+                {showResend ? (
+                  <Link
+                    className="verify-modal_timer-link"
+                    onClick={handleResend}
+                  >
+                    Отправить еще раз
+                  </Link>
+                ) : (
+                  timer > 0 && (
+                    <span>
+                      {String(Math.floor(timer / 60)).padStart(2, "0")}:
+                      {String(timer % 60).padStart(2, "0")}
+                    </span>
+                  )
+                )}
+              </div>
             </ModalBody>
 
-            <ModalFooter className="modal-footer">
-              <Button colorScheme={"blue"}>
+            <ModalFooter className="verify-modal_footer">
+              <Button className="verify-modal_button">
                 <Link
                   to={"https://t.me/ulabMarket_bot"}
                   className="code_tg"
                   target="_blank"
                   rel="noopener noreferrer"
                 >
-                  Login in with Telegram
+                  Войти через Телеграм
                 </Link>
               </Button>
 
               <Button
+                className="verify-modal_button"
                 type="submit"
-                colorScheme="blue"
                 mr={3}
                 isLoading={isSubmitting}
               >
-                Save
+                Подвердить
               </Button>
+
               {isSuccess && <span className="success-message">Success!</span>}
               {isError && <span className="error-message">Error!</span>}
             </ModalFooter>
