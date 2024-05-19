@@ -1,4 +1,4 @@
-import logo from "./logo.jpg";
+import logo from "./logo.png";
 import saleImg from "./saleImg.png";
 import cashImg from "./cashImg.png";
 import bannerImgOne from "./banner/bannerImgTwo.jpg";
@@ -13,6 +13,7 @@ import chevronRight from "./chevron-right.png";
 import clickImg from "./click-img.webp";
 import paymeImg from "./payme-img.webp";
 import menuImg from "./menu.png";
+import emptyLike from "./emptyFavourit-img.png";
 export {
   logo,
   saleImg,
@@ -29,4 +30,5 @@ export {
   clickImg,
   paymeImg,
   menuImg,
+  emptyLike,
 };

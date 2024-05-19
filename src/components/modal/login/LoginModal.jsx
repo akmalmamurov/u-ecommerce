@@ -18,48 +18,56 @@ import {
 import "./LoginModal.css";
 import theme from "../../../theme";
 import { useAddLoginMutation } from "../../../redux/services/loginServices";
-import { memo, useCallback, useState } from "react";
+import { memo, useCallback, useState, useEffect } from "react";
 import VerifyModal from "../verfiy/VerifyModal";
 
 export const LoginModal = memo(({ isOpen, onClose }) => {
-  const [phoneValue, setPhoneValue] = useState("");
+  const [phoneValue, setPhoneValue] = useState("+998");
   const [isSuccess, setIsSuccess] = useState(false);
   const [openVerifyModal, setOpenVerifyModal] = useState(false);
-  const [isSubmitting, setIsSubmitting] = useState(false);
-
   const {
     handleSubmit,
     register,
     reset,
+    setValue,
     formState: { errors },
-  } = useForm();
+  } = useForm({
+    defaultValues: {
+      phone_number: "+998",
+    },
+  });
 
-  const [addLogin] = useAddLoginMutation();
+  const [addLogin, { isLoading }] = useAddLoginMutation();
+
   const onSubmit = async (values) => {
-    setIsSubmitting(true);
     const phone_number = values.phone_number.replace(/^\+/, "");
     setPhoneValue(phone_number);
     try {
       await addLogin({ source: phone_number, type: "phone_number" });
       setIsSuccess(true);
       setOpenVerifyModal(true);
-      reset({ phone_number: "" });
+      reset({ phone_number: "+998" });
     } catch (err) {
       console.log(err);
-    } finally {
-      setIsSubmitting(false);
     }
   };
 
-  const handleInputChange = useCallback((e) => {
-    const inputValue = e.target.value;
-    const sanitizedValue = inputValue.replace(/[^\d+]/g, "");
-    const newValue =
-      sanitizedValue && !sanitizedValue.startsWith("+")
-        ? "+" + sanitizedValue
-        : sanitizedValue;
-    e.target.value = newValue;
-  }, []);
+  const handleInputChange = useCallback(
+    (e) => {
+      const inputValue = e.target.value;
+      const sanitizedValue = inputValue.replace(/[^\d+]/g, "");
+      const newValue =
+        sanitizedValue && !sanitizedValue.startsWith("+")
+          ? "+" + sanitizedValue
+          : sanitizedValue;
+      setValue("phone_number", newValue);
+    },
+    [setValue]
+  );
+
+  useEffect(() => {
+    setValue("phone_number", "+998");
+  }, [setValue]);
 
   return (
     <div>
@@ -82,13 +90,12 @@ export const LoginModal = memo(({ isOpen, onClose }) => {
                     minLength: {
                       value: 12,
                       message:
-                        "Неверный номер телефона.Проверьте и повторите попытку.",
+                        "Неверный номер телефона. Проверьте и повторите попытку.",
                     },
                   })}
                   className={`login-input ${
                     errors.phone_number ? "error-input" : ""
                   }`}
-                  defaultValue="+998"
                   onChange={handleInputChange}
                 />
 
@@ -106,10 +113,11 @@ export const LoginModal = memo(({ isOpen, onClose }) => {
             >
               <Button
                 mb={"24px"}
-                isLoading={isSubmitting}
+                isLoading={isLoading}
                 type="submit"
                 className="login-button"
                 colorScheme="blue"
+                height={"56px"}
               >
                 Продолжить
               </Button>

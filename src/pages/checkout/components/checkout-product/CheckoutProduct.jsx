@@ -3,10 +3,9 @@ import PropTypes from "prop-types";
 import "./CheckoutProduct.scss";
 import theme from "../../../../theme";
 import { kFormatter } from "../../../../utils";
-import { Fragment } from "react";
 const CheckoutProduct = ({ products, total_price }) => {
   return (
-    <Fragment>
+    <div className="checkout-product_page">
       <Box
         className="checkout-product"
         fontFamily={theme.fonts.fInter}
@@ -45,7 +44,7 @@ const CheckoutProduct = ({ products, total_price }) => {
           <p className="checkout-bottom_total">{kFormatter(total_price)}</p>
         </Box>
       </div>
-    </Fragment>
+    </div>
   );
 };
 CheckoutProduct.propTypes = {

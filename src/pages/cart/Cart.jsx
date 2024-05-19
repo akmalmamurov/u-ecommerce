@@ -18,6 +18,7 @@ import {
   CartDeleteIcon,
   CartEmptyIcon,
   CartFavouriteIcon,
+  ProductFavouritActiveIcon,
 } from "../../assets/icons";
 import theme from "../../theme";
 import { emptyCart } from "../../assets/images";
@@ -40,7 +41,6 @@ import { toggleFavourit } from "../../redux/slices/favouritSlices";
 const CartPage = () => {
   const products = useSelector((state) => state.product.products);
   const isAuth = useSelector((state) => state.auth.isAuth);
-
   const [addBasket] = useAddBasketMutation();
   const [deleteBasket] = useDeleteBasketMutation();
   const [totalPrice, setTotalPrice] = useState(0);
@@ -49,6 +49,8 @@ const CartPage = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const toast = useToast();
+  const [isAddedToFavourites, setIsAddedToFavourites] = useState(false);
+  console.log(isAddedToFavourites);
   useEffect(() => {
     if (products) {
       setCheckedItems(products.map(() => true));
@@ -68,6 +70,19 @@ const CartPage = () => {
     const newCheckedItems = [...checkedItems];
     newCheckedItems[index] = !newCheckedItems[index];
     setCheckedItems(newCheckedItems);
+  };
+  const handleFavoriteToggle = (item) => {
+    dispatch(
+      toggleFavourit({
+        id: item.id,
+        main_image: item.main_image,
+        price: item.price,
+        description_ru: item.description_ru,
+        name_ru: item.name_ru,
+        rating: item.rating,
+      })
+    );
+    setIsAddedToFavourites((prev) => !prev);
   };
 
   const handleChangeAll = (e) => {
@@ -208,21 +223,17 @@ const CartPage = () => {
                             </Heading>
                             <Box display={"flex"} gap={"12px"}>
                               <button
-                                className="cart-button_text"
+                                className={`cart-button_text`}
                                 onClick={() => {
-                                  dispatch(
-                                    toggleFavourit({
-                                      id: item.id,
-                                      main_image: item.main_image,
-                                      price: item.price,
-                                      description_ru: item.description_ru,
-                                      name_ru: item.name_ru,
-                                      rating: item.rating,
-                                    })
-                                  );
+                                  handleFavoriteToggle(item);
                                 }}
                               >
-                                <CartFavouriteIcon className="cart-button_icon" />
+                                {isAddedToFavourites ? (
+                                  <ProductFavouritActiveIcon />
+                                ) : (
+                                  <CartFavouriteIcon className="cart-button_icon" />
+                                )}
+
                                 <span>В избранное</span>
                               </button>
 
@@ -283,7 +294,7 @@ const CartPage = () => {
                 </Box>
               </GridItem>
               <GridItem colSpan={5}>
-                <Box className="cart-right">
+                <Box className={`cart-right `}>
                   <Box className="cart-right_main">
                     <div className="cart-right_item">
                       <h2>Итого</h2>

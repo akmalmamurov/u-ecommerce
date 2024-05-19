@@ -1,0 +1,8 @@
+.all-categories {
+    padding: 32px 0;
+    .all-categories_content {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 14px;
+    }
+}

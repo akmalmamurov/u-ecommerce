@@ -4,7 +4,7 @@ import { Box, Container, Text } from "@chakra-ui/react";
 import { motion } from "framer-motion";
 import GridProduct from "../../components/product-grid/GridProduct";
 import { ProductCard } from "../../components/card/product-card";
-import { emptyCart } from "../../assets/images";
+import { emptyLike } from "../../assets/images";
 import theme from "../../theme";
 import "./Favourties.scss";
 
@@ -27,10 +27,12 @@ const FavouritesPage = () => {
             transition={{ delay: 0.5, duration: 0.5 }}
           >
             <div>
-              <img src={emptyCart} alt="emptyCart" />
+              <img src={emptyLike} alt="emptyCart" />
             </div>
             <Text fontFamily={theme.fonts.fSf} className="empty-cart_text">
-              В Избранное ничего нет
+              Добавьте то, что понравилось <br />
+              Нажмите на ♡ в товаре. Войдите в аккаунт и всё избранное
+              сохранится
             </Text>
             <Box fontFamily={theme.fonts.fInter} mt={"32px"}>
               <Link to="/" className="empty-cart_btn">

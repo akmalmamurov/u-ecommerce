@@ -18,9 +18,9 @@ const CatalogMenu = () => {
     setHoveredCategoryId(id);
   };
 
-  const addToCategory = (name, id) => {
+  const addToCategory = (name, subId) => {
     dispatch(hideMenu());
-    navigate(`/category/${encodeURIComponent(name)}/${id}`);
+    navigate(`/category/${encodeURIComponent(name)}/${subId}`);
   };
 
   return (
@@ -62,7 +62,7 @@ const CatalogMenu = () => {
                         <Box
                           cursor={"pointer"}
                           onClick={() =>
-                            addToCategory(subcat.name_ru, subcat.id)
+                            addToCategory(subcat.name_ru, el.id, subcat.id)
                           }
                           className="sub-category"
                         >
