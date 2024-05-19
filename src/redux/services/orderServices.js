@@ -21,6 +21,10 @@ const orderServices = createApi({
       query: () => `/api/order`,
       providesTags: ["order"],
     }),
+    getMyOrder: builder.query({
+      query: () => `/api/order/myorders`,
+      providesTags: ["order"],
+    }),
     addOrder: builder.mutation({
       query: (body) => ({
         url: "/api/order",
@@ -32,6 +36,7 @@ const orderServices = createApi({
   }),
 });
 
-export const { useGetOrderQuery, useAddOrderMutation } = orderServices;
+export const { useGetOrderQuery, useAddOrderMutation, useGetMyOrderQuery } =
+  orderServices;
 
 export default orderServices;

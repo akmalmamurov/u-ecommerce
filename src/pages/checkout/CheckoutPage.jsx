@@ -42,6 +42,8 @@ const CheckoutPage = () => {
   const [addressData, setAddressData] = useState({});
   const [clStreet, setClStreet] = useState("");
   const [paymentType, setPaymentType] = useState("card");
+  const [paymentSelected, setPaymentSelected] = useState("Click");
+  console.log(paymentSelected);
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const onSubmit = async (data) => {
@@ -57,6 +59,7 @@ const CheckoutPage = () => {
     data.payment_type = paymentType;
     data.client_comment = clientComment;
     data.client_phone_number = phone_number;
+    data.payment_card_type = paymentSelected;
 
     console.log(data);
     try {
@@ -139,6 +142,8 @@ const CheckoutPage = () => {
                 <CheckoutPayment
                   paymentType={paymentType}
                   handlePaymentTypeChange={handlePaymentTypeChange}
+                  paymentSelected={paymentSelected}
+                  setPaymentSelected={setPaymentSelected}
                 />
 
                 {/* qabul qilish */}

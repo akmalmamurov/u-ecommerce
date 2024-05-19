@@ -41,6 +41,7 @@ import { toggleFavourit } from "../../redux/slices/favouritSlices";
 const CartPage = () => {
   const products = useSelector((state) => state.product.products);
   const isAuth = useSelector((state) => state.auth.isAuth);
+  const favourites = useSelector((state) => state.favourit.favourites);
   const [addBasket] = useAddBasketMutation();
   const [deleteBasket] = useDeleteBasketMutation();
   const [totalPrice, setTotalPrice] = useState(0);
@@ -49,13 +50,12 @@ const CartPage = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const toast = useToast();
-  const [isAddedToFavourites, setIsAddedToFavourites] = useState(false);
-  console.log(isAddedToFavourites);
+
   useEffect(() => {
     if (products) {
       setCheckedItems(products.map(() => true));
     }
-  }, []);
+  }, [products]);
 
   useEffect(() => {
     const { totalPrice, totalAdditionalPrice } = calculateTotalPrice(
@@ -71,18 +71,9 @@ const CartPage = () => {
     newCheckedItems[index] = !newCheckedItems[index];
     setCheckedItems(newCheckedItems);
   };
+
   const handleFavoriteToggle = (item) => {
-    dispatch(
-      toggleFavourit({
-        id: item.id,
-        main_image: item.main_image,
-        price: item.price,
-        description_ru: item.description_ru,
-        name_ru: item.name_ru,
-        rating: item.rating,
-      })
-    );
-    setIsAddedToFavourites((prev) => !prev);
+    dispatch(toggleFavourit(item));
   };
 
   const handleChangeAll = (e) => {
@@ -135,6 +126,7 @@ const CartPage = () => {
       });
     }
   };
+
   const allProductDelete = () => {
     if (products.length === 0) return;
 
@@ -228,7 +220,9 @@ const CartPage = () => {
                                   handleFavoriteToggle(item);
                                 }}
                               >
-                                {isAddedToFavourites ? (
+                                {favourites.some(
+                                  (favourite) => favourite.id === item.id
+                                ) ? (
                                   <ProductFavouritActiveIcon />
                                 ) : (
                                   <CartFavouriteIcon className="cart-button_icon" />

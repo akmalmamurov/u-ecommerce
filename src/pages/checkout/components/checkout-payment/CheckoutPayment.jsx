@@ -1,4 +1,3 @@
-import { useState } from "react";
 import PropTypes from "prop-types";
 import {
   Modal,
@@ -18,9 +17,13 @@ import {
 import { clickImg, paymeImg } from "../../../../assets/images";
 import { PaymentCardIcon, PaymentCashIcon } from "../../../../assets/icons";
 import "./CheckoutPayment.scss";
-const CheckoutPayment = ({ handlePaymentTypeChange, paymentType }) => {
+const CheckoutPayment = ({
+  handlePaymentTypeChange,
+  paymentType,
+  setPaymentSelected,
+  paymentSelected,
+}) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const [paymentSelected, setPaymentSelected] = useState("Click");
 
   const handlePaymentChange = (value) => {
     setPaymentSelected(value);
@@ -130,5 +133,7 @@ const CheckoutPayment = ({ handlePaymentTypeChange, paymentType }) => {
 CheckoutPayment.propTypes = {
   handlePaymentTypeChange: PropTypes.func,
   paymentType: PropTypes.string,
+  setPaymentSelected: PropTypes.func,
+  paymentSelected: PropTypes.string,
 };
 export default CheckoutPayment;

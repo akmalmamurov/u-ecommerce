@@ -1,0 +1,67 @@
+.my-orders_page {
+    padding: 32px 0;
+
+    .my-orders_content {
+        display: flex;
+
+        .my-orders_left {
+            flex: 0 33%;
+
+            .my-orders_title {
+                font-weight: 500;
+                font-size: 20px;
+                color: #000000;
+                margin-bottom: 16px;
+            }
+
+            .my-orders_link {
+                font-weight: 500;
+                color: #7C7C7C;
+                font-size: 20px;
+            }
+        }
+
+        .my-orders_right {
+            flex: 0 66%;
+
+            .my-orders_tabs {
+                .my-orders_tabs-list {
+                    border: 1px solid #BDBDBD;
+                    border-radius: 6px;
+                    width: fit-content;
+                    overflow: hidden;
+                    margin-bottom: 24px;
+
+                    .my-orders_tabs-content {
+                        padding: 12px 25.5px !important;
+                        font-weight: 500;
+                        font-size: 16px;
+                        color: #000000;
+                        border-right: 1px solid #BDBDBD;
+
+                        &:last-child {
+                            border-right: none;
+                        }
+                        &[aria-selected="true"] {
+                            background-color: #EFEFEF;
+                            border-right: none;
+                        }
+
+                    }
+
+
+                }
+                .my-orders_tabs-panels{
+                    padding: 12px 16px;
+                    border: 1px solid #DCDCDC;
+                    border-radius: 8px;
+                    .my-orders_tabs-panel{
+                        .my-orders_tab-header{
+                            font-size: 32px;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

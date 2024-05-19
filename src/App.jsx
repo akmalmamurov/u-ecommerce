@@ -2,6 +2,7 @@ import { Suspense, lazy } from "react";
 import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import { MainLayout } from "./components/layout";
 import { useSelector } from "react-redux";
+import MyOrders from "./pages/order/MyOrders";
 const Home = lazy(() => import("./pages/home/Home"));
 const Favourites = lazy(() => import("./pages/favourites/Favourites"));
 const Cart = lazy(() => import("./pages/cart/Cart"));
@@ -28,7 +29,8 @@ function App() {
             <Route path="products/:id" element={<ProductsDetails />} />
             <Route path="answer" element={<AnswerPage />} />
             <Route path="categories" element={<AllCategories />} />
-            <Route path="user" element={ isAuth ? <User /> : <Navigate to="/" />} />
+            <Route path="profile" element={ isAuth ? <User /> : <Navigate to="/" />} />
+            <Route path="orders" element={ isAuth ? <MyOrders /> : <Navigate to="/" />} />
           </Route>
           <Route path="/checkout" element={<CheckoutPage />} />
         </Routes>

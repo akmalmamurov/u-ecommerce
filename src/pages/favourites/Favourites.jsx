@@ -31,8 +31,7 @@ const FavouritesPage = () => {
             </div>
             <Text fontFamily={theme.fonts.fSf} className="empty-cart_text">
               Добавьте то, что понравилось <br />
-              Нажмите на ♡ в товаре. Войдите в аккаунт и всё избранное
-              сохранится
+              Нажмите на ♡ в товаре.
             </Text>
             <Box fontFamily={theme.fonts.fInter} mt={"32px"}>
               <Link to="/" className="empty-cart_btn">

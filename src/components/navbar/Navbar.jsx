@@ -14,7 +14,7 @@ const Navbar = () => {
           <Loading />
         ) : (
           <Box className="nav-list" fontFamily={theme.fonts.fInter}>
-            {categories.slice(0, 8).map((category) => (
+            {categories.slice(0, 7).map((category) => (
               <NavLink
                 key={category.id}
                 to={`/category/${category.name_ru}/${category.id}`}

@@ -1,0 +1,44 @@
+.header-menu_container {
+    .header-menu_right {
+        position: relative;
+
+        .header-mid_right-btn {
+            font-family: "Inter"sans-serif;
+            padding: 0 8px;
+            border-radius: 8px;
+            transition: 0.3 ease-in-out;
+
+            .header-menu_link {
+                display: flex;
+                align-items: center;
+                min-width: 42px;
+                min-height: 42px;
+                gap: 12px;
+            }
+
+            &:hover {
+                background-color: #e6e8ed;
+            }
+
+
+        }
+
+        .css-r6z5ec {
+            transform: translate(-20px, 37px) !important;
+            width: 100px !important;
+            border-radius: 8px;
+
+                left: -10px;
+            .header-menu_list {
+                min-width: 12rem !important;
+                border: none;
+
+                .header-menu_hover-link {
+                    font-family: "Inter", sans-serif;
+                    padding: 7px 15px;
+                    font-size: 14px;
+                }
+            }
+        }
+    }
+}

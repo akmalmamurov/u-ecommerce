@@ -30,20 +30,19 @@ import theme from "../../theme";
 import { hideMenu, toggleMenu } from "../../redux/slices/menuSlices";
 import { CatalogMenu } from "../catalog-menu";
 import "./Header.scss";
+import HeaderMenu from "./header-menu/HeaderMenu";
 const HeaderMid = memo(() => {
   const [search, setSearch] = useState("");
   const [isScrolled, setIsScrolled] = useState(false);
   const [debouncedSearch] = useDebounce(search, 1000);
   const { data, isLoading } = useGetSearchProductsQuery(debouncedSearch);
   const isAuth = useSelector((state) => state.auth.isAuth);
-  const name = useSelector((state) => state.auth.user);
   const products = useSelector((state) => state.product.products);
   const favourites = useSelector((state) => state.favourit.favourites);
   const menuOpen = useSelector((state) => state.menu.menuOpen);
   const { isOpen, open, close } = useModal();
   const navigate = useNavigate();
   const dispatch = useDispatch();
-
   const handleSearch = (e) => {
     setSearch(e.target.value);
   };
@@ -197,17 +196,10 @@ const HeaderMid = memo(() => {
               </Box>
             </Box>
             {/* auth favourit cart page here */}
-            <Box display={"flex"} gap={"32px"}>
-              <Box display={"flex"} alignItems={"center"} gap={"12px"}>
+            <Box className="header-mid_right-container" >
+              <Box display={"flex"} alignItems={"center"} gap={"12px"} >
                 {isAuth ? (
-                  <>
-                    <Link to={"/user"} className="header-mid_right">
-                      <UserIcon />
-                      <Text className="header-mid_right-link">
-                        {name || "User"}
-                      </Text>
-                    </Link>
-                  </>
+                  <HeaderMenu />
                 ) : (
                   <Link className="header-mid_right" onClick={open}>
                     <UserIcon cursor={"pointer"} />

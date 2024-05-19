@@ -23,19 +23,19 @@ import menuReducer from "../slices/menuSlices";
 import orderServices from "../services/orderServices";
 
 const persistConfig = {
-  key: "root",
+  key: "u-ecommerce",
   storage,
-  blacklist: [
-    "menu",
-    "categoryServices",
-    "productAllServices",
-    "order",
-    "authServices",
-    "basket",
-    "login",
-    "verify",
-    "auth",
-  ],
+  // blacklist: [
+  //   "menu",
+  //   "categoryServices",
+  //   "productAllServices",
+  //   "order",
+  //   "authServices",
+  //   "basket",
+  //   "login",
+  //   "verify",
+  //   "auth",
+  // ],
 };
 
 const persistedProductReducer = persistReducer(persistConfig, productReducer);
