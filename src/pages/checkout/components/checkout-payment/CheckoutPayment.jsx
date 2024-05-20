@@ -17,22 +17,32 @@ import {
 import { clickImg, paymeImg } from "../../../../assets/images";
 import { PaymentCardIcon, PaymentCashIcon } from "../../../../assets/icons";
 import "./CheckoutPayment.scss";
+import { useState, useEffect } from "react";
+
 const CheckoutPayment = ({
   handlePaymentTypeChange,
   paymentType,
-  setPaymentSelected,
-  paymentSelected,
+  setPaymentCardType,
 }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const [selectedOnlinePayment, setSelectedOnlinePayment] = useState("Click");
+
+  useEffect(() => {
+    setPaymentCardType(selectedOnlinePayment);
+  }, [selectedOnlinePayment, setPaymentCardType]);
 
   const handlePaymentChange = (value) => {
-    setPaymentSelected(value);
+    setSelectedOnlinePayment(value);
   };
+
   return (
     <div className="checkout-payment_page">
       <div className={"checkout-payment_type"}>
         <label
-          onClick={onOpen}
+          onClick={() => {
+            onOpen();
+            handlePaymentTypeChange({ target: { value: "online" } });
+          }}
           htmlFor="payment-online"
           className="checkout-payment_type-item"
         >
@@ -43,8 +53,8 @@ const CheckoutPayment = ({
             type="radio"
             value="online"
             className="payment-type_input"
-            onChange={handlePaymentTypeChange}
             checked={paymentType === "online"}
+            readOnly
           />
         </label>
         <label
@@ -58,20 +68,21 @@ const CheckoutPayment = ({
             id="payment-cash"
             type="radio"
             value="cash"
+            checked={paymentType === "cash"}
             onChange={handlePaymentTypeChange}
-            disabled={paymentType === "online"}
+            readOnly={paymentType === "online"}
           />
         </label>
       </div>
 
       <div className="checkout-payment">
-        {paymentSelected && (
+        {selectedOnlinePayment && (
           <div className="payment-selected">
             <img
-              src={paymentSelected === "Click" ? clickImg : paymeImg}
-              alt={paymentSelected}
+              src={selectedOnlinePayment === "Click" ? clickImg : paymeImg}
+              alt={selectedOnlinePayment}
             />
-            <p>{paymentSelected}</p>
+            <p>{selectedOnlinePayment}</p>
           </div>
         )}
         <button className="checkout-change_btn" onClick={onOpen}>
@@ -90,7 +101,7 @@ const CheckoutPayment = ({
             <ModalBody className="checkout-modal_body">
               <FormControl as="fieldset">
                 <RadioGroup
-                  value={paymentSelected}
+                  value={selectedOnlinePayment}
                   onChange={handlePaymentChange}
                 >
                   <Stack
@@ -119,7 +130,7 @@ const CheckoutPayment = ({
               </FormControl>
             </ModalBody>
             <ModalFooter w="100%">
-              <Button w="100%" onClick={onClose}>
+              <Button type="button" w="100%" onClick={onClose}>
                 Выбрать
               </Button>
             </ModalFooter>
@@ -131,9 +142,9 @@ const CheckoutPayment = ({
 };
 
 CheckoutPayment.propTypes = {
-  handlePaymentTypeChange: PropTypes.func,
-  paymentType: PropTypes.string,
-  setPaymentSelected: PropTypes.func,
-  paymentSelected: PropTypes.string,
+  handlePaymentTypeChange: PropTypes.func.isRequired,
+  paymentType: PropTypes.string.isRequired,
+  setPaymentCardType: PropTypes.func.isRequired,
 };
+
 export default CheckoutPayment;

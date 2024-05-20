@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 import { useForm } from "react-hook-form";
 import {
   Box,
@@ -8,15 +7,13 @@ import {
   Grid,
   GridItem,
   Heading,
-  useToast,
 } from "@chakra-ui/react";
 import CheckoutTop from "./components/checkout-top/CheckoutTop";
 import theme from "../../theme";
 import "./Checkout.scss";
-import { useEffect, useState } from "react";
+import { useState, useCallback } from "react";
 import Footer from "../../components/footer/Footer";
 import CheckoutUserData from "./components/checkout-user/CheckoutUserData";
-import { useCallback } from "react";
 import CheckoutPayment from "./components/checkout-payment/CheckoutPayment";
 import CheckoutDelivery from "./components/checkout-delivery/CheckoutDelivery";
 import MapContainer from "../../components/map-container/MapContainer";
@@ -35,23 +32,25 @@ const CheckoutPage = () => {
     reset,
     formState: { errors, isSubmitting },
   } = useForm();
-  const toast = useToast();
   const { data: { products, total_price } = {} } = useGetBasketQuery();
 
   const [addOrder] = useAddOrderMutation();
   const [addressData, setAddressData] = useState({});
   const [clStreet, setClStreet] = useState("");
   const [paymentType, setPaymentType] = useState("card");
-  const [paymentSelected, setPaymentSelected] = useState("Click");
-  console.log(paymentSelected);
+  const [paymentCardType, setPaymentCardType] = useState("Click");
+
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  console.log(paymentCardType);
+
   const onSubmit = async (data) => {
     const delivery_addr_lat = +addressData.split(",")[0].trim();
     const delivery_addr_long = +addressData.split(",")[1].trim();
     const phone_number = data.client_phone_number.replace(/^\+/, "");
     const street = clStreet;
     const clientComment = "";
+
     data.delivery_addr_lat = delivery_addr_lat;
     data.delivery_addr_long = delivery_addr_long;
     data.delivery_name = street;
@@ -59,22 +58,13 @@ const CheckoutPage = () => {
     data.payment_type = paymentType;
     data.client_comment = clientComment;
     data.client_phone_number = phone_number;
-    data.payment_card_type = paymentSelected;
+    data.payment_card_type = paymentCardType;
 
-    console.log(data);
     try {
       const response = await addOrder(data);
       console.log(response);
       const productIds = products.map((product) => product.id);
       dispatch(deleteItems(productIds));
-      toast({
-        title: "Заказ оформлен",
-        description: "Ваш заказ успешно оформлен",
-        status: "success",
-        duration: 3000,
-        isClosable: true,
-        position: "top",
-      });
       dispatch(setUser(data.client_first_name));
       navigate("/");
       reset();
@@ -93,13 +83,10 @@ const CheckoutPage = () => {
     e.target.value = newValue;
   }, []);
 
-  const handlePaymentTypeChange = useCallback(
-    (e) => {
-      const selectedType = e.target.value;
-      setPaymentType(selectedType);
-    },
-    [setPaymentType]
-  );
+  const handlePaymentTypeChange = useCallback((e) => {
+    const selectedType = e.target.value;
+    setPaymentType(selectedType);
+  }, []);
 
   return (
     <Box className="checkout-page">
@@ -128,13 +115,11 @@ const CheckoutPage = () => {
                 Ваши данные
               </Box>
               <form onSubmit={handleSubmit(onSubmit)}>
-                {/* login */}
                 <CheckoutUserData
                   register={register}
                   errors={errors}
                   handleInputChange={handleInputChange}
                 />
-                {/* to'lov */}
                 <Box className="checkout-page_title">
                   <span>2</span>
                   Выберите способ оплаты
@@ -142,11 +127,8 @@ const CheckoutPage = () => {
                 <CheckoutPayment
                   paymentType={paymentType}
                   handlePaymentTypeChange={handlePaymentTypeChange}
-                  paymentSelected={paymentSelected}
-                  setPaymentSelected={setPaymentSelected}
+                  setPaymentCardType={setPaymentCardType}
                 />
-
-                {/* qabul qilish */}
                 <Box mb={"20px"}>
                   <CheckoutDelivery
                     setAddressData={setAddressData}
