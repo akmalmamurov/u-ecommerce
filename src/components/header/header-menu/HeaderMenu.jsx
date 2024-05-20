@@ -10,13 +10,21 @@ import {
 } from "@chakra-ui/react";
 import { UserIcon } from "../../../assets/icons";
 import "./HeaderMenu.scss";
-import { useSelector } from "react-redux";
-import { Link } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { Link, useNavigate } from "react-router-dom";
+import { logoutUser } from "../../../redux/slices/authSlices";
 
 const HeaderMenu = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const name = useSelector((state) => state.auth.user);
-
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const enterProfile = ()=>{
+    navigate("/profile")
+  };
+  const enterOrder = ()=>{
+    navigate("/orders")
+  }
   return (
     <div className="header-menu_container">
       <Box className="header-menu_right" onMouseLeave={onClose}>
@@ -37,19 +45,25 @@ const HeaderMenu = () => {
             onMouseLeave={onClose}
           >
             <MenuGroup>
-              <MenuItem className="header-menu_hover-link">
-                <Link to="/profile">Личный кабинет</Link>
+              <MenuItem
+                onClick={enterProfile}
+                className="header-menu_hover-link"
+              >
+                <Link>Личный кабинет</Link>
               </MenuItem>
-              <MenuItem className="header-menu_hover-link">
-                <Link to={"/orders"}>Мои заказы</Link>
+              <MenuItem
+                onClick={enterOrder}
+                className="header-menu_hover-link"
+              >
+                <Link>Мои заказы</Link>
+              </MenuItem>
+              <MenuItem
+                onClick={() => dispatch(logoutUser())}
+                className="header-menu_hover-link"
+              >
+                <Link>Выйти</Link>
               </MenuItem>
             </MenuGroup>
-            <MenuGroup>
-              <MenuItem className="header-menu_hover-link">FAQ</MenuItem>
-            </MenuGroup>
-            <MenuItem className="header-menu_hover-link">
-              <Link>Выйти</Link>
-            </MenuItem>
           </MenuList>
         </Menu>
       </Box>

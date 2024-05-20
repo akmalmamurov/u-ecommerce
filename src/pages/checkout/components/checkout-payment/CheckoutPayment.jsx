@@ -85,7 +85,7 @@ const CheckoutPayment = ({
             <p>{selectedOnlinePayment}</p>
           </div>
         )}
-        <button className="checkout-change_btn" onClick={onOpen}>
+        <button type="button" className="checkout-change_btn" onClick={onOpen}>
           Изменить
         </button>
         <Modal

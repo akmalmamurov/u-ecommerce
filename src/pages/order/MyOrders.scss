@@ -6,6 +6,10 @@
 
         .my-orders_left {
             flex: 0 33%;
+            position: sticky;
+            top: 110px;
+            z-index: -10;
+            height: fit-content;
 
             .my-orders_title {
                 font-weight: 500;
@@ -24,6 +28,7 @@
         .my-orders_right {
             flex: 0 66%;
 
+
             .my-orders_tabs {
                 .my-orders_tabs-list {
                     border: 1px solid #BDBDBD;
@@ -33,7 +38,7 @@
                     margin-bottom: 24px;
 
                     .my-orders_tabs-content {
-                        padding: 12px 25.5px !important;
+                        padding: 12px 65.5px !important;
                         font-weight: 500;
                         font-size: 16px;
                         color: #000000;
@@ -42,6 +47,7 @@
                         &:last-child {
                             border-right: none;
                         }
+
                         &[aria-selected="true"] {
                             background-color: #EFEFEF;
                             border-right: none;
@@ -51,13 +57,78 @@
 
 
                 }
-                .my-orders_tabs-panels{
-                    padding: 12px 16px;
+
+                .my-orders_tabs-panels {
+                    padding: 12px 0;
                     border: 1px solid #DCDCDC;
                     border-radius: 8px;
-                    .my-orders_tabs-panel{
-                        .my-orders_tab-header{
-                            font-size: 32px;
+                    margin-bottom: 24px;
+
+                    .my-orders_tabs-panel {
+                        padding: 0;
+
+                        .my-orders_tab-header {
+                            padding: 0 16px;
+                            padding-bottom: 12px;
+
+                            .my-orders_tab-title {
+
+                                font-weight: 700;
+                                font-size: 16px;
+                                color: #000000;
+                            }
+                        }
+
+                        .my-orders_tab-divider {
+                            border-bottom: 1px solid #DCDCDC
+                        }
+
+                        .my-orders_tab-body {
+                            padding: 12px 16px;
+
+                            .order-item {
+                                display: flex;
+                                align-items: center;
+                                gap: 32px;
+
+                                .order-item_left {
+                                    width: 144px;
+
+                                    .order-item_title-status {
+                                        margin-bottom: 26px !important;
+                                    }
+
+                                    .order-item_title {
+                                        font-weight: 500;
+                                        font-size: 16px;
+                                        color: #656565;
+                                        margin-bottom: 16px;
+                                    }
+                                }
+
+                                .order-item_right {
+                                    .order-item_text-status {
+                                        background-color: #EFEFEF;
+                                        padding: 6px;
+                                        border-radius: 8px;
+                                        margin-bottom: 26px !important;
+                                    }
+
+                                    .order-item_text {
+                                        font-weight: 500;
+                                        color: #000000;
+                                        font-size: 14px;
+                                        margin-bottom: 16px;
+
+
+
+                                    }
+                                }
+                            }
+                        }
+                        .my-orders_footer{
+                            padding-top: 12px !important;
+                            padding: 0px 16px;
                         }
                     }
                 }

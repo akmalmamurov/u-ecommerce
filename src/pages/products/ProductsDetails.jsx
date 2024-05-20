@@ -27,15 +27,12 @@ const ProductsDetails = () => {
   const { data } = useGetProductByIdQuery(id);
   const isAuth = useSelector((state) => state.auth.isAuth);
   const [addBasket] = useAddBasketMutation();
-  const cart = useSelector((state) => state.product.products);
   console.log(isAuth);
   const [mainImage, setMainImage] = useState(null);
   const [rating, setRating] = useState(0);
   const [qty, setQty] = useState(1);
-  const [isAddedToFavourit, setIsAddedToFavourit] = useState(false);
   const toast = useToast();
   const dispatch = useDispatch();
-  const isAddedToCart = cart.some((item) => item.id === id);
   const navigate = useNavigate();
   useEffect(() => {
     if (data && data?.image_files?.length > 0) {
@@ -78,7 +75,6 @@ const ProductsDetails = () => {
   };
 
   const handleAddToFavourit = () => {
-    setIsAddedToFavourit(true);
     dispatch(
       toggleFavourit({
         id: data.id,
@@ -121,7 +117,7 @@ const ProductsDetails = () => {
         quantity: qty,
       });
       console.log(res);
-      navigate("/checkout")
+      navigate("/checkout");
     } catch (err) {
       console.log(err);
     }
@@ -223,7 +219,6 @@ const ProductsDetails = () => {
                     <button
                       onClick={handleAddToCart}
                       className="pr-details_btn"
-                      disabled={isAddedToCart}
                     >
                       <img src={cartWhite} alt="cart" />
                       <span>В корзину</span>
@@ -231,7 +226,6 @@ const ProductsDetails = () => {
                     <button
                       onClick={handleAddToFavourit}
                       className="pr-details_btn"
-                      disabled={isAddedToFavourit}
                     >
                       <img src={heartWhite} alt="cart" />
                       <span>Избранное</span>
