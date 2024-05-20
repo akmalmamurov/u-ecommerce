@@ -120,23 +120,48 @@ const MyOrders = () => {
                         </div>
                         <div className="my-orders_tab-divider" />
                         <div className="my-orders_footer">
-                          <Accordion defaultIndex={[0]} allowMultiple>
-                            <AccordionItem>
+                          <Accordion
+                            defaultIndex={[0]}
+                            allowMultiple
+                            className="order-product_accordion"
+                          >
+                            <AccordionItem className="order-product_accordion-item">
                               <h2>
-                                <AccordionButton>
+                                <AccordionButton className="order-product_accordion-button">
                                   <Box as="span" flex="1" textAlign="left">
-                                    Section 1 title
+                                    <h1 className="order-product_title">
+                                      {item.products.length} товар
+                                    </h1>
                                   </Box>
                                   <AccordionIcon />
                                 </AccordionButton>
                               </h2>
-                              <AccordionPanel pb={4}>
-                                Lorem ipsum dolor sit amet, consectetur
-                                adipiscing elit, sed do eiusmod tempor
-                                incididunt ut labore et dolore magna aliqua. Ut
-                                enim ad minim veniam, quis nostrud exercitation
-                                ullamco laboris nisi ut aliquip ex ea commodo
-                                consequat.
+                              <AccordionPanel
+                                pb={4}
+                                className="order-product_accordion-panel"
+                              >
+                                {item.products.map((el) => (
+                                  <div
+                                    key={el.id}
+                                    className="order-product_content"
+                                  >
+                                    <div className="order-product_image">
+                                      <img
+                                        src={el.main_image}
+                                        className="order-product_img"
+                                      />
+                                    </div>
+
+                                    <div className="order-product_info">
+                                      <p className="order-product_title">
+                                        {el.name_ru}
+                                      </p>
+                                      <p className="order-product_price">
+                                        {kFormatter(el.total_price)}
+                                      </p>
+                                    </div>
+                                  </div>
+                                ))}
                               </AccordionPanel>
                             </AccordionItem>
                           </Accordion>

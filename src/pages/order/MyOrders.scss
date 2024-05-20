@@ -126,9 +126,40 @@
                                 }
                             }
                         }
-                        .my-orders_footer{
+
+                        .my-orders_footer {
                             padding-top: 12px !important;
                             padding: 0px 16px;
+
+                            .order-product_accordion {
+                                .order-product_accordion-item {
+                                    .order-product_accordion-button {
+                                        font-weight: 500;
+                                    }
+
+                                    .order-product_accordion-panel {
+                                        .order-product_content {
+                                            display: flex;
+                                            align-items: center;
+
+                                            .order-product_img {
+                                                flex: 0 0 20%;
+                                                
+                                            }
+                                            .order-product_info {
+                                                flex: 0 0 50%;
+                                                .order-product_title {
+                                                    font-weight: 500;
+                                                }
+
+                                                .order-product_price {
+                                                    font-weight: 400;
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
                         }
                     }
                 }
