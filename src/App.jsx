@@ -10,7 +10,7 @@ const Category = lazy(() => import("./pages/category/Category"));
 const ProductsDetails = lazy(() => import("./pages/products/ProductsDetails"));
 const AnswerPage = lazy(() => import("./pages/answer"));
 const CheckoutPage = lazy(() => import("./pages/checkout/CheckoutPage"));
-const User = lazy(() => import("./pages/user/User"));
+const UserProfile = lazy(() => import("./pages/user/UserProfile"));
 const AllCategories = lazy(() =>
   import("./pages/all-categories/AllCategories")
 );
@@ -29,7 +29,7 @@ function App() {
             <Route path="products/:id" element={<ProductsDetails />} />
             <Route path="answer" element={<AnswerPage />} />
             <Route path="categories" element={<AllCategories />} />
-            <Route path="profile" element={ isAuth ? <User /> : <Navigate to="/" />} />
+            <Route path="profile" element={ isAuth ? <UserProfile /> : <Navigate to="/" />} />
             <Route path="orders" element={ isAuth ? <MyOrders /> : <Navigate to="/" />} />
           </Route>
           <Route path="/checkout" element={<CheckoutPage />} />

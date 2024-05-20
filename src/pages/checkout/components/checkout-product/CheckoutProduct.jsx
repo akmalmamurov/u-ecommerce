@@ -22,14 +22,14 @@ const CheckoutProduct = ({ products, total_price }) => {
               />
               <div className="checkout-product_info">
                 <p className="checkout-product_info-name">{product.name_ru}</p>
-                <Box display={"flex"} justifyContent={"space-between"}>
-                  <p className="checkout-product_info-price">
-                    {kFormatter(product.price)}{" "}
-                  </p>
-                  <p className="checkout-product_info-qty">
-                    {product.quantity} шт
-                  </p>
-                </Box>
+                <div className="checkout-product_item">
+                    <p className="checkout-product_info-price">
+                      {kFormatter(product.price)}{" "}
+                    </p>
+                    <p className="checkout-product_info-qty">
+                      {product.quantity} шт
+                    </p>
+                </div>
               </div>
             </div>
           ))}

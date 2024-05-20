@@ -18,10 +18,10 @@ import theme from "../../theme";
 import { Link } from "react-router-dom";
 import Loading from "../../components/loading/Loading";
 import { kFormatter } from "../../utils";
-
+import { format } from "date-fns";
 const MyOrders = () => {
   const { data, isLoading } = useGetMyOrderQuery();
-  const { count, status_code, data: orders } = data || {};
+  const { data: orders } = data || {};
 
   console.log(orders);
   return (
@@ -74,7 +74,10 @@ const MyOrders = () => {
                             </div>
                             <div className="order-item_right">
                               <p className="order-item_text">
-                                {item.created_at}
+                                {format(
+                                  new Date(item.created_at),
+                                  "dd.MM.yyyy"
+                                )}
                               </p>
                             </div>
                           </div>
@@ -121,7 +124,6 @@ const MyOrders = () => {
                         <div className="my-orders_tab-divider" />
                         <div className="my-orders_footer">
                           <Accordion
-                            defaultIndex={[0]}
                             allowMultiple
                             className="order-product_accordion"
                           >

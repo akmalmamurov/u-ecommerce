@@ -133,8 +133,11 @@
 
                             .order-product_accordion {
                                 .order-product_accordion-item {
+                                    border: none;
                                     .order-product_accordion-button {
-                                        font-weight: 500;
+                                        &:hover{
+                                            background: none;
+                                        }
                                     }
 
                                     .order-product_accordion-panel {

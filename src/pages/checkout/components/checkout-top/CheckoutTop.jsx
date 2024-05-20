@@ -5,9 +5,13 @@ import {
   CheckoutLeftArrowIcon,
   CheckoutUserIcon,
 } from "../../../../assets/icons";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { logo } from "../../../../assets/images";
 const CheckoutTop = () => {
+  const navigate = useNavigate();
+  const enterOrder = ()=>{
+    navigate("/profile");
+  }
   return (
     <Box
       className="checkout-top"
@@ -23,11 +27,11 @@ const CheckoutTop = () => {
           <CheckoutLeftArrowIcon />
           <Text>Назад</Text>
         </Link>
-        <Link to={"/"} style={{width: "40px", height: "40px"}}>
+        <Link to={"/"} style={{ width: "40px", height: "40px" }}>
           <img src={logo} alt="" />
         </Link>
 
-        <button className="checkout-top_btn">
+        <button className="checkout-top_btn" onClick={enterOrder}>
           <CheckoutUserIcon />
           <Text color={theme.colors.ninja}>Личный кабинет</Text>
         </button>

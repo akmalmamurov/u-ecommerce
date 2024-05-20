@@ -4,6 +4,7 @@ import { useGetAllProductsQuery } from "../../../redux/services/productAllServic
 import GridProduct from "../../../components/product-grid/GridProduct";
 import { ProductCard } from "../../../components/card/product-card";
 import "./CartBottom.scss";
+import Loading from "../../../components/loading/Loading";
 const CartBottom = () => {
   const { data: products, isLoading } = useGetAllProductsQuery({
     limit: 20,
@@ -20,7 +21,7 @@ const CartBottom = () => {
         >
           <GridProduct>
             {isLoading ? (
-              <div>...Loading</div>
+             <Loading/>
             ) : (
               products.map((product) => (
                 <ProductCard key={product.id} {...product} />
