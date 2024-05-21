@@ -180,9 +180,13 @@ const CartPage = () => {
                         <span>Очистить корзину</span>
                       </button>
                     </Box>
-                    <CartModal onClose={onClose} isOpen={isOpen}/>
+                  
                   </Box>
-
+                  <CartModal
+                      allProductDelete={allProductDelete}
+                      onClose={onClose}
+                      isOpen={isOpen}
+                    />
                   {products.map((item, index) => (
                     <Box key={item.id} className="cart-left_main">
                       <Box display={"flex"} justifyContent={"space-between"}>

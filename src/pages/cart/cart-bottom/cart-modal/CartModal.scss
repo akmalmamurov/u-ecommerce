@@ -1,3 +1,45 @@
-.cart-modal{
-    padding: 12px;
+.cart-modal_content {
+    width: 580px !important;
+    border-radius: 8px !important;
+    padding: 16px !important;
+    min-height: 264px !important;
+    top: -120px;
+
+    .cart-modal_body {
+        padding: 0;
+        margin-bottom: 32px;
+
+        .cart-modal_img {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 32px;
+        }
+
+        .cart-modal_title {
+            font-weight: 600;
+            font-size: 24px;
+            color: #000000;
+            text-align: center;
+            letter-spacing: -0.6%;
+            line-height: 24px;
+        }
+    }
+
+    .cart-modal_footer {
+        display: flex;
+        gap: 12px;
+        padding: 0;
+
+        .cart-modal_btn {
+            background-color: #BDBDBD;
+            width: 100%;
+            border-radius: 8px;
+            transition: 0.2s ease-in-out;
+            &:hover{
+                background-color: #0E73F6;
+                color: white;
+            }
+        }
+
+    }
 }

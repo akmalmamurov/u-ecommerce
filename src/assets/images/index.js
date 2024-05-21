@@ -15,7 +15,8 @@ import paymeImg from "./payme-img.webp";
 import menuImg from "./menu.png";
 import emptyLike from "./emptyFavourit-img.png";
 import heartActiveImg from "./heartActive-img.png";
-import heartBlackImg from "./heartBlackImg.png"
+import heartBlackImg from "./heartBlackImg.png";
+import deleteImg from "./deleteImg.png";
 export {
   logo,
   saleImg,
@@ -34,5 +35,6 @@ export {
   menuImg,
   emptyLike,
   heartActiveImg,
-  heartBlackImg
+  heartBlackImg,
+  deleteImg,
 };
