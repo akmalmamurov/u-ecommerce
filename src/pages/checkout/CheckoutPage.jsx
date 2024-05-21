@@ -7,7 +7,6 @@ import {
   Grid,
   GridItem,
   Heading,
-
 } from "@chakra-ui/react";
 import CheckoutTop from "./components/checkout-top/CheckoutTop";
 import theme from "../../theme";
@@ -40,7 +39,7 @@ const CheckoutPage = () => {
   const [paymentType, setPaymentType] = useState("card");
   const [paymentCardType, setPaymentCardType] = useState("Click");
 
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
   const dispatch = useDispatch();
   console.log(paymentCardType);
 
@@ -66,7 +65,7 @@ const CheckoutPage = () => {
       const productIds = products.map((product) => product.id);
       dispatch(deleteItems(productIds));
       dispatch(setUser(data.client_first_name));
-      navigate("/");
+      // navigate("/");
       reset();
     } catch (err) {
       console.log(err);

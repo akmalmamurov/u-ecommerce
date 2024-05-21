@@ -196,8 +196,8 @@ const HeaderMid = memo(() => {
               </Box>
             </Box>
             {/* auth favourit cart page here */}
-            <Box className="header-mid_right-container" >
-              <Box display={"flex"} alignItems={"center"} gap={"12px"} >
+            <Box className="header-mid_right-container">
+              <Box display={"flex"} alignItems={"center"} gap={"12px"}>
                 {isAuth ? (
                   <HeaderMenu />
                 ) : (

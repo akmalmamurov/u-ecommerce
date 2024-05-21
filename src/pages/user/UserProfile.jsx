@@ -95,7 +95,6 @@ const UserProfile = () => {
         </Box>
       </Container>
 
-      <button onClick={() => dispatch(logoutUser())}>chiqish</button>
     </div>
   );
 };
