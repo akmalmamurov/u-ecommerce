@@ -19,7 +19,6 @@ export const Footer = () => {
             <GridItem>
               <Box className="footer-list">
                 <Link className="footer-title">О нас</Link>
-                <Link className="footer-link">Пункты выдачи</Link>
                 <Link className="footer-link">Вакансии</Link>
               </Box>
             </GridItem>
@@ -33,7 +32,7 @@ export const Footer = () => {
             <GridItem>
               <Box className="footer-list">
                 <Link className="footer-title">Для предпринимателей</Link>
-                <Link className="footer-link">Продавайте на UCommerce</Link>
+                <Link className="footer-link">Продавайте на VOLTIFY</Link>
                 <Link className="footer-link">Вход для продавцов</Link>
               </Box>
             </GridItem>
@@ -49,7 +48,7 @@ export const Footer = () => {
                   </Link>
                 </Box>
                 <Box mb={"8px"}>
-                  <Text className="footer-title">UCommerce в соцсетях</Text>
+                  <Text className="footer-title">VOLTIFY в соцсетях</Text>
                 </Box>
                 <Box display={"flex"} gap={"8px"}>
                   <Link>
@@ -82,7 +81,7 @@ export const Footer = () => {
               <Text className="footer-title">Пользовательское соглашение</Text>
             </Box>
             <Text className="footer-bottom-text">
-            «2024© ООО «Ucommerce». ИНН 309376127. Все права защищены»
+            «2024© ООО VOLTIFY. ИНН 309376127. Все права защищены»
             </Text>
           </Box>
         </Box>

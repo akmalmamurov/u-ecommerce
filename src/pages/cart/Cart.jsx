@@ -12,6 +12,7 @@ import {
   GridItem,
   Heading,
   Text,
+  useDisclosure,
   useToast,
 } from "@chakra-ui/react";
 import {
@@ -37,6 +38,7 @@ import {
   useDeleteBasketMutation,
 } from "../../redux/services/basketServices";
 import { toggleFavourit } from "../../redux/slices/favouritSlices";
+import CartModal from "./cart-bottom/cart-modal/CartModal";
 
 const CartPage = () => {
   const products = useSelector((state) => state.product.products);
@@ -50,6 +52,7 @@ const CartPage = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const toast = useToast();
+  const { isOpen, onOpen, onClose } = useDisclosure();
 
   useEffect(() => {
     if (products) {
@@ -171,12 +174,13 @@ const CartPage = () => {
                         Всего: {checkedProductsCount} товара
                       </Text>
                     </Box>
-                    <Box onClick={allProductDelete}>
+                    <Box onClick={onOpen}>
                       <button className="cart-button_text">
                         <CartEmptyIcon />
                         <span>Очистить корзину</span>
                       </button>
                     </Box>
+                    <CartModal onClose={onClose} isOpen={isOpen}/>
                   </Box>
 
                   {products.map((item, index) => (

@@ -9,8 +9,11 @@ import PropTypes from "prop-types";
 import "./CheckoutUserData.scss";
 
 const CheckoutUserData = ({ register, errors, handleInputChange }) => {
-  const handleNameChange = (e) => {
+  const handleNameChange = (e, maxLength) => {
     e.target.value = e.target.value.replace(/[^a-zA-ZА-Яа-я\s]/g, "");
+    if (e.target.value.length > maxLength) {
+      e.target.value = e.target.value.slice(0, maxLength);
+    }
     console.log(e.target.value);
   };
 
@@ -18,7 +21,7 @@ const CheckoutUserData = ({ register, errors, handleInputChange }) => {
     <div className="checkout-userdata">
       <FormControl
         isRequired
-        isInvalid={errors.name}
+        isInvalid={errors.client_phone_number}
         className="checkout-form_control"
       >
         <FormLabel>Телефон</FormLabel>
@@ -27,10 +30,12 @@ const CheckoutUserData = ({ register, errors, handleInputChange }) => {
             errors.client_phone_number ? "error-input" : ""
           }`}
           {...register("client_phone_number", {
-            required: "enter phone_numer",
-            minLength: { value: 12, message: "Minimum length should be 13" },
+            required: "Введите номер телефона",
+            minLength: { value: 13, message: "Минимальная длина 13 символов" },
+            maxLength: { value: 13, message: "Максимальная длина 13 символов" },
           })}
           defaultValue="+998"
+          maxLength={13}
           onChange={handleInputChange}
         />
         <FormErrorMessage>
@@ -39,23 +44,19 @@ const CheckoutUserData = ({ register, errors, handleInputChange }) => {
               {errors.client_phone_number.message}
             </span>
           )}
-
-          {errors.name && errors.name.type === "maxLength" && (
-            <span role="alert">Max length exceeded</span>
-          )}
         </FormErrorMessage>
       </FormControl>
       <Box display={"flex"} gap={2}>
         <FormControl
           isRequired
-          isInvalid={errors.name}
+          isInvalid={errors.client_first_name}
           className="checkout-form_control"
         >
           <FormLabel>Имя</FormLabel>
           <Input
             placeholder="Имя"
             className={`checkout-input ${
-              errors.firstName ? "error-input" : ""
+              errors.client_first_name ? "error-input" : ""
             }`}
             {...register("client_first_name", {
               required: "Введите имя",
@@ -63,22 +64,27 @@ const CheckoutUserData = ({ register, errors, handleInputChange }) => {
                 value: /^[a-zA-ZА-Яа-я\s]*$/,
                 message: "Имя должно состоять только из букв",
               },
+              maxLength: { value: 16, message: "Максимальная длина 16 символов" },
             })}
-            onChange={handleNameChange}
+            maxLength={16}
+            onChange={(e) => handleNameChange(e, 16)}
           />
           <FormErrorMessage>
             {errors.client_first_name && (
-              <span className="error-input">{errors.client_first_name}</span>
+              <span className="error-input">
+                {errors.client_first_name.message}
+              </span>
             )}
           </FormErrorMessage>
         </FormControl>
         <FormControl
           isRequired
-          isInvalid={errors.name}
+          isInvalid={errors.client_last_name}
           className="checkout-form_control"
         >
           <FormLabel>Фамилия</FormLabel>
           <Input
+            placeholder="Фамилия"
             className={`checkout-input ${
               errors.client_last_name ? "error-input" : ""
             }`}
@@ -88,12 +94,16 @@ const CheckoutUserData = ({ register, errors, handleInputChange }) => {
                 value: /^[a-zA-ZА-Яа-я\s]*$/,
                 message: "Фамилия должна состоять только из букв",
               },
+              maxLength: { value: 16, message: "Максимальная длина 16 символов" },
             })}
-            onChange={handleNameChange}
+            maxLength={16}
+            onChange={(e) => handleNameChange(e, 16)}
           />
           <FormErrorMessage>
-          {errors.client_last_name && (
-              <span className="error-input">{errors.client_last_name}</span>
+            {errors.client_last_name && (
+              <span className="error-input">
+                {errors.client_last_name.message}
+              </span>
             )}
           </FormErrorMessage>
         </FormControl>
@@ -101,10 +111,11 @@ const CheckoutUserData = ({ register, errors, handleInputChange }) => {
     </div>
   );
 };
+
 CheckoutUserData.propTypes = {
-  register: PropTypes.func,
-  errors: PropTypes.object,
-  handleInputChange: PropTypes.func,
-  handleNameChange: PropTypes.func,
+  register: PropTypes.func.isRequired,
+  errors: PropTypes.object.isRequired,
+  handleInputChange: PropTypes.func.isRequired,
 };
+
 export default CheckoutUserData;

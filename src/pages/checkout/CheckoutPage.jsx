@@ -7,6 +7,7 @@ import {
   Grid,
   GridItem,
   Heading,
+
 } from "@chakra-ui/react";
 import CheckoutTop from "./components/checkout-top/CheckoutTop";
 import theme from "../../theme";
@@ -33,7 +34,6 @@ const CheckoutPage = () => {
     formState: { errors, isSubmitting },
   } = useForm();
   const { data: { products, total_price } = {} } = useGetBasketQuery();
-
   const [addOrder] = useAddOrderMutation();
   const [addressData, setAddressData] = useState({});
   const [clStreet, setClStreet] = useState("");
