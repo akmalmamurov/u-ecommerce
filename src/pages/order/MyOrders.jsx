@@ -64,7 +64,11 @@ const MyOrders = () => {
                             </div>
                             <div className="order-item_right">
                               <p className="order-item_text order-item_text-status">
-                                {item.status}
+                                {item.status_id === 1 ? "Собирается" : ""}
+                                {item.status_id === 3 ? "Доставляется" : ""}
+                                {item.status_id === 4 ? "Собирается" : ""}
+                                {item.status_id === 5 ? "Завершен" : ""}
+                                {item.status_id === 6 ? "Отменено" : ""}
                               </p>
                             </div>
                           </div>
@@ -91,25 +95,8 @@ const MyOrders = () => {
                               </p>
                             </div>
                           </div>
-                          <div className="order-item">
-                            <div className="order-item_left">
-                              <p className="order-item_title">Пункт выдачи:</p>
-                            </div>
-                            <div className="order-item_right">
-                              <p className="order-item_text">
-                                {" "}
-                                {item.delivery_addr_name}
-                              </p>
-                            </div>
-                          </div>
-                          <div className="order-item">
-                            <div className="order-item_left">
-                              <p className="order-item_title">Часы работы:</p>
-                            </div>
-                            <div className="order-item_right">
-                              <p className="order-item_text">10:00 - 20:00</p>
-                            </div>
-                          </div>
+                         
+                       
                           <div className="order-item">
                             <div className="order-item_left">
                               <p className="order-item_title">Сумма заказа:</p>
@@ -153,7 +140,6 @@ const MyOrders = () => {
                                         className="order-product_img"
                                       />
                                     </div>
-
                                     <div className="order-product_info">
                                       <p className="order-product_title">
                                         {el.name_ru}

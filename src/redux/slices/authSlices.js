@@ -10,6 +10,7 @@ const authSlice = createSlice({
       ? JSON.parse(localStorage.getItem("user"))
       : null,
     phoneNumber: localStorage.getItem("phoneNumber") || "",
+    
   },
   reducers: {
     setAuth: (state) => {

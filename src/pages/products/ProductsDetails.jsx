@@ -16,7 +16,7 @@ import { NoRatingIcon, YesRatingIcon } from "../../assets/icons";
 import { useGetProductByIdQuery } from "../../redux/services/productAllServices";
 import { addToCart } from "../../redux/slices/productSlices";
 import { toggleFavourit } from "../../redux/slices/favouritSlices";
-import { buyImg, cartWhite, heartWhite } from "../../assets/images";
+import { buyImg, cartWhite, heartActiveImg, heartBlackImg, heartWhite } from "../../assets/images";
 import theme from "../../theme";
 import "./ProductDetails.scss";
 import { kFormatter } from "../../utils";
@@ -26,14 +26,15 @@ const ProductsDetails = () => {
   const { id } = useParams();
   const { data } = useGetProductByIdQuery(id);
   const isAuth = useSelector((state) => state.auth.isAuth);
+  const favourites = useSelector((state) => state.favourit.favourites);
   const [addBasket] = useAddBasketMutation();
-  console.log(isAuth);
   const [mainImage, setMainImage] = useState(null);
   const [rating, setRating] = useState(0);
   const [qty, setQty] = useState(1);
   const toast = useToast();
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const isAddedToFavourites = favourites.some((item) => item.id === id);
   useEffect(() => {
     if (data && data?.image_files?.length > 0) {
       setMainImage(data.image_files.media_file);
@@ -225,9 +226,13 @@ const ProductsDetails = () => {
                     </button>
                     <button
                       onClick={handleAddToFavourit}
-                      className="pr-details_btn"
+                      className="pr-details_btn favourites-btn"
                     >
-                      <img src={heartWhite} alt="cart" />
+                      {isAddedToFavourites ? (
+                          <img src={heartActiveImg} alt="cart" className="favourites-img"/>
+                      ) : (
+                        <img src={heartBlackImg} alt="cart" className="favourites-img"/>
+                      )}
                       <span>Избранное</span>
                     </button>
                   </Box>

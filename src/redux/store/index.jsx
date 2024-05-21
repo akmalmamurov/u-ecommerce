@@ -21,6 +21,8 @@ import basketServices from "../services/basketServices";
 import verifyServices from "../services/verifyServices";
 import menuReducer from "../slices/menuSlices";
 import orderServices from "../services/orderServices";
+import clientServices from "../services/clientServices";
+import clientReducer from "../slices/clientSlices";
 
 const persistConfig = {
   key: "u-ecommerce",
@@ -41,6 +43,7 @@ const persistConfig = {
 const persistedProductReducer = persistReducer(persistConfig, productReducer);
 const persistedFavouritReducer = persistReducer(persistConfig, favouritReducer);
 const persistedAuthReducer = persistReducer(persistConfig, authReducer);
+const persistedClientReducer = persistReducer(persistConfig, clientReducer);
 
 export const store = configureStore({
   reducer: {
@@ -48,12 +51,14 @@ export const store = configureStore({
     favourit: persistedFavouritReducer,
     auth: persistedAuthReducer,
     menu: menuReducer,
+    clientLocal: persistedClientReducer,
     [categoryServices.reducerPath]: categoryServices.reducer,
     [productAllServices.reducerPath]: productAllServices.reducer,
     [loginServices.reducerPath]: loginServices.reducer,
     [basketServices.reducerPath]: basketServices.reducer,
     [verifyServices.reducerPath]: verifyServices.reducer,
     [orderServices.reducerPath]: orderServices.reducer,
+    [clientServices.reducerPath]: clientServices.reducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
@@ -66,7 +71,8 @@ export const store = configureStore({
       loginServices.middleware,
       basketServices.middleware,
       verifyServices.middleware,
-      orderServices.middleware
+      orderServices.middleware,
+      clientServices.middleware
     ),
 });
 

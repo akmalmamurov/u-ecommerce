@@ -5,13 +5,22 @@ import {
   CheckoutLeftArrowIcon,
   CheckoutUserIcon,
 } from "../../../../assets/icons";
-import { Link, useNavigate } from "react-router-dom";
-import { logo } from "../../../../assets/images";
+import { Link, useNavigate, useLocation } from "react-router-dom";
+
 const CheckoutTop = () => {
   const navigate = useNavigate();
-  const enterOrder = ()=>{
+  const location = useLocation();
+  
+  const enterOrder = () => {
     navigate("/profile");
-  }
+  };
+
+  const handleBackNavigation = () => {
+    const currentPath = location.pathname;
+      navigate(-1);
+  
+  };
+
   return (
     <Box
       className="checkout-top"
@@ -23,14 +32,11 @@ const CheckoutTop = () => {
         justifyContent={"space-between"}
         alignItems={"center"}
       >
-        <Link to={"/cart"} className="checkout-top_link">
+        <button onClick={handleBackNavigation} className="checkout-top_link">
           <CheckoutLeftArrowIcon />
           <Text>Назад</Text>
-        </Link>
-        <Link to={"/"} style={{ width: "40px", height: "40px" }}>
-          <img src={logo} alt="" />
-        </Link>
-
+        </button>
+      
         <button className="checkout-top_btn" onClick={enterOrder}>
           <CheckoutUserIcon />
           <Text color={theme.colors.ninja}>Личный кабинет</Text>
