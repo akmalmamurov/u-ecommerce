@@ -6,7 +6,7 @@
         display: flex;
 
         .answer-left {
-            flex: 0 0 20%;
+            flex: 0 0 25%;
             .answer-title {
                 font-weight: 700;
                 font-size: 24px;
@@ -14,6 +14,26 @@
             }
             .answer-list{
                 margin-bottom: 16px;
+                .answer-list_title{
+                    font-weight: 500;
+                    font-size: 16px;
+                    color: #000000;
+                    margin-bottom: 14px;
+                }
+                .answer-list_item{
+                        margin-bottom: 10px;
+                    .answer-list_link{
+                        font-weight: 500;
+                        font-size: 16px;
+                        color: #BDBDBD;
+                    }
+                }
+            }
+        }
+        .answer-right{
+            flex: 0 0 75%;
+            .answer-right_item{
+                width: 100%;
             }
         }
     }
