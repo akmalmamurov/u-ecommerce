@@ -15,7 +15,11 @@ const Product = memo(() => {
   const [hasMore, setHasMore] = useState(true);
   const [limit, setLimit] = useState(20);
 
-  const { data: products, isLoading, isFetching } = useGetAllProductsQuery({ page, limit });
+  const {
+    data: products,
+    isLoading,
+    isFetching,
+  } = useGetAllProductsQuery({ page, limit });
 
   useEffect(() => {
     if (products) {
@@ -24,7 +28,6 @@ const Product = memo(() => {
         const newProducts = products.filter((p) => !productSet.has(p.id));
         const updatedProducts = [...prevProducts, ...newProducts];
 
-        // Store the initial set of products
         if (page === 1) {
           setInitialProducts(updatedProducts);
         }

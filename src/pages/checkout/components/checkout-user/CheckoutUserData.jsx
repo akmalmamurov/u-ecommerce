@@ -60,11 +60,10 @@ const CheckoutUserData = ({ register, errors, handleInputChange }) => {
             }`}
             {...register("client_first_name", {
               required: "Введите имя",
-              pattern: {
-                value: /^[a-zA-ZА-Яа-я\s]*$/,
-                message: "Имя должно состоять только из букв",
+              maxLength: {
+                value: 16,
+                message: "Максимальная длина 16 символов",
               },
-              maxLength: { value: 16, message: "Максимальная длина 16 символов" },
             })}
             maxLength={16}
             onChange={(e) => handleNameChange(e, 16)}
@@ -94,7 +93,10 @@ const CheckoutUserData = ({ register, errors, handleInputChange }) => {
                 value: /^[a-zA-ZА-Яа-я\s]*$/,
                 message: "Фамилия должна состоять только из букв",
               },
-              maxLength: { value: 16, message: "Максимальная длина 16 символов" },
+              maxLength: {
+                value: 16,
+                message: "Максимальная длина 16 символов",
+              },
             })}
             maxLength={16}
             onChange={(e) => handleNameChange(e, 16)}

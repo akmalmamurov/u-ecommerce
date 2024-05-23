@@ -25,8 +25,8 @@ export const Footer = () => {
             <GridItem>
               <Box className="footer-list">
                 <Link className="footer-title">Пользователям</Link>
-                <Link className="footer-link">Свяхаться с нами</Link>
-                <Link className="footer-link">Вопрос-Ответ</Link>
+                <Link className="footer-link">Связаться с нами</Link>
+                <Link to={"/faq"} className="footer-link">Вопрос-Ответ</Link>
               </Box>
             </GridItem>
             <GridItem>

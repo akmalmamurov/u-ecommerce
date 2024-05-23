@@ -5,9 +5,9 @@ import CategoriesCard from "../../components/card/categories-card/CategoriesCard
 import "./AllCategories.scss";
 
 const AllCategories = () => {
-  const { data: categories, isLoading } = useGetCategoriesQuery();
-
-  const filteredCategories = categories.filter(
+  const { data, isLoading } = useGetCategoriesQuery();
+  const { data: categories } = data || {};
+  const filteredCategories = categories?.filter(
     (category) => category.subcategories && category.subcategories.length > 0
   );
 

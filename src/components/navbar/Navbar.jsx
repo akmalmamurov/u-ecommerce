@@ -5,8 +5,8 @@ import { useGetCategoriesQuery } from "../../redux/services/categoryServices";
 import Loading from "../loading/Loading";
 import "./Navbar.scss";
 const Navbar = () => {
-  const { data: categories, isLoading } = useGetCategoriesQuery();
-
+  const { data, isLoading } = useGetCategoriesQuery();
+  const { data: categories } = data || {};
   return (
     <nav>
       <Container maxW={"1200px"}>

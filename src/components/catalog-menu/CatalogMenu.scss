@@ -1,11 +1,10 @@
 .catalog-menu_container {
   width: 1190px;
-  min-height: 800px;
   padding-bottom: 24px;
+  min-height: 800px;
   position: absolute;
   left: -65px;
   background-color: white;
-  overflow: hidden;
 
   .catalog-menu_content {
     display: grid;
@@ -16,9 +15,22 @@
     padding-top: 12px;
     padding-right: 8px;
     padding-left: 8px;
+    overflow-y: auto;
+
     .catalog-menu_sidebar {
       grid-column: span 3;
       border-right: 1px solid #e6e8ed;
+      height: 800px;
+      overflow-y: auto;
+
+      &::-webkit-scrollbar {
+        scrollbar-width: 10px;
+      }
+
+      & {
+        scrollbar-width: none;
+        scrollbar-color: transparent;
+      }
 
       .catalog-menu_content {
         display: flex;

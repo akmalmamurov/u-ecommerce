@@ -113,7 +113,7 @@ const CheckoutPage = () => {
                 <span>1</span>
                 Ваши данные
               </Box>
-              <form onSubmit={handleSubmit(onSubmit)}>
+              <form onSubmit={handleSubmit(onSubmit)} noValidate>
                 <CheckoutUserData
                   register={register}
                   errors={errors}
