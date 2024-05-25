@@ -24,11 +24,14 @@ const theme = extendTheme({
     ninja: "#00040A",
   },
   fonts: {
-    fAbhay: "AbhayaLibre,sans-serif",
-    fInter: "Inter,sans-serif",
-    fPoppins: "Poppins,sans-serif",
-    fSF: "SFPRODISPLAY,sans-serif",
-    fRevalia: "Revalia,sans-serif",
+    body: "Inter, sans-serif",
+    heading: "Inter, sans-serif",
+    fAbhay: "AbhayaLibre, sans-serif",
+    fInter: "Inter, sans-serif",
+    fPoppins: "Poppins, sans-serif",
+    fSF: "SFPRODISPLAY, sans-serif",
+    fRevalia: "Revalia, sans-serif",
   },
 });
+
 export default theme;

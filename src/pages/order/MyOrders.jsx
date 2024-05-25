@@ -15,7 +15,6 @@ import {
 import "./MyOrders.scss";
 import { useGetMyOrderQuery } from "../../redux/services/orderServices";
 import theme from "../../theme";
-import { Link } from "react-router-dom";
 import Loading from "../../components/loading/Loading";
 import { kFormatter } from "../../utils";
 import { format } from "date-fns";
@@ -23,16 +22,12 @@ const MyOrders = () => {
   const { data, isLoading } = useGetMyOrderQuery();
   const { data: orders } = data || {};
 
-  console.log(orders);
   return (
     <div className="my-orders_page">
       <Container maxW={"1200px"}>
         <Box className="my-orders_content" fontFamily={theme.fonts.fInter}>
           <div className="my-orders_left">
             <h1 className="my-orders_title">Мои заказы</h1>
-            <Link to={"/profile"} className="my-orders_link">
-              Настройки
-            </Link>
           </div>
           <div className="my-orders_right">
             <Tabs variant="unstyled" className="my-orders_tabs">
@@ -95,8 +90,7 @@ const MyOrders = () => {
                               </p>
                             </div>
                           </div>
-                         
-                       
+
                           <div className="order-item">
                             <div className="order-item_left">
                               <p className="order-item_title">Сумма заказа:</p>

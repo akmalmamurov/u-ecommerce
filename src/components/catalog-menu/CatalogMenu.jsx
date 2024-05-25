@@ -10,6 +10,7 @@ import { hideMenu } from "../../redux/slices/menuSlices";
 
 const CatalogMenu = () => {
   const { data, isLoading } = useGetCategoriesQuery();
+  const { data: categories } = data || {};
   const [hoveredCategoryId, setHoveredCategoryId] = useState(null);
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -28,11 +29,11 @@ const CatalogMenu = () => {
       {isLoading ? (
         <Loading />
       ) : (
-        data &&
-        data.length > 0 && (
+        categories &&
+        categories.length > 0 && (
           <div className="catalog-menu_content">
             <Box className="catalog-menu_sidebar">
-              {data.map((el) => (
+              {categories.map((el) => (
                 <Box
                   key={el.id}
                   className="catalog-menu_content"
@@ -47,7 +48,7 @@ const CatalogMenu = () => {
               ))}
             </Box>
             <Box className="catalog-menu_right">
-              {data.map((el) => (
+              {categories.map((el) => (
                 <Box
                   key={el.id}
                   className="sub-categories"

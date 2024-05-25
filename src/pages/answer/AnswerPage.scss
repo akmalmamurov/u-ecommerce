@@ -1,39 +1,68 @@
-.answer-page {
+.faq-page {
     width: 100%;
     padding: 32px 0;
 
-    .answer-content {
-        display: flex;
+    .faq-header {
+        .faq-title {
+            font-weight: 700;
+            font-size: 24px;
+            margin-bottom: 24px;
 
-        .answer-left {
-            flex: 0 0 25%;
-            .answer-title {
-                font-weight: 700;
-                font-size: 24px;
-                margin-bottom: 24px;
-            }
-            .answer-list{
+        }
+    }
+
+    .faq-content {
+        display: flex;
+        gap: 50px;
+
+        .faq-left {
+            flex: 0 20%;
+            position: sticky;
+
+            .faq-list {
                 margin-bottom: 16px;
-                .answer-list_title{
-                    font-weight: 500;
+
+                .faq-list_title {
+                    font-weight: 600;
                     font-size: 16px;
-                    color: #000000;
+                    color: #1f2026;
                     margin-bottom: 14px;
+                    padding-top: 4px;
                 }
-                .answer-list_item{
-                        margin-bottom: 10px;
-                    .answer-list_link{
+
+                .faq-list_item {
+                    margin-bottom: 10px;
+
+                    .faq-list_link {
                         font-weight: 500;
-                        font-size: 16px;
-                        color: #BDBDBD;
+                        font-size: 14px;
+                        color: #1f2026;
                     }
                 }
             }
         }
-        .answer-right{
-            flex: 0 0 75%;
-            .answer-right_item{
+
+        .faq-right {
+            flex: 0 75%;
+
+            .faq-right_item {
                 width: 100%;
+                margin-bottom: 24px;
+
+                .faq-text_content {
+
+                    .faq-right_title {
+                        font-weight: 700;
+                        font-size: 24px;
+                        color: #000000;
+                    }
+
+                    .faq-right_text {
+                        font-weight: 500;
+                        font-size: 16px;
+                        color: #000000;
+                    }
+                }
             }
         }
     }

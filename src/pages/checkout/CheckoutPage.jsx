@@ -19,7 +19,6 @@ import CheckoutDelivery from "./components/checkout-delivery/CheckoutDelivery";
 import MapContainer from "../../components/map-container/MapContainer";
 import CheckoutProduct from "./components/checkout-product/CheckoutProduct";
 import { useAddOrderMutation } from "../../redux/services/orderServices";
-import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { deleteItems } from "../../redux/slices/productSlices";
 import { useGetBasketQuery } from "../../redux/services/basketServices";
@@ -39,10 +38,8 @@ const CheckoutPage = () => {
   const [paymentType, setPaymentType] = useState("card");
   const [paymentCardType, setPaymentCardType] = useState("Click");
 
-  // const navigate = useNavigate();
   const dispatch = useDispatch();
-  console.log(paymentCardType);
-
+  console.log(paymentType);
   const onSubmit = async (data) => {
     const delivery_addr_lat = +addressData.split(",")[0].trim();
     const delivery_addr_long = +addressData.split(",")[1].trim();
@@ -65,7 +62,6 @@ const CheckoutPage = () => {
       const productIds = products.map((product) => product.id);
       dispatch(deleteItems(productIds));
       dispatch(setUser(data.client_first_name));
-      // navigate("/");
       reset();
     } catch (err) {
       console.log(err);

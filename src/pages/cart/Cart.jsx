@@ -39,6 +39,8 @@ import {
 } from "../../redux/services/basketServices";
 import { toggleFavourit } from "../../redux/slices/favouritSlices";
 import CartModal from "./cart-bottom/cart-modal/CartModal";
+import LoginModal from "../../components/modal/login/LoginModal";
+import { useModal } from "../../hooks/useModal";
 
 const CartPage = () => {
   const products = useSelector((state) => state.product.products);
@@ -53,7 +55,8 @@ const CartPage = () => {
   const dispatch = useDispatch();
   const toast = useToast();
   const { isOpen, onOpen, onClose } = useDisclosure();
-
+  const { isOpen: isLoginOpen, open: openLogin, close: closeLogin } = useModal()
+  console.log(isAuth);
   useEffect(() => {
     if (products) {
       setCheckedItems(products.map(() => true));
@@ -87,12 +90,7 @@ const CartPage = () => {
 
   const goToCheckout = async () => {
     if (!isAuth) {
-      toast({
-        title: "Please log in to proceed to checkout.",
-        status: "error",
-        duration: 3000,
-        isClosable: true,
-      });
+      openLogin(); 
       return;
     }
 
@@ -180,13 +178,12 @@ const CartPage = () => {
                         <span>Очистить корзину</span>
                       </button>
                     </Box>
-                  
                   </Box>
                   <CartModal
-                      allProductDelete={allProductDelete}
-                      onClose={onClose}
-                      isOpen={isOpen}
-                    />
+                    allProductDelete={allProductDelete}
+                    onClose={onClose}
+                    isOpen={isOpen}
+                  />
                   {products.map((item, index) => (
                     <Box key={item.id} className="cart-left_main">
                       <Box display={"flex"} justifyContent={"space-between"}>
@@ -347,6 +344,7 @@ const CartPage = () => {
           </div>
         )}
       </Container>
+      <LoginModal isOpen={isLoginOpen} onClose={closeLogin} />
     </Box>
   );
 };
