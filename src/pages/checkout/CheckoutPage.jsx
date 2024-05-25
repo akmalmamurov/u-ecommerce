@@ -23,6 +23,7 @@ import { useDispatch } from "react-redux";
 import { deleteItems } from "../../redux/slices/productSlices";
 import { useGetBasketQuery } from "../../redux/services/basketServices";
 import { setUser } from "../../redux/slices/authSlices";
+import { useNavigate } from "react-router-dom";
 
 const CheckoutPage = () => {
   const {
@@ -37,9 +38,10 @@ const CheckoutPage = () => {
   const [clStreet, setClStreet] = useState("");
   const [paymentType, setPaymentType] = useState("card");
   const [paymentCardType, setPaymentCardType] = useState("Click");
-
+  console.log(addressData);
+  console.log(clStreet);
   const dispatch = useDispatch();
-  console.log(paymentType);
+  const navigate = useNavigate();
   const onSubmit = async (data) => {
     const delivery_addr_lat = +addressData.split(",")[0].trim();
     const delivery_addr_long = +addressData.split(",")[1].trim();
@@ -63,6 +65,7 @@ const CheckoutPage = () => {
       dispatch(deleteItems(productIds));
       dispatch(setUser(data.client_first_name));
       reset();
+      navigate("/payment");
     } catch (err) {
       console.log(err);
     }

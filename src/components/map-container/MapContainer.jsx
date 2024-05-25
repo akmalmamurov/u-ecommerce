@@ -1,4 +1,5 @@
-import PropTypes from "prop-types";
+/* eslint-disable no-unused-vars */
+/* eslint-disable react/prop-types */
 import { useEffect, useRef, useState } from "react";
 import axios from "axios";
 import {
@@ -17,15 +18,12 @@ const MapContainer = ({ setAddressData, setClStreet }) => {
   const mapRef = useRef(null);
   const placemarkRef = useRef(null);
   const ymaps = useRef(null);
-
   const [newCoords, setNewCoords] = useState("");
   const [searchValue, setSearchValue] = useState("");
-  const [clientAddress, setClientAddress] = useState("");
+  const [clientAdress, setClientAdress] = useState("");
 
   useEffect(() => {
     const fetchData = async () => {
-      if (!newCoords) return;
-
       try {
         const [latitude, longitude] = newCoords.split(", ").map(parseFloat);
         const res = await axios.get(
@@ -35,11 +33,11 @@ const MapContainer = ({ setAddressData, setClStreet }) => {
         const data = res.data;
         const foundAddress =
           data.response.GeoObjectCollection.featureMember[0].GeoObject.name;
-        setClientAddress(foundAddress);
+        setClientAdress(foundAddress);
         setAddressData(newCoords);
         setClStreet(foundAddress);
       } catch (error) {
-        console.error(error);
+        console.log(error);
       }
     };
 
@@ -60,18 +58,14 @@ const MapContainer = ({ setAddressData, setClStreet }) => {
       const data = res.data;
       const foundAddress =
         data.response.GeoObjectCollection.featureMember[0].GeoObject.name;
-      setClientAddress(foundAddress);
+      setClientAdress(foundAddress);
     } catch (error) {
       console.error(error);
     }
   };
-
   const handleGeolocationSuccess = async (event) => {
-    const coords = event.get("position").coords;
-    const [latitude, longitude] = [
-      coords.latitude.toFixed(6),
-      coords.longitude.toFixed(6),
-    ];
+    const coords = event.get("coords");
+    const [latitude, longitude] = [coords[0].toFixed(6), coords[1].toFixed(6)];
     const formattedCoords = `${latitude}, ${longitude}`;
     setNewCoords(formattedCoords);
 
@@ -82,12 +76,13 @@ const MapContainer = ({ setAddressData, setClStreet }) => {
       const data = res.data;
       const foundAddress =
         data.response.GeoObjectCollection.featureMember[0].GeoObject.name;
-      setClientAddress(foundAddress);
+      setClientAdress(foundAddress);
+      setAddressData(formattedCoords);
+      setClStreet(foundAddress);
     } catch (err) {
       console.log(err);
     }
   };
-
   const handleSearch = async () => {
     try {
       const res = await axios.get(
@@ -100,28 +95,6 @@ const MapContainer = ({ setAddressData, setClStreet }) => {
       const [latitude, longitude] = foundCoords.split(" ").map(parseFloat);
       const formattedCoords = `${latitude}, ${longitude}`;
       setNewCoords(formattedCoords);
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
-  const handlePlacemarkDragEnd = async (event) => {
-    const coords = event.get("target").geometry.getCoordinates();
-    const [latitude, longitude] = coords.map((coord) => coord.toFixed(6));
-    const formattedCoords = `${latitude}, ${longitude}`;
-    setNewCoords(formattedCoords);
-
-    try {
-      const res = await axios.get(
-        `https://geocode-maps.yandex.ru/1.x/?apikey=${API_KEY}&geocode=${longitude},${latitude}&format=json`
-      );
-
-      const data = res.data;
-      const foundAddress =
-        data.response.GeoObjectCollection.featureMember[0].GeoObject.name;
-      setClientAddress(foundAddress);
-      setAddressData(formattedCoords);
-      setClStreet(foundAddress);
     } catch (error) {
       console.error(error);
     }
@@ -143,7 +116,12 @@ const MapContainer = ({ setAddressData, setClStreet }) => {
   }
 
   return (
-    <YMaps query={{ apikey: API_KEY }}>
+    <YMaps
+      query={{
+        load: "package.full",
+        apikey: API_KEY,
+      }}
+    >
       <Map
         instanceRef={mapRef}
         state={{
@@ -151,39 +129,38 @@ const MapContainer = ({ setAddressData, setClStreet }) => {
           zoom: 11,
           controls: ["zoomControl"],
         }}
+        onLoad={(e) => {
+          ymaps.current = e;
+        }}
         width="100%"
-        height="400px"
-        modules={["control.ZoomControl", "control.GeolocationControl"]}
+        height="200px"
+        modules={["control.ZoomControl"]}
         onClick={handleMapClick}
-        onLoad={(ymapInstanse) => (ymaps.current = ymapInstanse)}
       >
         <GeolocationControl
           options={{ float: "left" }}
-          onClick={handleGeolocationSuccess}
+          onGeolocationSuccess={handleGeolocationSuccess}
         />
         <FullscreenControl />
         {searchControl}
         <TypeSelector options={{ float: "right" }} />
         <Placemark
+          instanceRef={placemarkRef}
           geometry={newCoords.split(", ").map(parseFloat)}
           options={{
-            iconImageSize: [30, 42],
+            iconImageSize: [10, 10],
             draggable: true,
             preset: "islands#greenIcon",
+            hideIconOnBalloonOpen: false,
+            openEmptyHint: true,
           }}
           properties={{
-            hintContent: clientAddress,
+            hintContent: newCoords,
           }}
-          onDragEnd={handlePlacemarkDragEnd}
         />
       </Map>
     </YMaps>
   );
-};
-
-MapContainer.propTypes = {
-  setAddressData: PropTypes.func.isRequired,
-  setClStreet: PropTypes.func.isRequired,
 };
 
 export default MapContainer;

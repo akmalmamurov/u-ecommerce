@@ -10,12 +10,13 @@ import { useForm } from "react-hook-form";
 const UserProfile = () => {
   const { data, isLoading } = useGetClientQuery();
   const { register, handleSubmit, reset } = useForm();
+  console.log(data);
 
   useEffect(() => {
     if (data) {
       reset({
         name: data.name || "",
-        lastName: data.lastName || "",
+        surname: data.surname || "",
         phone_number: data.phone_number || "",
         email: data.email || "",
       });
@@ -41,14 +42,14 @@ const UserProfile = () => {
               <form onSubmit={handleSubmit(onSubmit)}>
                 <div className="profile-control_group">
                   <div className="profile-control">
-                    <label className="profile-label" htmlFor="lastName">
+                    <label className="profile-label" htmlFor="surname">
                       Фамилия
                     </label>
                     <input
                       className="profile-input"
-                      id="lastName"
+                      id="surname"
                       type="text"
-                      {...register("lastName")}
+                      {...register("surname")}
                     />
                   </div>
                   <div className="profile-control">

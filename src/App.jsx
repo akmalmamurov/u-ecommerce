@@ -3,6 +3,7 @@ import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import { MainLayout } from "./components/layout";
 import { useSelector } from "react-redux";
 import MyOrders from "./pages/order/MyOrders";
+import { PaymentCard } from "./pages/payment-card";
 const Home = lazy(() => import("./pages/home/Home"));
 const Favourites = lazy(() => import("./pages/favourites/Favourites"));
 const Cart = lazy(() => import("./pages/cart/Cart"));
@@ -36,6 +37,10 @@ function App() {
             <Route
               path="orders"
               element={isAuth ? <MyOrders /> : <Navigate to="/" />}
+            />
+              <Route
+              path="payment"
+              element={isAuth ? <PaymentCard /> : <Navigate to="/" />}
             />
           </Route>
           <Route path="/checkout" element={<CheckoutPage />} />

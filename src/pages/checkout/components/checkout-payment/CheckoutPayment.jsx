@@ -41,7 +41,6 @@ const CheckoutPayment = ({
         <label
           onClick={() => {
             onOpen();
-            handlePaymentTypeChange({ target: { value: "card" } });
           }}
           htmlFor="payment-online"
           className="checkout-payment_type-item"
@@ -53,8 +52,6 @@ const CheckoutPayment = ({
             type="radio"
             value="online"
             className="payment-type_input"
-            checked={paymentType === "card"}
-            readOnly
           />
         </label>
         <label
@@ -68,7 +65,6 @@ const CheckoutPayment = ({
             id="payment-cash"
             type="radio"
             value="cash"
-            checked={paymentType === "cash"}
             onChange={handlePaymentTypeChange}
             readOnly={paymentType === "card"}
           />

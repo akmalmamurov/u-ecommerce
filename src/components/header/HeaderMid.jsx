@@ -71,7 +71,7 @@ const HeaderMid = memo(() => {
 
   useEffect(() => {
     const handleScroll = () => {
-      if (window.scrollY > 80) {
+      if (window.scrollY > 180) {
         setIsScrolled(true);
       } else {
         setIsScrolled(false);
