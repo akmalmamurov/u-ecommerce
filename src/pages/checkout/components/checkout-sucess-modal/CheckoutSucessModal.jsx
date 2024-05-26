@@ -30,8 +30,12 @@ const CheckoutSucessModal = ({ isOpen, onClose }) => {
           <h1 className="sucess-modal_title">Спасибо за заказ!</h1>
         </ModalHeader>
         <ModalFooter className="sucess-modal_footer">
-          <Link to={"/orders"} className="sucess-modal_btn">Мои заказы</Link>
-          <Link to={"/"} className="sucess-modal_btn sucess-modal_btn-right">Продолжить</Link>
+          <Link to={"/orders"} className="sucess-modal_btn">
+            Мои заказы
+          </Link>
+          <Link to={"/"} className="sucess-modal_btn sucess-modal_btn-right">
+            Продолжить покупки
+          </Link>
         </ModalFooter>
       </ModalContent>
     </Modal>

@@ -16,11 +16,18 @@ import { NoRatingIcon, YesRatingIcon } from "../../assets/icons";
 import { useGetProductByIdQuery } from "../../redux/services/productAllServices";
 import { addToCart } from "../../redux/slices/productSlices";
 import { toggleFavourit } from "../../redux/slices/favouritSlices";
-import { buyImg, cartWhite, heartActiveImg, heartBlackImg, heartWhite } from "../../assets/images";
+import {
+  buyImg,
+  cartWhite,
+  heartActiveImg,
+  heartBlackImg,
+} from "../../assets/images";
 import theme from "../../theme";
 import "./ProductDetails.scss";
 import { kFormatter } from "../../utils";
 import { useAddBasketMutation } from "../../redux/services/basketServices";
+import LoginModal from "../../components/modal/login/LoginModal";
+import { useModal } from "../../hooks/useModal";
 
 const ProductsDetails = () => {
   const { id } = useParams();
@@ -35,6 +42,7 @@ const ProductsDetails = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const isAddedToFavourites = favourites.some((item) => item.id === id);
+  const { isOpen, open, close } = useModal();
   useEffect(() => {
     if (data && data?.image_files?.length > 0) {
       setMainImage(data.image_files.media_file);
@@ -104,12 +112,7 @@ const ProductsDetails = () => {
 
   const goToCheckout = async () => {
     if (!isAuth) {
-      toast({
-        title: "Please log in to proceed to checkout.",
-        status: "error",
-        duration: 3000,
-        isClosable: true,
-      });
+      open();
       return;
     }
     try {
@@ -229,9 +232,17 @@ const ProductsDetails = () => {
                       className="pr-details_btn favourites-btn"
                     >
                       {isAddedToFavourites ? (
-                          <img src={heartActiveImg} alt="cart" className="favourites-img"/>
+                        <img
+                          src={heartActiveImg}
+                          alt="cart"
+                          className="favourites-img"
+                        />
                       ) : (
-                        <img src={heartBlackImg} alt="cart" className="favourites-img"/>
+                        <img
+                          src={heartBlackImg}
+                          alt="cart"
+                          className="favourites-img"
+                        />
                       )}
                       <span>Избранное</span>
                     </button>
@@ -260,6 +271,7 @@ const ProductsDetails = () => {
           </Fragment>
         )}
       </Container>
+      <LoginModal isOpen={isOpen} onClose={close} />
     </Box>
   );
 };
