@@ -1,81 +1,31 @@
-@font-face {
-  font-family: "AbhayaLibre";
-  src: url("./assets/fonts/Abhaya_Libre/AbhayaLibre-Regular.ttf") format("truetype");
-  font-weight: 400;
-}
-@font-face {
-  font-family: "AbhayaLibre";
-  src: url("./assets/fonts/Abhaya_Libre/AbhayaLibre-Medium.ttf") format("truetype");
-  font-weight: 500;
-}
-@font-face {
-  font-family: "AbhayaLibre";
-  src: url("./assets/fonts/Abhaya_Libre/AbhayaLibre-SemiBold.ttf") format("truetype");
-  font-weight: 600;
-}
-@font-face {
-  font-family: "AbhayaLibre";
-  src: url("./assets/fonts/Abhaya_Libre/AbhayaLibre-Bold.ttf") format("truetype");
-  font-weight: 700;
-}
-
-@font-face {
-  font-family: "Inter";
-  src: url("./assets/fonts/Inter/Inter-Regular.ttf") format("truetype");
-  font-weight: 400;
-}
-@font-face {
-  font-family: "Inter";
-  src: url("./assets/fonts/Inter/Inter-Medium.ttf") format("truetype");
-  font-weight: 500;
-}
-@font-face {
-  font-family: "Inter";
-  src: url("./assets/fonts/Inter/Inter-SemiBold.ttf") format("truetype");
-  font-weight: 600;
-}
-@font-face {
-  font-family: "Inter";
-  src: url("./assets/fonts/Inter/Inter-Bold.ttf") format("truetype");
-  font-weight: 700;
-}
-@font-face {
-  font-family: "Poppins";
-  src: url("./assets/fonts/Poppins/Poppins-Bold.ttf") format("truetype");
-  font-weight: 700;
-}
-@font-face {
-  font-family: "Revalia";
-  src: url("./assets/fonts/Revalia/Revalia-Regular.ttf") format("truetype");
-  font-weight: 400;
-}
-@font-face {
-  font-family: "SFPRODISPLAY";
-  src: url("./assets/fonts/sfpro/SFPRODISPLAY-Regular.otf") format("opentype");
-  font-weight: 400;
-}
-@font-face {
-  font-family: "SFPRODISPLAY";
-  src: url("./assets/fonts/sfpro/SFPRODISPLAY-Medium.otf") format("opentype");
-  font-weight: 500;
-}
-@font-face {
-  font-family: "SFPRODISPLAY";
-  src: url("./assets/fonts/sfpro/SFPRODISPLAY-Semibold.otf") format("opentype");
-  font-weight: 600;
-}
-@font-face {
-  font-family: "SFPRODISPLAY";
-  src: url("./assets/fonts/sfpro/SFPRODISPLAYSEMI-Bold.ttf") format("truetype");
-  font-weight: 700;
-}
+@import url("./assets/fonts/fonts.css");
 
 *:focus {
   box-shadow: none !important;
 }
+body {
+  scrollbar-width: thin !important;
+  scrollbar-color: #888 #f1f1f1;
+}
+
+body::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 6px;
+}
+
+body::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 4px;
+}
+
+body::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
 .css-cd0zg1 {
   background: none !important;
 }
+
 .css-cd0zg1:hover {
   background-color: none;
 }
@@ -83,6 +33,7 @@
 .error-message {
   color: red;
 }
+
 .error-input {
   border-color: red !important;
 }
@@ -90,5 +41,3 @@
 .error-input::placeholder {
   color: red;
 }
-
-

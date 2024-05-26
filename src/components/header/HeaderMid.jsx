@@ -31,6 +31,7 @@ import { hideMenu, toggleMenu } from "../../redux/slices/menuSlices";
 import { CatalogMenu } from "../catalog-menu";
 import "./Header.scss";
 import HeaderMenu from "./header-menu/HeaderMenu";
+
 const HeaderMid = memo(() => {
   const [search, setSearch] = useState("");
   const [isScrolled, setIsScrolled] = useState(false);

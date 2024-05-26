@@ -1,0 +1,45 @@
+.pcard-page {
+    width: 100%;
+    margin-bottom: 40px;
+
+    .pcard-content {
+        width: 100%;
+
+        .pcard-item {
+            padding: 1rem 0;
+            padding-left: 1.25rem;
+            padding-right: 1rem;
+            width: 100%;
+            border-radius: 0.75rem;
+            border: 1px solid;
+            border-color: rgb(236 236 236);
+
+            .pcard-input_item {
+                position: relative;
+
+                .pcard-input {
+                    width: 100%;
+                    background-color: white;
+                    height: 40px;
+                    border-radius: 8px;
+                    padding: 0 42px;
+                    margin-bottom: 8px;
+
+                    &:focus {
+                        outline: none;
+                    }
+                }
+
+                .pcard-input_icon {
+                    position: absolute;
+                    left: 10px;
+                    top: 8px;
+                    width: 24px;
+                    height: 24px;
+                    z-index: 1;
+                    pointer-events: none;
+                }
+            }
+        }
+    }
+}

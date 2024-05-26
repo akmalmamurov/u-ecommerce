@@ -25,7 +25,7 @@ const CartModal = ({ onClose, isOpen, allProductDelete }) => {
         </ModalBody>
         <ModalFooter className="cart-modal_footer">
           <Button onClick={allProductDelete} className="cart-modal_btn">Да</Button>
-          <Button className="cart-modal_btn" onClick={onClose}>Нет</Button>
+          <Button className="cart-modal_btn cart-nobtn" onClick={onClose}>Нет</Button>
         </ModalFooter>
       </ModalContent>
     </Modal>

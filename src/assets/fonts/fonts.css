@@ -1,0 +1,76 @@
+@font-face {
+  font-family: "AbhayaLibre";
+  src: url("../../assets/fonts/Abhaya_Libre/AbhayaLibre-Regular.ttf")
+    format("truetype");
+  font-weight: 400;
+}
+@font-face {
+  font-family: "AbhayaLibre";
+  src: url("../../assets/fonts/Abhaya_Libre/AbhayaLibre-Medium.ttf")
+    format("truetype");
+  font-weight: 500;
+}
+@font-face {
+  font-family: "AbhayaLibre";
+  src: url("../../assets/fonts/Abhaya_Libre/AbhayaLibre-SemiBold.ttf")
+    format("truetype");
+  font-weight: 600;
+}
+@font-face {
+  font-family: "AbhayaLibre";
+  src: url("../../assets/fonts/Abhaya_Libre/AbhayaLibre-Bold.ttf")
+    format("truetype");
+  font-weight: 700;
+}
+
+@font-face {
+  font-family: "Inter";
+  src: url("../../assets/fonts/Inter/Inter-Regular.ttf") format("truetype");
+  font-weight: 400;
+}
+@font-face {
+  font-family: "Inter";
+  src: url("../../assets/fonts/Inter/Inter-Medium.ttf") format("truetype");
+  font-weight: 500;
+}
+@font-face {
+  font-family: "Inter";
+  src: url("../../assets/fonts/Inter/Inter-SemiBold.ttf") format("truetype");
+  font-weight: 600;
+}
+@font-face {
+  font-family: "Inter";
+  src: url("../../assets/fonts/Inter/Inter-Bold.ttf") format("truetype");
+
+  font-weight: 700;
+}
+@font-face {
+  font-family: "Poppins";
+  src: url("../../assets/fonts/Poppins/Poppins-Bold.ttf") format("truetype");
+  font-weight: 700;
+}
+@font-face {
+  font-family: "Revalia";
+  src: url("../../assets/fonts/Revalia/Revalia-Regular.ttf") format("truetype");
+  font-weight: 400;
+}
+@font-face {
+  font-family: "SFPRODISPLAY";
+  src: url("../../assets/fonts/sfpro/SFPRODISPLAY-Regular.otf") format("opentype");
+  font-weight: 400;
+}
+@font-face {
+  font-family: "SFPRODISPLAY";
+  src: url("../../assets/fonts/sfpro/SFPRODISPLAY-Medium.otf") format("opentype");
+  font-weight: 500;
+}
+@font-face {
+  font-family: "SFPRODISPLAY";
+  src: url("../../assets/fonts/sfpro/SFPRODISPLAY-Semibold.otf") format("opentype");
+  font-weight: 600;
+}
+@font-face {
+  font-family: "SFPRODISPLAY";
+  src: url("../../assets/fonts/sfpro/SFPRODISPLAYSEMI-Bold.ttf") format("truetype");
+  font-weight: 700;
+}

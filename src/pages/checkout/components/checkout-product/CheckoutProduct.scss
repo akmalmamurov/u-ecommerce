@@ -1,6 +1,4 @@
 .checkout-product_page {
-    position: sticky;
-    top: 10px;
 
     .checkout-product,
     .checkout-product_bottom {
@@ -31,6 +29,7 @@
 
             .checkout-product_info {
                 width: 100%;
+
                 .checkout-product_info-name {
                     font-size: 14px;
                     font-weight: 400;
@@ -67,8 +66,6 @@
 }
 
 .checkout-bottom_total {
-
-
     font-weight: 500;
     font-size: 14px;
 }

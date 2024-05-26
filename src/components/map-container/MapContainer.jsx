@@ -133,7 +133,7 @@ const MapContainer = ({ setAddressData, setClStreet }) => {
           ymaps.current = e;
         }}
         width="100%"
-        height="200px"
+        height="300px"
         modules={["control.ZoomControl"]}
         onClick={handleMapClick}
       >

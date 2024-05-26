@@ -31,14 +31,17 @@
         padding: 0;
 
         .cart-modal_btn {
-            background-color: #BDBDBD;
+            background-color: #0E73F6;
             width: 100%;
             border-radius: 8px;
-            transition: 0.2s ease-in-out;
-            &:hover{
-                background-color: #0E73F6;
-                color: white;
-            }
+            color: white;
+
+          
+        }
+        .cart-nobtn{
+            background-color: white;
+            color: #656565;
+            border: 1px solid #656565
         }
 
     }

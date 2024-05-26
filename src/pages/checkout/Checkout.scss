@@ -1,50 +1,74 @@
 .checkout-page {
   padding: 32px 0;
+
   .checkout-title {
     padding: 24px 0;
     font-weight: 600;
     font-size: 24px;
     margin-bottom: 32px;
   }
-  .checkout-left {
-    .checkout-page_title {
-      display: flex;
-      font-size: 18px;
-      font-weight: 500;
-      gap: 16px;
-      margin-bottom: 32px;
-      span {
-        width: 30px;
-        height: 30px;
-        background-color: #333;
-        font-size: 16px;
-        font-weight: 700;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        text-align: center;
-        color: #fff;
-        border-radius: 20px;
+
+  .checkout-grid {
+    display: flex;
+    gap: 40px;
+
+    .checkout-left {
+      flex: 0 0 62%;
+
+      form {
+
+
+        .checkout-page_title {
+          display: flex;
+          font-size: 18px;
+          font-weight: 500;
+          gap: 16px;
+          margin-bottom: 32px;
+
+          span {
+            width: 30px;
+            height: 30px;
+            background-color: #333;
+            font-size: 16px;
+            font-weight: 700;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            color: #fff;
+            border-radius: 20px;
+          }
+        }
+
+        .checkout-left_container {
+          .checkout-form_control {
+            margin-bottom: 28px;
+          }
+
+        }
+
+        .checkout-btn {
+          padding: 14px 0;
+          width: 100%;
+          background-color: #0e73f6;
+          font-weight: 500;
+          color: white;
+          border-radius: 10px;
+        }
       }
+
+
     }
 
-    form {
-      .checkout-form_control {
-        margin-bottom: 28px;
-      }
-
-      .checkout-btn {
-        padding: 14px 0;
-        width: 100%;
-        background-color: #0e73f6;
-        font-weight: 500;
-        color: white;
-        border-radius: 10px;
-      }
+    .checkout-right {
+      height: fit-content;
+      flex: 0 0 38%;
+      position: sticky;
+      top: 10px;
     }
   }
 
- 
+
 }
 
 .error-message {

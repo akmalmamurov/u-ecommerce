@@ -24,7 +24,7 @@ const clientServices = createApi({
 
     updateClient: builder.mutation({
       query: (body) => ({
-        url: `/api/client`,
+        url: `/api/client/me`,
         method: "PUT",
         body,
       }),

@@ -10,21 +10,23 @@ import {
 } from "@chakra-ui/react";
 import { UserIcon } from "../../../assets/icons";
 import "./HeaderMenu.scss";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { logoutUser } from "../../../redux/slices/authSlices";
+import { useGetClientQuery } from "../../../redux/services/clientServices";
 
 const HeaderMenu = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const name = useSelector((state) => state.auth.user);
+  const { data: client } = useGetClientQuery();
+
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const enterProfile = ()=>{
-    navigate("/profile")
+  const enterProfile = () => {
+    navigate("/profile");
   };
-  const enterOrder = ()=>{
-    navigate("/orders")
-  }
+  const enterOrder = () => {
+    navigate("/orders");
+  };
   return (
     <div className="header-menu_container">
       <Box className="header-menu_right" onMouseLeave={onClose}>
@@ -36,7 +38,7 @@ const HeaderMenu = () => {
           >
             <Box className="header-menu_link">
               <UserIcon />
-              <Text className="">{name || "User"}</Text>
+              <Text className="">{client?.name || "User"}</Text>
             </Box>
           </MenuButton>
           <MenuList
@@ -51,10 +53,7 @@ const HeaderMenu = () => {
               >
                 <Link>Личный кабинет</Link>
               </MenuItem>
-              <MenuItem
-                onClick={enterOrder}
-                className="header-menu_hover-link"
-              >
+              <MenuItem onClick={enterOrder} className="header-menu_hover-link">
                 <Link>Мои заказы</Link>
               </MenuItem>
               <MenuItem

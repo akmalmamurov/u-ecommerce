@@ -8,13 +8,18 @@ import {
 import PropTypes from "prop-types";
 import "./CheckoutUserData.scss";
 
-const CheckoutUserData = ({ register, errors, handleInputChange }) => {
+const CheckoutUserData = ({
+  register,
+  errors,
+  handleInputChange,
+  phoneNumber,
+  isAuth,
+}) => {
   const handleNameChange = (e, maxLength) => {
     e.target.value = e.target.value.replace(/[^a-zA-ZА-Яа-я\s]/g, "");
     if (e.target.value.length > maxLength) {
       e.target.value = e.target.value.slice(0, maxLength);
     }
-    console.log(e.target.value);
   };
 
   return (
@@ -30,13 +35,14 @@ const CheckoutUserData = ({ register, errors, handleInputChange }) => {
             errors.client_phone_number ? "error-input" : ""
           }`}
           {...register("client_phone_number", {
-            required: "Введите номер телефона",
-            minLength: { value: 13, message: "Минимальная длина 13 символов" },
-            maxLength: { value: 13, message: "Максимальная длина 13 символов" },
+            // required: "Введите номер телефона",
+            // minLength: { value: 13, message: "Минимальная длина 13 символов" },
+            // maxLength: { value: 13, message: "Максимальная длина 13 символов" },
           })}
-          defaultValue="+998"
+          value={`+${phoneNumber}`}
           maxLength={13}
           onChange={handleInputChange}
+          readOnly={isAuth}
         />
         <FormErrorMessage>
           {errors.client_phone_number && (
@@ -115,9 +121,11 @@ const CheckoutUserData = ({ register, errors, handleInputChange }) => {
 };
 
 CheckoutUserData.propTypes = {
-  register: PropTypes.func.isRequired,
-  errors: PropTypes.object.isRequired,
-  handleInputChange: PropTypes.func.isRequired,
+  register: PropTypes.func,
+  errors: PropTypes.object,
+  handleInputChange: PropTypes.func,
+  phoneNumber: PropTypes.string,
+  isAuth: PropTypes.bool,
 };
 
 export default CheckoutUserData;

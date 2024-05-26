@@ -4,8 +4,6 @@ import {
   Button,
   Container,
   Divider,
-  Grid,
-  GridItem,
   Heading,
 } from "@chakra-ui/react";
 import CheckoutTop from "./components/checkout-top/CheckoutTop";
@@ -19,11 +17,12 @@ import CheckoutDelivery from "./components/checkout-delivery/CheckoutDelivery";
 import MapContainer from "../../components/map-container/MapContainer";
 import CheckoutProduct from "./components/checkout-product/CheckoutProduct";
 import { useAddOrderMutation } from "../../redux/services/orderServices";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { deleteItems } from "../../redux/slices/productSlices";
 import { useGetBasketQuery } from "../../redux/services/basketServices";
-import { setUser } from "../../redux/slices/authSlices";
-import { useNavigate } from "react-router-dom";
+import PaymentCard from "./components/payment-card/PaymentCard";
+import CheckoutSucessModal from "./components/checkout-sucess-modal/CheckoutSucessModal";
+import { useModal } from "../../hooks/useModal";
 
 const CheckoutPage = () => {
   const {
@@ -38,14 +37,19 @@ const CheckoutPage = () => {
   const [clStreet, setClStreet] = useState("");
   const [paymentType, setPaymentType] = useState("card");
   const [paymentCardType, setPaymentCardType] = useState("Click");
+  const { phoneNumber, isAuth } = useSelector((state) => state.auth);
+  const {
+    isOpen: isFinishOpen,
+    open: openFinish,
+    close: closeFinish,
+  } = useModal();
   console.log(addressData);
   console.log(clStreet);
   const dispatch = useDispatch();
-  const navigate = useNavigate();
   const onSubmit = async (data) => {
     const delivery_addr_lat = +addressData.split(",")[0].trim();
     const delivery_addr_long = +addressData.split(",")[1].trim();
-    const phone_number = data.client_phone_number.replace(/^\+/, "");
+    // const phone_number = data.client_phone_number.replace(/^\+/, "");
     const street = clStreet;
     const clientComment = "";
 
@@ -55,7 +59,7 @@ const CheckoutPage = () => {
     data.delivery_type = "deliver";
     data.payment_type = paymentType;
     data.client_comment = clientComment;
-    data.client_phone_number = phone_number;
+    // data.client_phone_number = phone_number;
     data.payment_card_type = paymentCardType;
 
     try {
@@ -63,9 +67,8 @@ const CheckoutPage = () => {
       console.log(response);
       const productIds = products.map((product) => product.id);
       dispatch(deleteItems(productIds));
-      dispatch(setUser(data.client_first_name));
+      openFinish();
       reset();
-      navigate("/payment");
     } catch (err) {
       console.log(err);
     }
@@ -101,22 +104,20 @@ const CheckoutPage = () => {
       </Container>
       <Divider mb={"24px"} />
       <Container maxW={"1200px"}>
-        <Grid
-          templateColumns={"repeat(12, 1fr)"}
-          gap={"40px"}
-          fontFamily={theme.fonts.fInter}
-        >
-          <GridItem colSpan={8}>
-            <div className="checkout-left">
+        <div className="checkout-grid">
+          <div className="checkout-left">
+            <form onSubmit={handleSubmit(onSubmit)} noValidate>
               <Box className="checkout-page_title">
                 <span>1</span>
                 Ваши данные
               </Box>
-              <form onSubmit={handleSubmit(onSubmit)} noValidate>
+              <div className="checkout-left_container">
                 <CheckoutUserData
                   register={register}
                   errors={errors}
                   handleInputChange={handleInputChange}
+                  phoneNumber={phoneNumber}
+                  isAuth={isAuth}
                 />
                 <Box className="checkout-page_title">
                   <span>2</span>
@@ -127,6 +128,8 @@ const CheckoutPage = () => {
                   handlePaymentTypeChange={handlePaymentTypeChange}
                   setPaymentCardType={setPaymentCardType}
                 />
+                <PaymentCard register={register} errors={errors} />
+
                 <Box mb={"20px"}>
                   <CheckoutDelivery
                     setAddressData={setAddressData}
@@ -139,21 +142,22 @@ const CheckoutPage = () => {
                     />
                   </div>
                 </Box>
+              </div>
+              <Button
+                type="submit"
+                isLoading={isSubmitting}
+                className="checkout-btn"
+              >
+                Подтвердить заказ
+              </Button>
+            </form>
+          </div>
 
-                <Button
-                  type="submit"
-                  isLoading={isSubmitting}
-                  className="checkout-btn"
-                >
-                  Подтвердить заказ
-                </Button>
-              </form>
-            </div>
-          </GridItem>
-          <GridItem colSpan={4}>
+          <div className="checkout-right">
             <CheckoutProduct products={products} total_price={total_price} />
-          </GridItem>
-        </Grid>
+          </div>
+        </div>
+        <CheckoutSucessModal isOpen={isFinishOpen} onClose={closeFinish} />
       </Container>
       <Footer />
     </Box>

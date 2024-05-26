@@ -31,3 +31,5 @@ export { default as PaymentCashIcon } from "./PaymentCashIcon.jsx";
 export { default as MenuCloseIcon } from "./MenuCloseIcon.jsx";
 export { default as ProductCartSucessIcon } from "./ProductCartSucessIcon.jsx";
 export { default as ProductFavouritActiveIcon } from "./ProductFavouritActiveIcon.jsx";
+export { default as PaymentPayIcon } from "./PaymentPayIcon.jsx";
+export { default as SucessCheckIcon } from "./SucessCheckIcon.jsx";

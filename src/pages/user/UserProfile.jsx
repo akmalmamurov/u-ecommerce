@@ -1,16 +1,18 @@
 import { useEffect } from "react";
-import { useDispatch } from "react-redux";
-import { logoutUser } from "../../redux/slices/authSlices";
-import "./UserProfile.scss";
 import { Box, Container } from "@chakra-ui/react";
-import theme from "../../theme";
-import { useGetClientQuery } from "../../redux/services/clientServices";
 import { useForm } from "react-hook-form";
+import {
+  useGetClientQuery,
+  useUpdateClientMutation,
+} from "../../redux/services/clientServices";
+import theme from "../../theme";
+import "./UserProfile.scss";
 
 const UserProfile = () => {
-  const { data, isLoading } = useGetClientQuery();
+  const { data } = useGetClientQuery();
   const { register, handleSubmit, reset } = useForm();
   console.log(data);
+  const [updateClient] = useUpdateClientMutation();
 
   useEffect(() => {
     if (data) {
@@ -23,10 +25,15 @@ const UserProfile = () => {
     }
   }, [data, reset]);
 
-  const dispatch = useDispatch();
-
-  const onSubmit = (formData) => {
-    console.log(formData);
+  const onSubmit = (value) => {
+    updateClient(value, {
+      onSuccess: (data) => {
+        console.log("Client updated successfully", data);
+      },
+      onError: (error) => {
+        console.error("Error updating client:", error);
+      },
+    });
   };
 
   return (
@@ -89,13 +96,15 @@ const UserProfile = () => {
                     />
                   </div>
                 </div>
-                <button type="submit">Сохранить</button>
+                <div className="profile-divider" />
+                <button className="profile-btn" type="submit">
+                  Сохранить
+                </button>
               </form>
             </div>
           </div>
         </Box>
       </Container>
-
     </div>
   );
 };

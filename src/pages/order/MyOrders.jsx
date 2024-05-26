@@ -21,7 +21,6 @@ import { format } from "date-fns";
 const MyOrders = () => {
   const { data, isLoading } = useGetMyOrderQuery();
   const { data: orders } = data || {};
-
   return (
     <div className="my-orders_page">
       <Container maxW={"1200px"}>
