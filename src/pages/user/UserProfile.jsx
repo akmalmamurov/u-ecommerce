@@ -78,7 +78,7 @@ const UserProfile = () => {
                       Электронная почта
                     </label>
                     <input
-                      className="profile-input"
+                      className="profile-input profile-email"
                       id="email"
                       type="text"
                       {...register("email")}
