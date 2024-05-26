@@ -10,9 +10,28 @@ nav {
       font-size: 14px;
       font-weight: 500;
       color: #9c9c9c !important;
-      transition: color 0.2s ease-in-out;
+      position: relative;
+      transition: 0.3s ease-in-out;
+      &::after {
+        content: "";
+        position: absolute;
+        bottom: -4px;
+        left: 0;
+        width: 0;
+        height: 2px;
+        background-color: #0074eb;
+        transition: 0.3s ease-in-out;
+      }
+
+      &:hover::after {
+        width: 100%;
+      }
+
       &.active {
         color: #1f2026 !important;
+        &::after{
+          width: 100%;
+        }
       }
     }
   }

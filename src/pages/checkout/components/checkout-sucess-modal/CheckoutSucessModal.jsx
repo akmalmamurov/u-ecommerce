@@ -31,7 +31,7 @@ const CheckoutSucessModal = ({ isOpen, onClose }) => {
         </ModalHeader>
         <ModalFooter className="sucess-modal_footer">
           <Link to={"/orders"} className="sucess-modal_btn">Мои заказы</Link>
-          <Link to={"/"} className="sucess-modal_btn">Продолжить</Link>
+          <Link to={"/"} className="sucess-modal_btn sucess-modal_btn-right">Продолжить</Link>
         </ModalFooter>
       </ModalContent>
     </Modal>

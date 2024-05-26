@@ -15,6 +15,11 @@
         font-size: 14px;
         color: #8B8E99;
         margin-bottom: 24px;
+        transition: 0.2s ease-in-out;
+        &:hover {
+
+            color: #0E73F6;
+          }
     }
  }   
  .footer-bottom-text{

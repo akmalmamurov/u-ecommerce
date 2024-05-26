@@ -3,28 +3,35 @@
     border-radius: 12px !important;
     padding: 64px !important;
     min-height: 264px !important;
-    .sucess-modal_header{
+
+    .sucess-modal_header {
         padding: 0;
         display: flex;
         flex-direction: column;
         align-items: center;
         margin-bottom: 59px;
-        .sucess-modal_icon{
+
+        .sucess-modal_icon {
             margin-bottom: 12px;
         }
-        .sucess-modal_title{
+
+        .sucess-modal_title {
             font-weight: 500;
             font-size: 20px;
             color: #000000;
         }
     }
-    .sucess-modal_body{
+
+    .sucess-modal_body {
         padding: 0;
     }
-    .sucess-modal_footer{
+
+    .sucess-modal_footer {
         padding: 0;
         display: flex;
-        gap: 16px;.sucess-modal_btn {
+        gap: 16px;
+
+        .sucess-modal_btn {
             display: flex;
             justify-content: center;
             align-items: center;
@@ -35,12 +42,13 @@
             font-weight: 500;
             color: #525252;
             font-size: 16px;
-            transition: 0.2s ease-in-out;
-            &:hover{
-                background: #0E73F6;
-                border-color: #0E73F6;
-                color: white;
-            }
+
+        }
+
+        .sucess-modal_btn-right {
+            background-color: #0E73F6;
+            border-color: #0E73F6;
+            color: white;
         }
     }
 }
