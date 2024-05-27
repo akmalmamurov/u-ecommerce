@@ -1,11 +1,5 @@
 import { useForm } from "react-hook-form";
-import {
-  Box,
-  Button,
-  Container,
-  Divider,
-  Heading,
-} from "@chakra-ui/react";
+import { Box, Button, Container, Divider, Heading } from "@chakra-ui/react";
 import CheckoutTop from "./components/checkout-top/CheckoutTop";
 import theme from "../../theme";
 import "./Checkout.scss";
@@ -50,7 +44,7 @@ const CheckoutPage = () => {
     const delivery_addr_lat = +addressData.split(",")[0].trim();
     const delivery_addr_long = +addressData.split(",")[1].trim();
     // const phone_number = data.client_phone_number.replace(/^\+/, "");
-    const street = clStreet;
+    const street = clStreet;git
     const clientComment = "";
 
     data.delivery_addr_lat = delivery_addr_lat;

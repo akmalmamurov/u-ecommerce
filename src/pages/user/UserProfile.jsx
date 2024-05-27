@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { Box, Container } from "@chakra-ui/react";
+import { Box, Button, Container } from "@chakra-ui/react";
 import { useForm } from "react-hook-form";
 import {
   useGetClientQuery,
@@ -12,7 +12,7 @@ const UserProfile = () => {
   const { data } = useGetClientQuery();
   const { register, handleSubmit, reset } = useForm();
   console.log(data);
-  const [updateClient] = useUpdateClientMutation();
+  const [updateClient, { isLoading }] = useUpdateClientMutation();
 
   useEffect(() => {
     if (data) {
@@ -97,9 +97,13 @@ const UserProfile = () => {
                   </div>
                 </div>
                 <div className="profile-divider" />
-                <button className="profile-btn" type="submit">
+                <Button
+                  isLoading={isLoading}
+                  className="profile-btn"
+                  type="submit"
+                >
                   Сохранить
-                </button>
+                </Button>
               </form>
             </div>
           </div>
