@@ -37,8 +37,6 @@ const CheckoutPage = () => {
     open: openFinish,
     close: closeFinish,
   } = useModal();
-  console.log(addressData);
-  console.log(clStreet);
   const dispatch = useDispatch();
   const onSubmit = async (data) => {
     const delivery_addr_lat = +addressData.split(",")[0].trim();

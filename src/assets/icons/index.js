@@ -33,3 +33,4 @@ export { default as ProductCartSucessIcon } from "./ProductCartSucessIcon.jsx";
 export { default as ProductFavouritActiveIcon } from "./ProductFavouritActiveIcon.jsx";
 export { default as PaymentPayIcon } from "./PaymentPayIcon.jsx";
 export { default as SucessCheckIcon } from "./SucessCheckIcon.jsx";
+export { default as TelegramModaIcon } from "./TelegramModaIcon.jsx";

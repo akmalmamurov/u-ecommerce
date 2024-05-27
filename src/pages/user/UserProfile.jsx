@@ -16,7 +16,6 @@ const UserProfile = () => {
     reset,
     formState: { errors },
   } = useForm();
-  console.log(data);
   const [updateClient, { isLoading }] = useUpdateClientMutation();
   const toast = useToast();
 

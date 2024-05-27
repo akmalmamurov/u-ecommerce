@@ -15,7 +15,7 @@ import {
   PinInputField,
   Text,
 } from "@chakra-ui/react";
-import { LeftArrowIcon } from "../../../assets/icons";
+import { LeftArrowIcon, TelegramModaIcon } from "../../../assets/icons";
 import { useAddVerifyMutation } from "../../../redux/services/verifyServices";
 import { useDispatch } from "react-redux";
 import { setAuth, setPhoneNumber } from "../../../redux/slices/authSlices";
@@ -104,13 +104,13 @@ const VerifyModal = ({ isOpen, onClose, source, onOpen, backModal }) => {
           <ModalContent
             px={"40px"}
             className="verify-modal"
-            fontFamily={theme.fonts.fSF}
+            fontFamily={theme.fonts.fInter}
           >
             <Box className="verify-modal_header">
               <div onClick={backModal}>
                 <LeftArrowIcon cursor={"pointer"} />
               </div>
-              <Text fontFamily={theme.fonts.fSF} className="verify-modal_title">
+              <Text fontFamily={theme.fonts.fInter} className="verify-modal_title">
                 Введите код
               </Text>
             </Box>
@@ -172,15 +172,7 @@ const VerifyModal = ({ isOpen, onClose, source, onOpen, backModal }) => {
             </ModalBody>
 
             <ModalFooter className="verify-modal_footer">
-              <Button className="verify-modal_button">
-                <Link
-                  to={"https://t.me/ulabMarket_bot"}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  Войти через Телеграм
-                </Link>
-              </Button>
+            
 
               <Button
                 className="verify-modal_button"
@@ -188,6 +180,17 @@ const VerifyModal = ({ isOpen, onClose, source, onOpen, backModal }) => {
                 isLoading={isSubmitting}
               >
                 Подвердить
+              </Button>
+              <Button className="verify-modal_button">
+                <Link
+                  className="verify-modal_button-link"
+                  to={"https://t.me/ulabMarket_bot"}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <TelegramModaIcon />
+                  Войти через Telegram
+                </Link>
               </Button>
             </ModalFooter>
           </ModalContent>

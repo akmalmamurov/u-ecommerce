@@ -80,7 +80,11 @@
       color: white;
       border-radius: 8px;
       font-size: 14px;
-      
+      .verify-modal_button-link{
+        display: flex;
+        align-items: center;
+        gap: 12px;
+      }
     }
   }
 }

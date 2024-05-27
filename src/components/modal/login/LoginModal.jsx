@@ -84,7 +84,7 @@ export const LoginModal = memo(({ isOpen, onClose }) => {
       <Modal maxW="407px" isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
         <form onSubmit={handleSubmit(onSubmit)}>
-          <ModalContent fontFamily={theme.fonts.fSF} className="login-modal">
+          <ModalContent fontFamily={theme.fonts.fInter} className="login-modal">
             <Box className="login-modal_close">
               <ModalCloseButton className="register-close_button" />
             </Box>
