@@ -44,7 +44,8 @@ const CheckoutPage = () => {
     const delivery_addr_lat = +addressData.split(",")[0].trim();
     const delivery_addr_long = +addressData.split(",")[1].trim();
     // const phone_number = data.client_phone_number.replace(/^\+/, "");
-    const street = clStreet;git
+    const street = clStreet;
+
     const clientComment = "";
 
     data.delivery_addr_lat = delivery_addr_lat;

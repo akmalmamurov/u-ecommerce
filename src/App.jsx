@@ -37,9 +37,11 @@ function App() {
               path="orders"
               element={isAuth ? <MyOrders /> : <Navigate to="/" />}
             />
-        
           </Route>
-          <Route path="/checkout" element={<CheckoutPage />} />
+          <Route
+            path="/checkout"
+            element={isAuth ? <CheckoutPage /> : <Navigate to="/" />}
+          />
         </Routes>
       </BrowserRouter>
     </Suspense>

@@ -25,8 +25,9 @@ import { TOKEN } from "../../../constants";
 import { useEffect, useState } from "react";
 import "./VerifyModal.scss";
 import theme from "../../../theme";
+import { useAddLoginMutation } from "../../../redux/services/loginServices";
 
-const VerifyModal = ({ isOpen, onClose, source, onOpen }) => {
+const VerifyModal = ({ isOpen, onClose, source, onOpen, backModal }) => {
   const {
     handleSubmit,
     register,
@@ -35,7 +36,8 @@ const VerifyModal = ({ isOpen, onClose, source, onOpen }) => {
   } = useForm();
 
   const dispatch = useDispatch();
-  const [addVerify, { isSuccess, isError }] = useAddVerifyMutation();
+  const [addVerify] = useAddVerifyMutation();
+  const [addLogin, { isLoading }] = useAddLoginMutation();
   const [timer, setTimer] = useState(60);
   const [showResend, setShowResend] = useState(false);
 
@@ -80,10 +82,18 @@ const VerifyModal = ({ isOpen, onClose, source, onOpen }) => {
     }
   };
 
-  const handleResend = () => {
-    setTimer(60);
-    setShowResend(false);
-    reset();
+  const handleResend = async () => {
+    try {
+      await addLogin({ source: source, type: "phone_number" });
+      setTimer(60);
+      setShowResend(false);
+      reset();
+    } catch (err) {
+      console.log(err);
+    }
+  };
+  const handleLoginOpen = () => {
+    onOpen();
   };
 
   return (
@@ -97,7 +107,7 @@ const VerifyModal = ({ isOpen, onClose, source, onOpen }) => {
             fontFamily={theme.fonts.fSF}
           >
             <Box className="verify-modal_header">
-              <div onClick={onOpen}>
+              <div onClick={backModal}>
                 <LeftArrowIcon cursor={"pointer"} />
               </div>
               <Text fontFamily={theme.fonts.fSF} className="verify-modal_title">
@@ -133,7 +143,7 @@ const VerifyModal = ({ isOpen, onClose, source, onOpen }) => {
                 )}
               </FormControl>
               {timer > 0 ? (
-                <Link className="verify-modal_link">
+                <Link onClick={handleLoginOpen} className="verify-modal_link">
                   Изменить номер телефона
                 </Link>
               ) : (
@@ -165,7 +175,6 @@ const VerifyModal = ({ isOpen, onClose, source, onOpen }) => {
               <Button className="verify-modal_button">
                 <Link
                   to={"https://t.me/ulabMarket_bot"}
-                  className="code_tg"
                   target="_blank"
                   rel="noopener noreferrer"
                 >
@@ -176,14 +185,10 @@ const VerifyModal = ({ isOpen, onClose, source, onOpen }) => {
               <Button
                 className="verify-modal_button"
                 type="submit"
-                mr={3}
                 isLoading={isSubmitting}
               >
                 Подвердить
               </Button>
-
-              {isSuccess && <span className="success-message">Success!</span>}
-              {isError && <span className="error-message">Error!</span>}
             </ModalFooter>
           </ModalContent>
         </form>

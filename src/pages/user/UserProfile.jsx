@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { Box, Button, Container } from "@chakra-ui/react";
+import { Box, Button, Container, Input, useToast } from "@chakra-ui/react";
 import { useForm } from "react-hook-form";
 import {
   useGetClientQuery,
@@ -10,9 +10,15 @@ import "./UserProfile.scss";
 
 const UserProfile = () => {
   const { data } = useGetClientQuery();
-  const { register, handleSubmit, reset } = useForm();
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors },
+  } = useForm();
   console.log(data);
   const [updateClient, { isLoading }] = useUpdateClientMutation();
+  const toast = useToast();
 
   useEffect(() => {
     if (data) {
@@ -25,15 +31,33 @@ const UserProfile = () => {
     }
   }, [data, reset]);
 
-  const onSubmit = (value) => {
-    updateClient(value, {
-      onSuccess: (data) => {
-        console.log("Client updated successfully", data);
-      },
-      onError: (error) => {
-        console.error("Error updating client:", error);
-      },
-    });
+  const handleAlphaOnlyChange = (e) => {
+    e.target.value = e.target.value.replace(/[^A-Za-z]/gi, "");
+  };
+
+  const onSubmit = async (value) => {
+    try {
+      await updateClient(value).unwrap();
+      toast({
+        title: "Success",
+        description: "We've updated your profile.",
+        status: "info",
+        duration: 2000,
+        isClosable: true,
+        position: "top-right",
+      });
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    } catch (error) {
+      toast({
+        title: "Error",
+        description: "There was an error updating your profile.",
+        status: "error",
+        duration: 3000,
+        isClosable: true,
+        position: "top-right",
+      });
+      console.error("Error updating client:", error);
+    }
   };
 
   return (
@@ -52,23 +76,45 @@ const UserProfile = () => {
                     <label className="profile-label" htmlFor="surname">
                       Фамилия
                     </label>
-                    <input
+                    <Input
                       className="profile-input"
                       id="surname"
                       type="text"
-                      {...register("surname")}
+                      {...register("surname", {
+                        pattern: {
+                          value: /^[A-Za-z]+$/i,
+                          message: "Фамилия может содержать только буквы",
+                        },
+                        onChange: handleAlphaOnlyChange,
+                      })}
                     />
+                    {errors.surname && (
+                      <span className="error-message">
+                        {errors.surname.message}
+                      </span>
+                    )}
                   </div>
                   <div className="profile-control">
                     <label className="profile-label" htmlFor="name">
                       Имя
                     </label>
-                    <input
+                    <Input
                       className="profile-input"
                       id="name"
                       type="text"
-                      {...register("name")}
+                      {...register("name", {
+                        pattern: {
+                          value: /^[A-Za-z]+$/i,
+                          message: "Имя может содержать только буквы",
+                        },
+                        onChange: handleAlphaOnlyChange,
+                      })}
                     />
+                    {errors.name && (
+                      <span className="error-message">
+                        {errors.name.message}
+                      </span>
+                    )}
                   </div>
                 </div>
                 <div className="profile-divider" />
@@ -77,7 +123,7 @@ const UserProfile = () => {
                     <label className="profile-label" htmlFor="email">
                       Электронная почта
                     </label>
-                    <input
+                    <Input
                       className="profile-input profile-email"
                       id="email"
                       type="text"
@@ -88,7 +134,7 @@ const UserProfile = () => {
                     <label className="profile-label" htmlFor="phone_number">
                       Номер телефона
                     </label>
-                    <input
+                    <Input
                       className="profile-input"
                       id="phone_number"
                       type="text"

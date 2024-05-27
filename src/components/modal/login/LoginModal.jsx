@@ -46,7 +46,6 @@ export const LoginModal = memo(({ isOpen, onClose }) => {
       await addLogin({ source: phone_number, type: "phone_number" });
       setIsSuccess(true);
       setOpenVerifyModal(true);
-      reset({ phone_number: "+998" });
     } catch (err) {
       console.log(err);
     }
@@ -56,11 +55,13 @@ export const LoginModal = memo(({ isOpen, onClose }) => {
     (e) => {
       const inputValue = e.target.value;
       const sanitizedValue = inputValue.replace(/[^\d+]/g, "");
-      const newValue =
-        sanitizedValue && !sanitizedValue.startsWith("+")
-          ? "+" + sanitizedValue
-          : sanitizedValue;
-      setValue("phone_number", newValue);
+      if (sanitizedValue.length <= 13) {
+        const newValue =
+          sanitizedValue && !sanitizedValue.startsWith("+")
+            ? "+" + sanitizedValue
+            : sanitizedValue;
+        setValue("phone_number", newValue);
+      }
     },
     [setValue]
   );
@@ -69,6 +70,15 @@ export const LoginModal = memo(({ isOpen, onClose }) => {
     setValue("phone_number", "+998");
   }, [setValue]);
 
+  useEffect(() => {
+    if (!isOpen) {
+      reset({ phone_number: "+998" });
+    }
+  }, [isOpen, reset]);
+  const backModal = () => {
+    setOpenVerifyModal(false);
+    reset({ phone_number: "+998" });
+  };
   return (
     <div>
       <Modal maxW="407px" isOpen={isOpen} onClose={onClose}>
@@ -88,7 +98,7 @@ export const LoginModal = memo(({ isOpen, onClose }) => {
                   {...register("phone_number", {
                     required: "Пожалуйста, введите свой номер телефона",
                     minLength: {
-                      value: 12,
+                      value: 13,
                       message:
                         "Неверный номер телефона. Проверьте и повторите попытку.",
                     },
@@ -96,6 +106,7 @@ export const LoginModal = memo(({ isOpen, onClose }) => {
                   className={`login-input ${
                     errors.phone_number ? "error-input" : ""
                   }`}
+                  maxLength={13}
                   onChange={handleInputChange}
                 />
 
@@ -139,6 +150,7 @@ export const LoginModal = memo(({ isOpen, onClose }) => {
           isOpen={isOpen}
           onClose={onClose}
           onOpen={() => setOpenVerifyModal(false)}
+          backModal={backModal}
         />
       )}
     </div>

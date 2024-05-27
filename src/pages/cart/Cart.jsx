@@ -36,6 +36,7 @@ import {
 import {
   useAddBasketMutation,
   useDeleteBasketMutation,
+  useGetBasketQuery,
 } from "../../redux/services/basketServices";
 import { toggleFavourit } from "../../redux/slices/favouritSlices";
 import CartModal from "./cart-bottom/cart-modal/CartModal";
@@ -48,6 +49,7 @@ const CartPage = () => {
   const favourites = useSelector((state) => state.favourit.favourites);
   const [addBasket] = useAddBasketMutation();
   const [deleteBasket] = useDeleteBasketMutation();
+  const { data: baskets } = useGetBasketQuery();
   const [totalPrice, setTotalPrice] = useState(0);
   const [totalAdditionalPrice, setTotalAdditionalPrice] = useState(0);
   const [checkedItems, setCheckedItems] = useState([]);
@@ -55,7 +57,11 @@ const CartPage = () => {
   const dispatch = useDispatch();
   const toast = useToast();
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const { isOpen: isLoginOpen, open: openLogin, close: closeLogin } = useModal()
+  const {
+    isOpen: isLoginOpen,
+    open: openLogin,
+    close: closeLogin,
+  } = useModal();
   console.log(isAuth);
   useEffect(() => {
     if (products) {
@@ -90,7 +96,7 @@ const CartPage = () => {
 
   const goToCheckout = async () => {
     if (!isAuth) {
-      openLogin(); 
+      openLogin();
       return;
     }
 
