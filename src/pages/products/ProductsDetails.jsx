@@ -1,6 +1,9 @@
 import { useEffect, Fragment, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
+import Slider from "react-slick";
+import ReactStars from "react-rating-stars-component";
+
 import {
   Box,
   Button,
@@ -10,15 +13,27 @@ import {
   GridItem,
   Text,
   useToast,
+  Modal,
+  ModalOverlay,
+  ModalContent,
+  ModalCloseButton,
+  ModalBody,
 } from "@chakra-ui/react";
-import ReactStars from "react-rating-stars-component";
-import { NoRatingIcon, YesRatingIcon } from "../../assets/icons";
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
+import {
+  NoRatingIcon,
+  ProductLeftIcon,
+  ProductRightIcon,
+  YesRatingIcon,
+} from "../../assets/icons";
 import { useGetProductByIdQuery } from "../../redux/services/productAllServices";
 import { addToCart } from "../../redux/slices/productSlices";
 import { toggleFavourit } from "../../redux/slices/favouritSlices";
 import {
   buyImg,
   cartWhite,
+  chevronRight,
   heartActiveImg,
   heartBlackImg,
 } from "../../assets/images";
@@ -43,9 +58,11 @@ const ProductsDetails = () => {
   const navigate = useNavigate();
   const isAddedToFavourites = favourites.some((item) => item.id === id);
   const { isOpen, open, close } = useModal();
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
   useEffect(() => {
-    if (data && data?.image_files?.length > 0) {
-      setMainImage(data.image_files.media_file);
+    if (data && data.image_files && data.image_files.length > 0) {
+      setMainImage(data.image_files[0].media_file);
     }
     if (data && data.rating) {
       setRating(data.rating);
@@ -60,40 +77,46 @@ const ProductsDetails = () => {
     }
   };
 
+  const handleImageClick = () => {
+    setIsModalOpen(true);
+  };
+
   const handleAddToCart = () => {
-    dispatch(
-      addToCart(
-        {
+    if (data) {
+      dispatch(
+        addToCart({
           id: data.id,
           main_image: data.main_image,
           price: data.price,
           description_ru: data.description_ru,
           name_ru: data.name_ru,
           quantity: qty,
-        },
-        toast({
-          title: "Добавлено в корзину",
-          description: `${data.name_ru}`,
-          status: "info",
-          position: "top-right",
-          duration: 2000,
-          isClosable: true,
         })
-      )
-    );
+      );
+      toast({
+        title: "Добавлено в корзину",
+        description: `${data.name_ru}`,
+        status: "info",
+        position: "top-right",
+        duration: 2000,
+        isClosable: true,
+      });
+    }
   };
 
   const handleAddToFavourit = () => {
-    dispatch(
-      toggleFavourit({
-        id: data.id,
-        main_image: data.main_image,
-        price: data.price,
-        description_ru: data.description_ru,
-        name_ru: data.name_ru,
-        quantity: qty,
-      })
-    );
+    if (data) {
+      dispatch(
+        toggleFavourit({
+          id: data.id,
+          main_image: data.main_image,
+          price: data.price,
+          description_ru: data.description_ru,
+          name_ru: data.name_ru,
+          quantity: qty,
+        })
+      );
+    }
   };
 
   const ratingChanged = (newRating) => {
@@ -116,29 +139,42 @@ const ProductsDetails = () => {
       return;
     }
     try {
-      const res = await addBasket({
-        product_id: data.id,
-        quantity: qty,
-      });
-      console.log(res);
-      navigate("/checkout");
+      if (data) {
+        const res = await addBasket({
+          product_id: data.id,
+          quantity: qty,
+        });
+        console.log(res);
+        navigate("/checkout");
+      }
     } catch (err) {
       console.log(err);
     }
   };
 
+  const settings = {
+    dots: true,
+    lazyLoad: true,
+    infinite: true,
+    speed: 500,
+    slidesToShow: 1,
+    slidesToScroll: 1,
+    // nextArrow: <ProductRightIcon />,
+    // prevArrow: <ProductLeftIcon />,
+  };
+
   return (
     <Box className="product-details" fontFamily={theme.fonts.fInter}>
       <Container maxW={"1200px"}>
-        {data && (
+        {data ? (
           <Fragment>
             <Grid templateColumns={"repeat(2,1fr)"} gap={"80px"}>
               <GridItem>
                 <Box className="product-details_left">
                   <div className="product-img_left">
                     <img
-                      src={data.main_image}
-                      alt=""
+                      src={data?.main_image}
+                      alt={data?.name_ru}
                       className="product-details_img-sm"
                       onClick={() =>
                         handleThumbnailClick({ media_file: data.main_image })
@@ -149,19 +185,22 @@ const ProductsDetails = () => {
                         <img
                           key={image.id}
                           src={image.media_file}
-                          alt=""
+                          alt={data.name_ru}
                           className="product-details_img-sm"
                           onClick={() => handleThumbnailClick(image)}
                         />
                       ))}
                   </div>
                   <Box className="product-img_right">
-                    <img
-                      id="mainImage"
-                      className="product-details_img-lg"
-                      src={mainImage ? mainImage : data.main_image}
-                      alt={data.name_ru}
-                    />
+                    {mainImage && (
+                      <img
+                        onClick={handleImageClick}
+                        id="mainImage"
+                        className="product-details_img-lg"
+                        src={data.main_image}
+                        alt={data.name_ru}
+                      />
+                    )}
                   </Box>
                 </Box>
               </GridItem>
@@ -269,9 +308,43 @@ const ProductsDetails = () => {
               </Box>
             </Box>
           </Fragment>
+        ) : (
+          <Text>Loading...</Text>
         )}
       </Container>
       <LoginModal isOpen={isOpen} onClose={close} />
+      <Modal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        size="full"
+      >
+        <ModalOverlay />
+        <ModalContent>
+          <ModalCloseButton />
+          <ModalBody>
+            <div className="slider-container">
+              <Slider {...settings}>
+                <div>
+                  <img
+                    src={data?.main_image}
+                    alt={data?.name_ru}
+                    style={{ maxHeight: "90vh", maxWidth: "90%" }}
+                  />
+                </div>
+                {data?.image_files.map((image) => (
+                  <div key={image.id}>
+                    <img
+                      src={image.media_file}
+                      alt={data?.name_ru}
+                      style={{ maxHeight: "90vh", maxWidth: "90%" }}
+                    />
+                  </div>
+                ))}
+              </Slider>
+            </div>
+          </ModalBody>
+        </ModalContent>
+      </Modal>
     </Box>
   );
 };

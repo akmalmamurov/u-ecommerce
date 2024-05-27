@@ -34,3 +34,5 @@ export { default as ProductFavouritActiveIcon } from "./ProductFavouritActiveIco
 export { default as PaymentPayIcon } from "./PaymentPayIcon.jsx";
 export { default as SucessCheckIcon } from "./SucessCheckIcon.jsx";
 export { default as TelegramModaIcon } from "./TelegramModaIcon.jsx";
+export { default as ProductLeftIcon } from "./ProductLeftIcon.jsx";
+export { default as ProductRightIcon } from "./ProductRightIcon.jsx";
