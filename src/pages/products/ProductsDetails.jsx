@@ -1,7 +1,6 @@
 import { useEffect, Fragment, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import Slider from "react-slick";
 import ReactStars from "react-rating-stars-component";
 
 import {
@@ -13,27 +12,15 @@ import {
   GridItem,
   Text,
   useToast,
-  Modal,
-  ModalOverlay,
-  ModalContent,
-  ModalCloseButton,
-  ModalBody,
 } from "@chakra-ui/react";
-import "slick-carousel/slick/slick.css";
-import "slick-carousel/slick/slick-theme.css";
-import {
-  NoRatingIcon,
-  ProductLeftIcon,
-  ProductRightIcon,
-  YesRatingIcon,
-} from "../../assets/icons";
+
+import { NoRatingIcon, YesRatingIcon } from "../../assets/icons";
 import { useGetProductByIdQuery } from "../../redux/services/productAllServices";
 import { addToCart } from "../../redux/slices/productSlices";
 import { toggleFavourit } from "../../redux/slices/favouritSlices";
 import {
   buyImg,
   cartWhite,
-  chevronRight,
   heartActiveImg,
   heartBlackImg,
 } from "../../assets/images";
@@ -43,6 +30,7 @@ import { kFormatter } from "../../utils";
 import { useAddBasketMutation } from "../../redux/services/basketServices";
 import LoginModal from "../../components/modal/login/LoginModal";
 import { useModal } from "../../hooks/useModal";
+import ProductModal from "../../components/modal/product-modal/ProductModal";
 
 const ProductsDetails = () => {
   const { id } = useParams();
@@ -150,17 +138,6 @@ const ProductsDetails = () => {
     } catch (err) {
       console.log(err);
     }
-  };
-
-  const settings = {
-    dots: true,
-    lazyLoad: true,
-    infinite: true,
-    speed: 500,
-    slidesToShow: 1,
-    slidesToScroll: 1,
-    // nextArrow: <ProductRightIcon />,
-    // prevArrow: <ProductLeftIcon />,
   };
 
   return (
@@ -313,38 +290,11 @@ const ProductsDetails = () => {
         )}
       </Container>
       <LoginModal isOpen={isOpen} onClose={close} />
-      <Modal
-        isOpen={isModalOpen}
-        onClose={() => setIsModalOpen(false)}
-        size="full"
-      >
-        <ModalOverlay />
-        <ModalContent>
-          <ModalCloseButton />
-          <ModalBody>
-            <div className="slider-container">
-              <Slider {...settings}>
-                <div>
-                  <img
-                    src={data?.main_image}
-                    alt={data?.name_ru}
-                    style={{ maxHeight: "90vh", maxWidth: "90%" }}
-                  />
-                </div>
-                {data?.image_files.map((image) => (
-                  <div key={image.id}>
-                    <img
-                      src={image.media_file}
-                      alt={data?.name_ru}
-                      style={{ maxHeight: "90vh", maxWidth: "90%" }}
-                    />
-                  </div>
-                ))}
-              </Slider>
-            </div>
-          </ModalBody>
-        </ModalContent>
-      </Modal>
+      <ProductModal
+        data={data}
+        isModalOpen={isModalOpen}
+        setIsModalOpen={setIsModalOpen}
+      />
     </Box>
   );
 };

@@ -143,24 +143,3 @@
   }
 }
 
-.slick-prev {
-  left: 3% !important;
-  width: 48px !important;
-  height: 48px !important;
-  border-radius: 50% !important;
-  border: 1px solid rgb(236, 236, 236) !important;
-  z-index: 1;
-}
-
-.slick-next {
-  right: 3% !important;
-  width: 48px !important;
-  height: 48px !important;
-  border-radius: 50% !important;
-  border: 1px solid rgb(236, 236, 236) !important;
-  z-index: 1;
-
-  &::before{
-    color: black;
-  }
-}

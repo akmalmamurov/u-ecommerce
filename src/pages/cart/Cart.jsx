@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import {
   Box,
   Center,
@@ -22,7 +22,6 @@ import {
   ProductFavouritActiveIcon,
 } from "../../assets/icons";
 import theme from "../../theme";
-import { emptyCart } from "../../assets/images";
 import "./Cart.scss";
 import CartBottom from "./cart-bottom/CartBottom";
 import { calculateTotalPrice, kFormatter } from "../../utils";
@@ -39,9 +38,10 @@ import {
   useGetBasketQuery,
 } from "../../redux/services/basketServices";
 import { toggleFavourit } from "../../redux/slices/favouritSlices";
-import CartModal from "./cart-bottom/cart-modal/CartModal";
+import CartModal from "./cart-modal/CartModal";
 import LoginModal from "../../components/modal/login/LoginModal";
 import { useModal } from "../../hooks/useModal";
+import EmptyCart from "./empty-cart/EmptyCart";
 
 const CartPage = () => {
   const products = useSelector((state) => state.product.products);
@@ -335,19 +335,7 @@ const CartPage = () => {
             </Box>
           </>
         ) : (
-          <div className="cart-empty">
-            <div>
-              <img src={emptyCart} alt="emptyCart" />
-            </div>
-            <Text fontFamily={theme.fonts.fSf} className="empty-cart_text">
-              В корзине ничего нет
-            </Text>
-            <Box fontFamily={theme.fonts.fInter} mt={"32px"}>
-              <Link to="/" className="empty-cart_btn">
-                Вернуться на главную страницу
-              </Link>
-            </Box>
-          </div>
+          <EmptyCart />
         )}
       </Container>
       <LoginModal isOpen={isLoginOpen} onClose={closeLogin} />

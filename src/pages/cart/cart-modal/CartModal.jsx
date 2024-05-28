@@ -8,8 +8,8 @@ import {
 } from "@chakra-ui/react";
 import "./CartModal.scss";
 import PropTypes from "prop-types";
-import { deleteImg } from "../../../../assets/images";
-import theme from "../../../../theme";
+import theme from "../../../theme";
+import { deleteImg } from "../../../assets/images";
 const CartModal = ({ onClose, isOpen, allProductDelete }) => {
   return (
     <Modal onClose={onClose} isOpen={isOpen} isCentered className="cart-modal">
