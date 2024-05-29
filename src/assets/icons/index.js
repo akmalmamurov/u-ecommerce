@@ -37,3 +37,5 @@ export { default as TelegramModaIcon } from "./TelegramModaIcon.jsx";
 export { default as ProductModalCloseIcon } from "./ProductModalCloseIcon.jsx";
 export { default as ProductRightIcon } from "./ProductRightIcon.jsx";
 export { default as ProductLeftIcon } from "./ProductLeftIcon.jsx";
+export { default as CartArrowRightIcon } from "./CartArrowRightIcon.jsx";
+export { default as CartLeftArrowIcon } from "./CartLeftArrowIcon.jsx";

@@ -5,4 +5,22 @@
         color: #000000;
         margin-bottom: 24px;
     }
+    .cart-bottom_motion{
+        margin-bottom: 24px;
+        .cart-slider_container {
+            .slick-prev{
+                &::before{
+                    content: "";
+                }
+            }
+            .slick-next{
+                &::before{
+                    content: "";
+                }
+            }
+            .cart-slider{
+                padding: 0;
+            }
+        }
+    }
 }

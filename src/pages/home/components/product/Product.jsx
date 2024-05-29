@@ -40,13 +40,11 @@ const Product = memo(() => {
   }, [products, page, limit]);
 
   const handleShowMore = () => {
-    setLimit((prevLimit) => prevLimit + 20);
     setPage((prevPage) => prevPage + 1);
   };
 
   const handleHideProducts = () => {
     setAllProducts(initialProducts.slice(0, 20));
-    setLimit(20);
     setPage(1);
     setHasMore(true);
   };

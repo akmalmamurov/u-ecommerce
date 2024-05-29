@@ -7,7 +7,39 @@ import "./CartBottom.scss";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import Loading from "../../../components/loading/Loading";
-import { ProductLeftIcon, ProductRightIcon } from "../../../assets/icons";
+import { CartArrowRightIcon, CartLeftArrowIcon } from "../../../assets/icons";
+
+const ArrowStyles = {
+  width: 52,
+  height: 52,
+  zIndex: 12,
+};
+
+const CustomNextArrow = (props) => {
+  const { className, style, onClick } = props;
+  return (
+    <div
+      className={className}
+      style={{ ...style, ...ArrowStyles }}
+      onClick={onClick}
+    >
+      <CartArrowRightIcon width={52} height={52} />
+    </div>
+  );
+};
+
+const CustomPrevArrow = (props) => {
+  const { className, style, onClick } = props;
+  return (
+    <div
+      className={className}
+      style={{ ...style, ...ArrowStyles }}
+      onClick={onClick}
+    >
+      <CartLeftArrowIcon width={52} height={52} />
+    </div>
+  );
+};
 
 const CartBottom = () => {
   const { data: products, isLoading } = useGetAllProductsQuery({
@@ -23,8 +55,8 @@ const CartBottom = () => {
     slidesToScroll: 1,
     autoplay: true,
     autoplaySpeed: 3000,
-    nextArrow: <ProductRightIcon />,
-    prevArrow: <ProductLeftIcon />,
+    nextArrow: <CustomNextArrow />,
+    prevArrow: <CustomPrevArrow />,
     responsive: [
       {
         breakpoint: 1024,
@@ -57,6 +89,7 @@ const CartBottom = () => {
       <Container maxW={"1200px"}>
         <h1 className="cart-bottom_title">С этим товарам покупают еще</h1>
         <motion.div
+          className="cart-bottom_motion"
           initial={{ y: 120, opacity: 0 }}
           whileInView={{ y: 0, opacity: 1 }}
           transition={{ delay: 0.3, duration: 0.3 }}
@@ -64,11 +97,13 @@ const CartBottom = () => {
           {isLoading ? (
             <Loading />
           ) : (
-            <Slider {...settings}>
-              {products.map((product) => (
-                <ProductCard key={product.id} {...product} />
-              ))}
-            </Slider>
+            <div className="cart-slider_container">
+              <Slider {...settings} className="cart-slider">
+                {products.map((product) => (
+                  <ProductCard key={product.id} {...product} />
+                ))}
+              </Slider>
+            </div>
           )}
         </motion.div>
       </Container>

@@ -45,6 +45,13 @@ const basketServices = createApi({
       }),
       invalidatesTags: ["Basket"],
     }),
+    allDeleteBasket: builder.mutation({
+      query: (body) => ({
+        url: `/api/basket/all`,
+        method: "DELETE",
+        body,
+      }),
+    }),
   }),
 });
 
@@ -53,6 +60,7 @@ export const {
   useAddBasketMutation,
   useUpdateBasketMutation,
   useDeleteBasketMutation,
+  useAllDeleteBasketMutation,
 } = basketServices;
 
 export default basketServices;

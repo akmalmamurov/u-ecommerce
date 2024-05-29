@@ -8,7 +8,7 @@ const productAllServices = createApi({
   }),
   endpoints: (builder) => ({
     getAllProducts: builder.query({
-      query: ({ page = 1, limit = 10 }) =>
+      query: ({ page = 1, limit, }) =>
         `/api/product?limit=${limit}&page=${page}`,
     }),
     getSearchProducts: builder.query({
