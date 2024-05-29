@@ -1,16 +1,14 @@
 import { createSlice } from "@reduxjs/toolkit";
-import Cookies from "js-cookie";
 import { TOKEN } from "../../constants";
 
 const authSlice = createSlice({
   name: "auth",
   initialState: {
-    isAuth: Cookies.get(TOKEN) ? true : false,
+    isAuth: localStorage.getItem(TOKEN) ? true : false,
     user: localStorage.getItem("user")
       ? JSON.parse(localStorage.getItem("user"))
       : null,
     phoneNumber: localStorage.getItem("phoneNumber") || "",
-    
   },
   reducers: {
     setAuth: (state) => {
@@ -25,7 +23,7 @@ const authSlice = createSlice({
       localStorage.setItem("phoneNumber", payload);
     },
     logoutUser: (state) => {
-      Cookies.remove(TOKEN);
+      localStorage.removeItem(TOKEN); 
       localStorage.removeItem("user");
       localStorage.removeItem("phoneNumber");
       state.user = null;

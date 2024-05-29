@@ -20,7 +20,6 @@ import { useAddVerifyMutation } from "../../../redux/services/verifyServices";
 import { useDispatch } from "react-redux";
 import { setAuth, setPhoneNumber } from "../../../redux/slices/authSlices";
 import { Link } from "react-router-dom";
-import Cookies from "js-cookie";
 import { TOKEN } from "../../../constants";
 import { useEffect, useState } from "react";
 import "./VerifyModal.scss";
@@ -72,10 +71,11 @@ const VerifyModal = ({ isOpen, onClose, source, onOpen, backModal }) => {
         console.log(res.error);
         return;
       }
-      Cookies.set(TOKEN, res.data.token, { expires: 7 });
+      localStorage.setItem(TOKEN, res.data.token);
       dispatch(setAuth());
-      dispatch(setPhoneNumber(source));
       onClose();
+      onOpen();
+      dispatch(setPhoneNumber(source));
       reset();
     } catch (err) {
       console.log(err);
@@ -110,7 +110,10 @@ const VerifyModal = ({ isOpen, onClose, source, onOpen, backModal }) => {
               <div onClick={backModal}>
                 <LeftArrowIcon cursor={"pointer"} />
               </div>
-              <Text fontFamily={theme.fonts.fInter} className="verify-modal_title">
+              <Text
+                fontFamily={theme.fonts.fInter}
+                className="verify-modal_title"
+              >
                 Введите код
               </Text>
             </Box>
@@ -172,8 +175,6 @@ const VerifyModal = ({ isOpen, onClose, source, onOpen, backModal }) => {
             </ModalBody>
 
             <ModalFooter className="verify-modal_footer">
-            
-
               <Button
                 className="verify-modal_button"
                 type="submit"
@@ -205,6 +206,7 @@ VerifyModal.propTypes = {
   isOpen: PropTypes.bool,
   onOpen: PropTypes.func,
   source: PropTypes.string,
+  backModal: PropTypes.func,
 };
 
 export default VerifyModal;

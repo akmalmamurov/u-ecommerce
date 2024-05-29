@@ -9,11 +9,11 @@ const brandServices = createApi({
   endpoints: (builder) => ({
     getBrand: builder.query({
       query: () => `/api/brand`,
-      invalidatesTags: ["brand"],
+      providesTags: ["brand"],
     }),
     getBrandById: builder.query({
       query: (id) => `/api/brand/${id}`,
-      invalidatesTags: ["brand"],
+      providesTags: ["brand"],
     }),
   }),
 });

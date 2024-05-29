@@ -1,5 +1,6 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { ENDPOINT } from "../../constants";
+
 const categoryServices = createApi({
   reducerPath: "category",
   baseQuery: fetchBaseQuery({
@@ -8,18 +9,24 @@ const categoryServices = createApi({
   tagTypes: ["category"],
   endpoints: (builder) => ({
     getCategories: builder.query({
-      query: () => `/api/category`,
-      invalidatesTags: ["category"],
+      query: ({ limit = 1000, page = 1 } = {}) => `/api/category?limit=${limit}&page=${page}`,
+      providesTags: ["category"],
     }),
     getCategoriesById: builder.query({
       query: (id) => `/api/category/${id}`,
-      invalidatesTags: ["category"],
+      providesTags: ["category"],
     }),
     getCategoriesBrand: builder.query({
       query: (id) => `/api/category/${id}/brand`,
-      invalidatesTags: ["category"],
-    })
+      providesTags: ["category"],
+    }),
   }),
 });
-export const {useGetCategoriesQuery,useGetCategoriesByIdQuery,useGetCategoriesBrandQuery} =  categoryServices;
+
+export const {
+  useGetCategoriesQuery,
+  useGetCategoriesByIdQuery,
+  useGetCategoriesBrandQuery,
+} = categoryServices;
+
 export default categoryServices;

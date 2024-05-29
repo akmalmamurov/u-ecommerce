@@ -22,29 +22,17 @@ import verifyServices from "../services/verifyServices";
 import menuReducer from "../slices/menuSlices";
 import orderServices from "../services/orderServices";
 import clientServices from "../services/clientServices";
-import clientReducer from "../slices/clientSlices";
 import brandServices from "../services/brandServices";
 
 const persistConfig = {
   key: "u-ecommerce",
   storage,
-  // blacklist: [
-  //   "menu",
-  //   "categoryServices",
-  //   "productAllServices",
-  //   "order",
-  //   "authServices",
-  //   "basket",
-  //   "login",
-  //   "verify",
-  //   "auth",
-  // ],
+
 };
 
-const persistedProductReducer = persistReducer(persistConfig, productReducer);
 const persistedFavouritReducer = persistReducer(persistConfig, favouritReducer);
+const persistedProductReducer = persistReducer(persistConfig, productReducer);
 const persistedAuthReducer = persistReducer(persistConfig, authReducer);
-const persistedClientReducer = persistReducer(persistConfig, clientReducer);
 
 export const store = configureStore({
   reducer: {
@@ -52,7 +40,6 @@ export const store = configureStore({
     favourit: persistedFavouritReducer,
     auth: persistedAuthReducer,
     menu: menuReducer,
-    clientLocal: persistedClientReducer,
     [categoryServices.reducerPath]: categoryServices.reducer,
     [productAllServices.reducerPath]: productAllServices.reducer,
     [loginServices.reducerPath]: loginServices.reducer,

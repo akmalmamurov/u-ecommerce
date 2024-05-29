@@ -14,6 +14,8 @@ import { useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { logoutUser } from "../../../redux/slices/authSlices";
 import { useGetClientQuery } from "../../../redux/services/clientServices";
+import Cookies from "js-cookie";
+import { TOKEN } from "../../../constants";
 
 const HeaderMenu = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -26,6 +28,13 @@ const HeaderMenu = () => {
   };
   const enterOrder = () => {
     navigate("/orders");
+  };
+
+  const handleLogout = () => {
+    dispatch(logoutUser());
+    if (!Cookies.get(TOKEN)) {
+      console.log("Token has been removed");
+    }
   };
   return (
     <div className="header-menu_container">
@@ -57,7 +66,7 @@ const HeaderMenu = () => {
                 <Link>Мои заказы</Link>
               </MenuItem>
               <MenuItem
-                onClick={() => dispatch(logoutUser())}
+                onClick={handleLogout}
                 className="header-menu_hover-link"
               >
                 <Link>Выйти</Link>

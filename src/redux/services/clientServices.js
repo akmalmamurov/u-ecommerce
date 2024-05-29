@@ -1,25 +1,24 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-import Cookies from "js-cookie";
 import { ENDPOINT, TOKEN } from "../../constants";
 
 const clientServices = createApi({
-  reducerPath: "client",
+  reducerPath: "clientServices",
   baseQuery: fetchBaseQuery({
     baseUrl: ENDPOINT,
     prepareHeaders: (headers) => {
-      const token = Cookies.get(TOKEN);
+      const token = localStorage.getItem(TOKEN);
       if (token) {
         headers.set("Authorization", `Bearer ${token}`);
       }
       headers.set("Content-Type", "application/json");
       return headers;
     },
-    tagTypes: ["client"],
+    tagTypes: ["clientServices"],
   }),
   endpoints: (builder) => ({
     getClient: builder.query({
       query: () => `/api/client/getme`,
-      providesTags: ["client"],
+      providesTags: ["clientServices"],
     }),
 
     updateClient: builder.mutation({
@@ -28,7 +27,7 @@ const clientServices = createApi({
         method: "PUT",
         body,
       }),
-      invalidatesTags: ["client"],
+      invalidatesTags: ["clientServices"],
     }),
     deleteClient: builder.mutation({
       query: (body) => ({
@@ -36,7 +35,7 @@ const clientServices = createApi({
         method: "DELETE",
         body,
       }),
-      invalidatesTags: ["client"],
+      invalidatesTags: ["clientServices"],
     }),
   }),
 });

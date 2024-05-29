@@ -5,7 +5,7 @@ import { useGetCategoriesQuery } from "../../redux/services/categoryServices";
 import Loading from "../loading/Loading";
 import "./Navbar.scss";
 const Navbar = () => {
-  const { data, isLoading } = useGetCategoriesQuery();
+  const { data, isLoading } = useGetCategoriesQuery({ limit: 8 });
   const { data: categories } = data || {};
   return (
     <nav>
@@ -14,7 +14,7 @@ const Navbar = () => {
           <Loading />
         ) : (
           <Box className="nav-list" fontFamily={theme.fonts.fInter}>
-            {categories.slice(0, 7).map((category) => (
+            {categories.map((category) => (
               <NavLink
                 key={category.id}
                 to={`/category/${category.name_ru}/${category.id}`}
@@ -23,13 +23,12 @@ const Navbar = () => {
                 {category.name_ru}
               </NavLink>
             ))}
-            {categories.length > 9 && (
-              <NavLink className="navbar-link" to={"/categories"}>
-                <Box display={"flex"} gap={"1px"}>
-                  Все категории
-                </Box>
-              </NavLink>
-            )}
+
+            <NavLink className="navbar-link" to={"/categories"}>
+              <Box display={"flex"} gap={"1px"}>
+                Все категории
+              </Box>
+            </NavLink>
           </Box>
         )}
       </Container>

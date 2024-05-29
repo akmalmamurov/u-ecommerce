@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Box, Text } from "@chakra-ui/react";
 import { RightArrowIcon } from "../../assets/icons";
 import "./CatalogMenu.scss";
@@ -9,11 +9,18 @@ import { useDispatch } from "react-redux";
 import { hideMenu } from "../../redux/slices/menuSlices";
 
 const CatalogMenu = () => {
-  const { data, isLoading } = useGetCategoriesQuery();
+  const [page, setPage] = useState(1);
+  const { data, isLoading } = useGetCategoriesQuery({ page, limit: 1000 });
   const { data: categories } = data || {};
   const [hoveredCategoryId, setHoveredCategoryId] = useState(null);
   const navigate = useNavigate();
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    if (!page) {
+      setPage(1); // default page
+    }
+  }, [page]);
 
   const handleMouseEnter = (id) => {
     setHoveredCategoryId(id);

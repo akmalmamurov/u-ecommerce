@@ -1,3 +1,30 @@
-.brands{
+.brands {
     padding: 32px 0;
+
+    .brand-slider_container {
+
+        .slick-slide {
+            padding-right: 20px;
+
+        }
+
+        .slick-prev {
+            &::before {
+                content: "";
+
+            }
+        }
+
+        .slick-next {
+            right: -20px;
+
+            &::before {
+                content: "";
+            }
+        }
+
+        .brand-slider {
+            padding: 0;
+        }
+    }
 }

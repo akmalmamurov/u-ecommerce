@@ -1,9 +1,16 @@
 import { useForm } from "react-hook-form";
-import { Box, Button, Container, Divider, Heading } from "@chakra-ui/react";
+import {
+  Box,
+  Button,
+  Container,
+  Divider,
+  Heading,
+  useToast,
+} from "@chakra-ui/react";
 import CheckoutTop from "./components/checkout-top/CheckoutTop";
 import theme from "../../theme";
 import "./Checkout.scss";
-import { useState, useCallback } from "react";
+import { useState, useCallback, useEffect } from "react";
 import Footer from "../../components/footer/Footer";
 import CheckoutUserData from "./components/checkout-user/CheckoutUserData";
 import CheckoutPayment from "./components/checkout-payment/CheckoutPayment";
@@ -17,6 +24,7 @@ import { useGetBasketQuery } from "../../redux/services/basketServices";
 import PaymentCard from "./components/payment-card/PaymentCard";
 import CheckoutSucessModal from "./components/checkout-sucess-modal/CheckoutSucessModal";
 import { useModal } from "../../hooks/useModal";
+import { useGetClientQuery } from "../../redux/services/clientServices";
 
 const CheckoutPage = () => {
   const {
@@ -31,6 +39,7 @@ const CheckoutPage = () => {
   const [clStreet, setClStreet] = useState("");
   const [paymentType, setPaymentType] = useState("card");
   const [paymentCardType, setPaymentCardType] = useState("Click");
+  const toast = useToast();
   const { phoneNumber, isAuth } = useSelector((state) => state.auth);
   const {
     isOpen: isFinishOpen,
@@ -38,6 +47,11 @@ const CheckoutPage = () => {
     close: closeFinish,
   } = useModal();
   const dispatch = useDispatch();
+  const { refetch: refetchClient } = useGetClientQuery();
+
+  useEffect(() => {
+    refetchClient();
+  }, [refetchClient]);
   const onSubmit = async (data) => {
     const delivery_addr_lat = +addressData.split(",")[0].trim();
     const delivery_addr_long = +addressData.split(",")[1].trim();
@@ -56,14 +70,21 @@ const CheckoutPage = () => {
     data.payment_card_type = paymentCardType;
 
     try {
-      const response = await addOrder(data);
-      console.log(response);
+      await addOrder(data);
       const productIds = products.map((product) => product.id);
       dispatch(deleteItems(productIds));
       openFinish();
       reset();
+      refetchClient();
     } catch (err) {
-      console.log(err);
+      toast({
+        title: "Error",
+        description: err.data.message,
+        status: "error",
+        duration: 3000,
+        isClosable: true,
+        position: "top-right",
+      });
     }
   };
 
