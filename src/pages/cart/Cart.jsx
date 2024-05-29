@@ -36,7 +36,6 @@ import {
   useAddBasketMutation,
   useAllDeleteBasketMutation,
   useDeleteBasketMutation,
-  useGetBasketQuery,
 } from "../../redux/services/basketServices";
 import { toggleFavourit } from "../../redux/slices/favouritSlices";
 import CartModal from "./cart-modal/CartModal";
@@ -51,7 +50,6 @@ const CartPage = () => {
   const [addBasket] = useAddBasketMutation();
   const [deleteBasket] = useDeleteBasketMutation();
   const [allDeleteBasket] = useAllDeleteBasketMutation();
-  const { data: baskets } = useGetBasketQuery();
   const [totalPrice, setTotalPrice] = useState(0);
   const [totalAdditionalPrice, setTotalAdditionalPrice] = useState(0);
   const [checkedItems, setCheckedItems] = useState([]);
@@ -64,7 +62,6 @@ const CartPage = () => {
     open: openLogin,
     close: closeLogin,
   } = useModal();
-  console.log(isAuth);
   useEffect(() => {
     if (products) {
       setCheckedItems(products.map(() => true));
@@ -101,11 +98,11 @@ const CartPage = () => {
       openLogin();
       return;
     }
-  
+
     const selectedProducts = products.filter(
       (item, index) => checkedItems[index]
     );
-  
+
     if (selectedProducts.length === 0) {
       toast({
         title: "Please select at least one product to proceed to checkout.",
@@ -115,17 +112,16 @@ const CartPage = () => {
       });
       return;
     }
-  
+
     try {
-      await allDeleteBasket(); // allDeleteBasket funksiyasini kutilmoqda
-  
+      await allDeleteBasket();
+
       const requests = selectedProducts.map((item) =>
         addBasket({ product_id: item.id, quantity: item.quantity })
       );
-  
-      await Promise.all(requests); // Barcha addBasket funksiyalarini kutilmoqda
-  
-      navigate("/checkout"); // Checkout sahifasiga o'tish
+
+      await Promise.all(requests); 
+      navigate("/checkout"); 
     } catch (err) {
       console.log(err);
       toast({
@@ -137,7 +133,6 @@ const CartPage = () => {
       });
     }
   };
-  
 
   const allProductDelete = () => {
     if (products.length === 0) return;

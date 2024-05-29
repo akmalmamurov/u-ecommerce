@@ -12,7 +12,7 @@ import { CartArrowRightIcon, CartLeftArrowIcon } from "../../../assets/icons";
 const ArrowStyles = {
   width: 52,
   height: 52,
-  zIndex: 12,
+  zIndex: 1,
 };
 
 const CustomNextArrow = (props) => {
@@ -52,7 +52,7 @@ const CartBottom = () => {
     infinite: true,
     speed: 500,
     slidesToShow: 4,
-    slidesToScroll: 1,
+    slidesToScroll: 3,
     autoplay: true,
     autoplaySpeed: 3000,
     nextArrow: <CustomNextArrow />,

@@ -20,7 +20,6 @@ const Category = () => {
 
   const { data: products } = useGetProductsByCidQuery(selectedCategoryId);
   const { data: category } = useGetCategoriesByIdQuery(id);
-  const { data: brand } = useGetCategoriesBrandQuery(selectedCategoryId);
   
   return (
     <div className="category-page">
@@ -35,7 +34,6 @@ const Category = () => {
           </div>
           <div className="category-page_right">
             <CategoryPageRight
-              brand={brand}
               products={products}
               selectedCategoryId={selectedCategoryId}
             />

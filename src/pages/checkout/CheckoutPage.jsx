@@ -41,7 +41,7 @@ const CheckoutPage = () => {
   const onSubmit = async (data) => {
     const delivery_addr_lat = +addressData.split(",")[0].trim();
     const delivery_addr_long = +addressData.split(",")[1].trim();
-    // const phone_number = data.client_phone_number.replace(/^\+/, "");
+    const phone_number = data.client_phone_number.replace(/^\+/, "");
     const street = clStreet;
 
     const clientComment = "";
@@ -52,7 +52,7 @@ const CheckoutPage = () => {
     data.delivery_type = "deliver";
     data.payment_type = paymentType;
     data.client_comment = clientComment;
-    // data.client_phone_number = phone_number;
+    data.client_phone_number = phone_number;
     data.payment_card_type = paymentCardType;
 
     try {
