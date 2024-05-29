@@ -1,4 +1,6 @@
+/* eslint-disable react/prop-types */
 import { Box, Container } from "@chakra-ui/react";
+import PropTypes from "prop-types";
 import { motion } from "framer-motion";
 import { useGetAllProductsQuery } from "../../../redux/services/productAllServices";
 import Slider from "react-slick";
@@ -110,5 +112,9 @@ const CartBottom = () => {
     </Box>
   );
 };
-
+CartBottom.propTypes = {
+  onClose: PropTypes.func,
+  isOpen: PropTypes.bool,
+  allProductDelete: PropTypes.func,
+};
 export default CartBottom;

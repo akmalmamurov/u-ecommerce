@@ -15,15 +15,7 @@ const brandServices = createApi({
       query: (id) => `/api/brand/${id}`,
       invalidatesTags: ["brand"],
     }),
-    getBrandBrand: builder.query({
-      query: (id) => `/api/brand/${id}/brand`,
-      invalidatesTags: ["brand"],
-    }),
   }),
 });
-export const {
-  useGetCategoriesQuery,
-  useGetCategoriesByIdQuery,
-  useGetCategoriesBrandQuery,
-} = brandServices;
+export const { useGetBrandQuery, useGetBrandByIdQuery } = brandServices;
 export default brandServices;

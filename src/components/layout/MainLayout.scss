@@ -1,0 +1,24 @@
+.main-layout {
+    position: relative;
+  }
+  
+  .scroll-to-top {
+    position: fixed;
+    z-index: 999;
+    bottom: 120px;
+    right: 20px;
+    padding: 10px 20px;
+    font-size: 16px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    opacity: 0;
+    transition: 0.4s ease-in-out;
+  }
+  
+  .scroll-to-top.show {
+    opacity: 1;
+  }
+  

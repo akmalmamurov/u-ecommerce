@@ -120,8 +120,8 @@ const CartPage = () => {
         addBasket({ product_id: item.id, quantity: item.quantity })
       );
 
-      await Promise.all(requests); 
-      navigate("/checkout"); 
+      await Promise.all(requests);
+      navigate("/checkout");
     } catch (err) {
       console.log(err);
       toast({
