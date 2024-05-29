@@ -8,7 +8,7 @@ export const MainLayout = () => {
 
   useEffect(() => {
     const handleScroll = () => {
-      if (window.scrollY > 400) {
+      if (window.scrollY > 370) {
         setShowButton(true);
       } else {
         setShowButton(false);

@@ -4,7 +4,7 @@ const Brands = () => {
   return (
     <div className="brands">
         <Container maxW={"1200px"}>
-        йогее
+        йогее 😍😍😍😍😍😍😍😍😍😍
         </Container>
     </div>
   )
