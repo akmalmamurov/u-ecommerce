@@ -27,7 +27,10 @@ import { buyImg, heartActiveImg, heartBlackImg } from "assets/images";
 import theme from "theme";
 import "./ProductDetails.scss";
 import { kFormatter } from "utils";
-import { useAddBasketMutation } from "../../redux/services/basketServices";
+import {
+  useAddBasketMutation,
+  useAllDeleteBasketMutation,
+} from "../../redux/services/basketServices";
 import LoginModal from "components/modal/login/LoginModal";
 import { useModal } from "hooks/useModal";
 import ProductModal from "components/modal/product-modal/ProductModal";
@@ -35,10 +38,11 @@ import ProductModal from "components/modal/product-modal/ProductModal";
 const ProductsDetails = () => {
   const { id } = useParams();
   const { data } = useGetProductByIdQuery(id);
+  const [allDeleteBasket] = useAllDeleteBasketMutation();
   const isAuth = useSelector((state) => state.auth.isAuth);
   const cart = useSelector((state) => state.product.products);
   const favourites = useSelector((state) => state.favourit.favourites);
-  const [addBasket] = useAddBasketMutation();
+  const [addBasket, { isLoading }] = useAddBasketMutation();
   const [mainImage, setMainImage] = useState(null);
   const [rating, setRating] = useState(0);
   const [qty, setQty] = useState(1);
@@ -72,6 +76,38 @@ const ProductsDetails = () => {
   const addToCartSucess = () => {
     navigate("/cart");
   };
+  const productToCheckout = async () => {
+    if (!isAuth) {
+      open();
+      return;
+    }
+
+    try {
+      await addBasket({ product_id: id, quantity: qty }).unwrap();
+      await allDeleteBasket().unwrap();
+      navigate("/checkout");
+    } catch (err) {
+      console.error(err);
+      if (err.status === 413) {
+        toast({
+          title: "Quantity Error",
+          description: err.data.message,
+          status: "error",
+          duration: 3000,
+          isClosable: true,
+        });
+      } else {
+        toast({
+          title: "Error",
+          description: "Failed to add item to basket. Please try again later.",
+          status: "error",
+          duration: 3000,
+          isClosable: true,
+        });
+      }
+    }
+  };
+
   const handleAddToCart = () => {
     if (data) {
       dispatch(
@@ -121,25 +157,6 @@ const ProductsDetails = () => {
   const decrementQty = () => {
     if (qty > 1) {
       setQty((prevQty) => prevQty - 1);
-    }
-  };
-
-  const goToCheckout = async () => {
-    if (!isAuth) {
-      open();
-      return;
-    }
-    try {
-      if (data) {
-        const res = await addBasket({
-          product_id: data.id,
-          quantity: qty,
-        });
-        console.log(res);
-        navigate("/checkout");
-      }
-    } catch (err) {
-      console.log(err);
     }
   };
 
@@ -280,13 +297,14 @@ const ProductsDetails = () => {
                     </button>
                   </Box>
                   <Box mt={"24px"}>
-                    <button
-                      onClick={goToCheckout}
+                    <Button
+                      isLoading={isLoading}
+                      onClick={productToCheckout}
                       className="pr-details_buy-btn"
                     >
                       <img src={buyImg} alt="buy" />
                       <span>Купить сейчас</span>
-                    </button>
+                    </Button>
                   </Box>
                 </Box>
               </GridItem>

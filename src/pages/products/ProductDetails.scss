@@ -110,6 +110,10 @@
       width: 100%;
       border: 1px solid#98999A;
       border-radius: 8px;
+      background-color: white;
+      &:hover{
+        background-color: white !important;
+      }
     }
   }
 

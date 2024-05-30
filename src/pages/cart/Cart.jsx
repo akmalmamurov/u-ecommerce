@@ -129,7 +129,7 @@ const CartPage = () => {
         toast({
           title: "Quantity Error",
           description:
-            "One or more items exceed the available stock. Please adjust the quantities.",
+            err.data.message,
           status: "error",
           duration: 3000,
           isClosable: true,
