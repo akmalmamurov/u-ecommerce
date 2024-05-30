@@ -38,6 +38,7 @@ const HeaderMid = memo(() => {
   const [debouncedSearch] = useDebounce(search, 1000);
   const { data, isLoading } = useGetSearchProductsQuery(debouncedSearch);
   const isAuth = useSelector((state) => state.auth.isAuth);
+  console.log(isAuth);
   const products = useSelector((state) => state.product.products);
   const favourites = useSelector((state) => state.favourit.favourites);
   const menuOpen = useSelector((state) => state.menu.menuOpen);
