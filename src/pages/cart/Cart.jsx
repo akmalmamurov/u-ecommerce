@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import {
   Box,
+  Button,
   Center,
   Checkbox,
   Container,
@@ -45,7 +46,7 @@ const CartPage = () => {
   const products = useSelector((state) => state.product.products);
   const isAuth = useSelector((state) => state.auth.isAuth);
   const favourites = useSelector((state) => state.favourit.favourites);
-  const [addBasket] = useAddBasketMutation();
+  const [addBasket, { isLoading }] = useAddBasketMutation();
   const [deleteBasket] = useDeleteBasketMutation();
   const [allDeleteBasket] = useAllDeleteBasketMutation();
   const [totalPrice, setTotalPrice] = useState(0);
@@ -96,11 +97,11 @@ const CartPage = () => {
       openLogin();
       return;
     }
-  
+
     const selectedProducts = products.filter(
       (item, index) => checkedItems[index]
     );
-  
+
     if (selectedProducts.length === 0) {
       toast({
         title: "Please select at least one product to proceed to checkout.",
@@ -110,26 +111,25 @@ const CartPage = () => {
       });
       return;
     }
-  
+
     try {
-      // First, clear the basket
       await allDeleteBasket().unwrap();
-  
-      // Add selected products to the basket
+
       const requests = selectedProducts.map((item) =>
         addBasket({ product_id: item.id, quantity: item.quantity }).unwrap()
       );
-  
+
       await Promise.all(requests);
-  
+
       navigate("/checkout");
     } catch (err) {
       console.error(err);
-  
+
       if (err.status === 413) {
         toast({
           title: "Quantity Error",
-          description: "One or more items exceed the available stock. Please adjust the quantities.",
+          description:
+            "One or more items exceed the available stock. Please adjust the quantities.",
           status: "error",
           duration: 3000,
           isClosable: true,
@@ -145,7 +145,7 @@ const CartPage = () => {
       }
     }
   };
-  
+
   const allProductDelete = () => {
     if (products.length === 0) return;
 
@@ -328,7 +328,8 @@ const CartPage = () => {
                       </p>
                     </div>
                     <Box pt={"16px"}>
-                      <button
+                      <Button
+                        isLoading={isLoading}
                         onClick={goToCheckout}
                         className={`cart-right_btn ${
                           checkedItems.includes(true) ? "" : "disabled"
@@ -336,7 +337,7 @@ const CartPage = () => {
                         disabled={!checkedItems.includes(true)}
                       >
                         Перейти к оформлению
-                      </button>
+                      </Button>
                     </Box>
                   </Box>
                 </Box>

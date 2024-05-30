@@ -65,24 +65,26 @@ const CheckoutPage = () => {
     }
   }, [client, reset]);
   const onSubmit = async (data) => {
-    const delivery_addr_lat = +addressData.split(",")[0].trim();
-    const delivery_addr_long = +addressData.split(",")[1].trim();
+    const [lat, long] = addressData.split(",").map((coord) => +coord.trim());
     const phone_number = data.client_phone_number.replace(/^\+/, "");
     const street = clStreet;
 
     const clientComment = "";
 
-    data.delivery_addr_lat = delivery_addr_lat;
-    data.delivery_addr_long = delivery_addr_long;
-    data.delivery_name = street;
-    data.delivery_type = "deliver";
-    data.payment_type = paymentType;
-    data.client_comment = clientComment;
-    data.client_phone_number = phone_number;
-    data.payment_card_type = paymentCardType;
+    const orderData = {
+      ...data,
+      delivery_addr_lat: lat,
+      delivery_addr_long: long,
+      delivery_name: street,
+      delivery_type: "deliver",
+      payment_type: paymentType,
+      client_comment: clientComment,
+      client_phone_number: phone_number,
+      payment_card_type: paymentCardType,
+    };
 
     try {
-      await addOrder(data);
+      await addOrder(orderData).unwrap();
       const productIds = products.map((product) => product.id);
       dispatch(deleteItems(productIds));
       openFinish();
@@ -92,7 +94,9 @@ const CheckoutPage = () => {
       });
       refetchClient();
     } catch (err) {
-      if (err.response && err.response.status === 400) {
+      console.error(err);
+
+      if (err.status === 400) {
         toast({
           title: "Validation Error",
           description: "Malumotlar to'g'ri kiritilmadi.",
@@ -104,7 +108,9 @@ const CheckoutPage = () => {
       } else {
         toast({
           title: "Error",
-          description: err.data.message,
+          description:
+            err.data?.message ||
+            "Failed to submit order. Please try again later.",
           status: "error",
           duration: 3000,
           isClosable: true,
