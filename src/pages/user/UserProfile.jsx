@@ -7,9 +7,11 @@ import {
 } from "../../redux/services/clientServices";
 import theme from "../../theme";
 import "./UserProfile.scss";
+import { useSelector } from "react-redux";
 
 const UserProfile = () => {
   const { data } = useGetClientQuery();
+  const isAuth = useSelector((state) => state.auth.isAuth);
   const {
     register,
     handleSubmit,
@@ -137,7 +139,10 @@ const UserProfile = () => {
                       className="profile-input"
                       id="phone_number"
                       type="text"
-                      {...register("phone_number")}
+                      {...register("phone_number", {
+                        readOnly: true,
+                      })}
+                      readOnly={isAuth}
                     />
                   </div>
                 </div>

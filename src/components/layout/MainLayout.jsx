@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { Outlet } from "react-router-dom";
 import { Header } from "../header";
 import { Footer } from "../footer";
-import "./MainLayout.scss"
+import "./MainLayout.scss";
 export const MainLayout = () => {
   const [showButton, setShowButton] = useState(false);
 
@@ -34,7 +34,7 @@ export const MainLayout = () => {
         className={`scroll-to-top ${showButton ? "show" : ""}`}
         onClick={scrollToTop}
       >
-        ↑ Top
+        ↑
       </button>
     </div>
   );

@@ -34,6 +34,8 @@ const CheckoutPage = () => {
     formState: { errors, isSubmitting },
   } = useForm();
   const { data: { products, total_price } = {} } = useGetBasketQuery();
+  const { data: client } = useGetClientQuery();
+
   const [addOrder] = useAddOrderMutation();
   const [addressData, setAddressData] = useState({});
   const [clStreet, setClStreet] = useState("");
@@ -52,6 +54,16 @@ const CheckoutPage = () => {
   useEffect(() => {
     refetchClient();
   }, [refetchClient]);
+
+  useEffect(() => {
+    if (client) {
+      reset({
+        name: client.name || "",
+        surname: client.surname || "",
+        phone_number: client.phone_number || "",
+      });
+    }
+  }, [client, reset]);
   const onSubmit = async (data) => {
     const delivery_addr_lat = +addressData.split(",")[0].trim();
     const delivery_addr_long = +addressData.split(",")[1].trim();
@@ -74,17 +86,31 @@ const CheckoutPage = () => {
       const productIds = products.map((product) => product.id);
       dispatch(deleteItems(productIds));
       openFinish();
-      reset();
+      reset({
+        client_first_name: client.name || "",
+        client_last_name: client.surname || "",
+      });
       refetchClient();
     } catch (err) {
-      toast({
-        title: "Error",
-        description: err.data.message,
-        status: "error",
-        duration: 3000,
-        isClosable: true,
-        position: "top-right",
-      });
+      if (err.response && err.response.status === 400) {
+        toast({
+          title: "Validation Error",
+          description: "Malumotlar to'g'ri kiritilmadi.",
+          status: "warning",
+          duration: 3000,
+          isClosable: true,
+          position: "top-right",
+        });
+      } else {
+        toast({
+          title: "Error",
+          description: err.data.message,
+          status: "error",
+          duration: 3000,
+          isClosable: true,
+          position: "top-right",
+        });
+      }
     }
   };
 
@@ -132,6 +158,7 @@ const CheckoutPage = () => {
                   handleInputChange={handleInputChange}
                   phoneNumber={phoneNumber}
                   isAuth={isAuth}
+                  client={client}
                 />
                 <Box className="checkout-page_title">
                   <span>2</span>

@@ -39,3 +39,5 @@ export { default as ProductRightIcon } from "./ProductRightIcon.jsx";
 export { default as ProductLeftIcon } from "./ProductLeftIcon.jsx";
 export { default as CartArrowRightIcon } from "./CartArrowRightIcon.jsx";
 export { default as CartLeftArrowIcon } from "./CartLeftArrowIcon.jsx";
+export { default as PrDetailsSucessIcon } from "./PrDetailsSucessIcon.jsx";
+export { default as PrDetailsNoSucessIcon } from "./PrDetailsNoSucessIcon.jsx";

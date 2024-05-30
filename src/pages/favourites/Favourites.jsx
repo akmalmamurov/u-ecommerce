@@ -2,10 +2,10 @@ import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { Box, Container, Text } from "@chakra-ui/react";
 import { motion } from "framer-motion";
-import GridProduct from "../../components/product-grid/GridProduct";
-import { ProductCard } from "../../components/card/product-card";
-import { emptyLike } from "../../assets/images";
-import theme from "../../theme";
+import GridProduct from "components/product-grid/GridProduct";
+import { ProductCard } from "components/card/product-card";
+import { emptyLike } from "assets/images";
+import theme from "theme";
 import "./Favourties.scss";
 
 const FavouritesPage = () => {

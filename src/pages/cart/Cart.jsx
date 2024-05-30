@@ -1,20 +1,45 @@
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Box, Center, Checkbox, Container, Divider, Grid, GridItem, Heading, Text, useDisclosure, useToast, } from "@chakra-ui/react";
+import {
+  Box,
+  Center,
+  Checkbox,
+  Container,
+  Divider,
+  Grid,
+  GridItem,
+  Heading,
+  Text,
+  useDisclosure,
+  useToast,
+} from "@chakra-ui/react";
 import { calculateTotalPrice, kFormatter } from "utils";
 import { useModal } from "hooks/useModal";
-import { CartDeleteIcon, CartEmptyIcon, CartFavouriteIcon, ProductFavouritActiveIcon, } from "assets/icons";
+import {
+  CartDeleteIcon,
+  CartEmptyIcon,
+  CartFavouriteIcon,
+  ProductFavouritActiveIcon,
+} from "assets/icons";
 import CartBottom from "./cart-bottom/CartBottom";
-import { decrementQuantity, deleteItem, incrementQuantity, resetCart, } from "../../redux/slices/productSlices";
-import { useAddBasketMutation, useAllDeleteBasketMutation, useDeleteBasketMutation, } from "../../redux/services/basketServices";
+import {
+  decrementQuantity,
+  deleteItem,
+  incrementQuantity,
+  resetCart,
+} from "../../redux/slices/productSlices";
+import {
+  useAddBasketMutation,
+  useAllDeleteBasketMutation,
+  useDeleteBasketMutation,
+} from "../../redux/services/basketServices";
 import { toggleFavourit } from "../../redux/slices/favouritSlices";
 import LoginModal from "components/modal/login/LoginModal";
 import CartModal from "./cart-modal/CartModal";
 import EmptyCart from "./empty-cart/EmptyCart";
 import theme from "theme";
 import "./Cart.scss";
-
 
 const CartPage = () => {
   const products = useSelector((state) => state.product.products);
@@ -71,11 +96,11 @@ const CartPage = () => {
       openLogin();
       return;
     }
-
+  
     const selectedProducts = products.filter(
       (item, index) => checkedItems[index]
     );
-
+  
     if (selectedProducts.length === 0) {
       toast({
         title: "Please select at least one product to proceed to checkout.",
@@ -85,28 +110,42 @@ const CartPage = () => {
       });
       return;
     }
-
+  
     try {
-      await allDeleteBasket();
-
+      // First, clear the basket
+      await allDeleteBasket().unwrap();
+  
+      // Add selected products to the basket
       const requests = selectedProducts.map((item) =>
-        addBasket({ product_id: item.id, quantity: item.quantity })
+        addBasket({ product_id: item.id, quantity: item.quantity }).unwrap()
       );
-
+  
       await Promise.all(requests);
+  
       navigate("/checkout");
     } catch (err) {
-      console.log(err);
-      toast({
-        title: "Error",
-        description: "Failed to proceed to checkout. Please try again later.",
-        status: "error",
-        duration: 3000,
-        isClosable: true,
-      });
+      console.error(err);
+  
+      if (err.status === 413) {
+        toast({
+          title: "Quantity Error",
+          description: "One or more items exceed the available stock. Please adjust the quantities.",
+          status: "error",
+          duration: 3000,
+          isClosable: true,
+        });
+      } else {
+        toast({
+          title: "Error",
+          description: "Failed to proceed to checkout. Please try again later.",
+          status: "error",
+          duration: 3000,
+          isClosable: true,
+        });
+      }
     }
   };
-
+  
   const allProductDelete = () => {
     if (products.length === 0) return;
 

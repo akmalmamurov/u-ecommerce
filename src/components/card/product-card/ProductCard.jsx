@@ -89,6 +89,7 @@ export const ProductCard = (props) => {
         description_ru,
         rating,
         quantity: 1,
+        stock: zakaz,
       })
     );
     toast({

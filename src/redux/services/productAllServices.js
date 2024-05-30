@@ -22,7 +22,7 @@ const productAllServices = createApi({
       query: (cid) => `/api/product?cid=${cid}`,
     }),
     getProductsByBrand: builder.query({
-      query: (brand) => `/api/product?brand=${brand}`,
+      query: (bid) => `/api/product?bid=${bid}`,
     }),
   }),
 });

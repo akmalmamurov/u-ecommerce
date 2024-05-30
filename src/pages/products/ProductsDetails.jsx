@@ -14,28 +14,29 @@ import {
   useToast,
 } from "@chakra-ui/react";
 
-import { NoRatingIcon, YesRatingIcon } from "../../assets/icons";
+import {
+  NoRatingIcon,
+  PrDetailsSucessIcon,
+  PrDetailsNoSucessIcon,
+  YesRatingIcon,
+} from "assets/icons";
 import { useGetProductByIdQuery } from "../../redux/services/productAllServices";
 import { addToCart } from "../../redux/slices/productSlices";
 import { toggleFavourit } from "../../redux/slices/favouritSlices";
-import {
-  buyImg,
-  cartWhite,
-  heartActiveImg,
-  heartBlackImg,
-} from "../../assets/images";
-import theme from "../../theme";
+import { buyImg, heartActiveImg, heartBlackImg } from "assets/images";
+import theme from "theme";
 import "./ProductDetails.scss";
-import { kFormatter } from "../../utils";
+import { kFormatter } from "utils";
 import { useAddBasketMutation } from "../../redux/services/basketServices";
-import LoginModal from "../../components/modal/login/LoginModal";
-import { useModal } from "../../hooks/useModal";
-import ProductModal from "../../components/modal/product-modal/ProductModal";
+import LoginModal from "components/modal/login/LoginModal";
+import { useModal } from "hooks/useModal";
+import ProductModal from "components/modal/product-modal/ProductModal";
 
 const ProductsDetails = () => {
   const { id } = useParams();
   const { data } = useGetProductByIdQuery(id);
   const isAuth = useSelector((state) => state.auth.isAuth);
+  const cart = useSelector((state) => state.product.products);
   const favourites = useSelector((state) => state.favourit.favourites);
   const [addBasket] = useAddBasketMutation();
   const [mainImage, setMainImage] = useState(null);
@@ -47,7 +48,7 @@ const ProductsDetails = () => {
   const isAddedToFavourites = favourites.some((item) => item.id === id);
   const { isOpen, open, close } = useModal();
   const [isModalOpen, setIsModalOpen] = useState(false);
-
+  const isAddedToCart = cart.some((item) => item.id === id);
   useEffect(() => {
     if (data && data.image_files && data.image_files.length > 0) {
       setMainImage(data.image_files[0].media_file);
@@ -68,7 +69,9 @@ const ProductsDetails = () => {
   const handleImageClick = () => {
     setIsModalOpen(true);
   };
-
+  const addToCartSucess = () => {
+    navigate("/cart");
+  };
   const handleAddToCart = () => {
     if (data) {
       dispatch(
@@ -236,13 +239,26 @@ const ProductsDetails = () => {
                     mb={"32px"}
                   />
                   <Box display={"flex"} gap={"16px"}>
-                    <button
-                      onClick={handleAddToCart}
-                      className="pr-details_btn"
-                    >
-                      <img src={cartWhite} alt="cart" />
-                      <span>В корзину</span>
-                    </button>
+                    {isAddedToCart ? (
+                      <button
+                        className="pr-details_btn"
+                        onClick={addToCartSucess}
+                      >
+                        <PrDetailsSucessIcon />
+
+                        <span>В корзине</span>
+                      </button>
+                    ) : (
+                      <button
+                        className="pr-details_btn"
+                        onClick={handleAddToCart}
+                      >
+                        <PrDetailsNoSucessIcon />
+
+                        <span>В корзина</span>
+                      </button>
+                    )}
+
                     <button
                       onClick={handleAddToFavourit}
                       className="pr-details_btn favourites-btn"

@@ -14,6 +14,7 @@ const CheckoutUserData = ({
   handleInputChange,
   phoneNumber,
   isAuth,
+  client,
 }) => {
   const handleNameChange = (e, maxLength) => {
     e.target.value = e.target.value.replace(/[^a-zA-ZА-Яа-я\s]/g, "");
@@ -34,11 +35,7 @@ const CheckoutUserData = ({
           className={`checkout-input ${
             errors.client_phone_number ? "error-input" : ""
           }`}
-          {...register("client_phone_number", {
-            // required: "Введите номер телефона",
-            // minLength: { value: 13, message: "Минимальная длина 13 символов" },
-            // maxLength: { value: 13, message: "Максимальная длина 13 символов" },
-          })}
+          {...register("client_phone_number", {})}
           value={`+${phoneNumber}`}
           maxLength={13}
           onChange={handleInputChange}
@@ -73,6 +70,7 @@ const CheckoutUserData = ({
             })}
             maxLength={16}
             onChange={(e) => handleNameChange(e, 16)}
+            defaultValue={client?.name || ""}
           />
           <FormErrorMessage>
             {errors.client_first_name && (
@@ -106,7 +104,9 @@ const CheckoutUserData = ({
             })}
             maxLength={16}
             onChange={(e) => handleNameChange(e, 16)}
+            defaultValue={client?.surname || ""}
           />
+
           <FormErrorMessage>
             {errors.client_last_name && (
               <span className="error-input">
@@ -126,6 +126,8 @@ CheckoutUserData.propTypes = {
   handleInputChange: PropTypes.func,
   phoneNumber: PropTypes.string,
   isAuth: PropTypes.bool,
+
+  client: PropTypes.object,
 };
 
 export default CheckoutUserData;
