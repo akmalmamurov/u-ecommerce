@@ -1,47 +1,20 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import {
-  Box,
-  Center,
-  Checkbox,
-  Container,
-  Divider,
-  Grid,
-  GridItem,
-  Heading,
-  Text,
-  useDisclosure,
-  useToast,
-} from "@chakra-ui/react";
-import {
-  CartDeleteIcon,
-  CartEmptyIcon,
-  CartFavouriteIcon,
-  ProductFavouritActiveIcon,
-} from "../../assets/icons";
-import theme from "../../theme";
-import "./Cart.scss";
+import { Box, Center, Checkbox, Container, Divider, Grid, GridItem, Heading, Text, useDisclosure, useToast, } from "@chakra-ui/react";
+import { calculateTotalPrice, kFormatter } from "utils";
+import { useModal } from "hooks/useModal";
+import { CartDeleteIcon, CartEmptyIcon, CartFavouriteIcon, ProductFavouritActiveIcon, } from "assets/icons";
 import CartBottom from "./cart-bottom/CartBottom";
-import { calculateTotalPrice, kFormatter } from "../../utils";
-
-import {
-  decrementQuantity,
-  deleteItem,
-  incrementQuantity,
-  resetCart,
-} from "../../redux/slices/productSlices";
-import {
-  useAddBasketMutation,
-  useAllDeleteBasketMutation,
-  useDeleteBasketMutation,
-} from "../../redux/services/basketServices";
+import { decrementQuantity, deleteItem, incrementQuantity, resetCart, } from "../../redux/slices/productSlices";
+import { useAddBasketMutation, useAllDeleteBasketMutation, useDeleteBasketMutation, } from "../../redux/services/basketServices";
 import { toggleFavourit } from "../../redux/slices/favouritSlices";
+import LoginModal from "components/modal/login/LoginModal";
 import CartModal from "./cart-modal/CartModal";
-import LoginModal from "../../components/modal/login/LoginModal";
-import { useModal } from "../../hooks/useModal";
 import EmptyCart from "./empty-cart/EmptyCart";
+import theme from "theme";
+import "./Cart.scss";
+
 
 const CartPage = () => {
   const products = useSelector((state) => state.product.products);

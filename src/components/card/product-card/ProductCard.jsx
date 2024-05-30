@@ -1,3 +1,4 @@
+import { useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { LazyLoadImage } from "react-lazy-load-image-component";
@@ -11,19 +12,18 @@ import {
   Text,
   useToast,
 } from "@chakra-ui/react";
-import theme from "../../../theme";
-import { headingFormatter, kFormatter } from "../../../utils";
+import theme from "theme";
+import { headingFormatter, kFormatter } from "utils";
 import {
   ShoppingIcon,
   StarIcon,
   ProductFavouritIcon,
   ProductCartSucessIcon,
   ProductFavouritActiveIcon,
-} from "../../../assets/icons";
+} from "assets/icons";
 import { toggleFavourit } from "../../../redux/slices/favouritSlices";
 import { addToCart } from "../../../redux/slices/productSlices";
 import "./ProductCard.scss";
-import { useRef } from "react";
 
 export const ProductCard = (props) => {
   const {

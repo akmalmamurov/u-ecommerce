@@ -1,18 +1,18 @@
 import { Suspense, lazy } from "react";
 import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
-import { MainLayout } from "./components/layout";
 import { useSelector } from "react-redux";
-import MyOrders from "./pages/order/MyOrders";
-const Home = lazy(() => import("./pages/home/Home"));
-const Favourites = lazy(() => import("./pages/favourites/Favourites"));
-const Cart = lazy(() => import("./pages/cart/Cart"));
-const Category = lazy(() => import("./pages/category/Category"));
-const ProductsDetails = lazy(() => import("./pages/products/ProductsDetails"));
-const AnswerPage = lazy(() => import("./pages/answer/AnswerPage"));
-const CheckoutPage = lazy(() => import("./pages/checkout/CheckoutPage"));
-const UserProfile = lazy(() => import("./pages/user/UserProfile"));
-const AllCategories = lazy(() =>
-  import("./pages/all-categories/AllCategories")
+import { MainLayout } from "components/layout";
+import MyOrders from "pages/order/MyOrders";
+const BrandPage = lazy(() => import("pages/brands-page/BrandPage"));
+const Home = lazy(() => import("pages/home/Home"));
+const Favourites = lazy(() => import("pages/favourites/Favourites"));
+const Cart = lazy(() => import("pages/cart/Cart"));
+const Category = lazy(() => import("pages/category/Category"));
+const ProductsDetails = lazy(() => import("pages/products/ProductsDetails"));
+const AnswerPage = lazy(() => import("pages/answer/AnswerPage"));
+const CheckoutPage = lazy(() => import("pages/checkout/CheckoutPage"));
+const UserProfile = lazy(() => import("pages/user/UserProfile"));
+const AllCategories = lazy(() => import("pages/all-categories/AllCategories")
 );
 
 function App() {
@@ -29,6 +29,7 @@ function App() {
             <Route path="products/:id" element={<ProductsDetails />} />
             <Route path="faq" element={<AnswerPage />} />
             <Route path="categories" element={<AllCategories />} />
+            <Route path="brand/:id" element={<BrandPage />} />
             <Route
               path="profile"
               element={isAuth ? <UserProfile /> : <Navigate to="/" />}

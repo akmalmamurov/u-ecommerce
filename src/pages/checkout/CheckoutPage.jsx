@@ -8,14 +8,14 @@ import {
   useToast,
 } from "@chakra-ui/react";
 import CheckoutTop from "./components/checkout-top/CheckoutTop";
-import theme from "../../theme";
+import theme from "theme";
 import "./Checkout.scss";
 import { useState, useCallback, useEffect } from "react";
-import Footer from "../../components/footer/Footer";
+import Footer from "components/footer/Footer";
 import CheckoutUserData from "./components/checkout-user/CheckoutUserData";
 import CheckoutPayment from "./components/checkout-payment/CheckoutPayment";
 import CheckoutDelivery from "./components/checkout-delivery/CheckoutDelivery";
-import MapContainer from "../../components/map-container/MapContainer";
+import MapContainer from "components/map-container/MapContainer";
 import CheckoutProduct from "./components/checkout-product/CheckoutProduct";
 import { useAddOrderMutation } from "../../redux/services/orderServices";
 import { useDispatch, useSelector } from "react-redux";

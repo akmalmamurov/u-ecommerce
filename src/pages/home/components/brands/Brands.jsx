@@ -10,11 +10,10 @@ import {
   CartLeftArrowIcon,
 } from "../../../../assets/icons";
 import "./Brands.scss";
-import { BrandCard } from "../../../../components/card/brand-card";
+import { BrandCard } from "components/card/brand-card";
 
 const ArrowStyles = {
-  width: 52,
-  height: 52,
+
   zIndex: 1,
 };
 

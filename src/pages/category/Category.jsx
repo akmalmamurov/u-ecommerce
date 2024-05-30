@@ -1,14 +1,11 @@
+import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { Container } from "@chakra-ui/react";
 import { useGetProductsByCidQuery } from "../../redux/services/productAllServices";
-import "./Category.scss";
-import {
-  useGetCategoriesBrandQuery,
-  useGetCategoriesByIdQuery,
-} from "../../redux/services/categoryServices";
+import { useGetCategoriesByIdQuery } from "../../redux/services/categoryServices";
 import CategoryPageLeft from "./category-left/CategoryPageLeft";
 import CategoryPageRight from "./category-right/CategoryPageRight";
-import { useEffect, useState } from "react";
+import "./Category.scss";
 
 const Category = () => {
   const { id } = useParams();
@@ -20,7 +17,7 @@ const Category = () => {
 
   const { data: products } = useGetProductsByCidQuery(selectedCategoryId);
   const { data: category } = useGetCategoriesByIdQuery(id);
-  
+
   return (
     <div className="category-page">
       <Container maxW={"1200px"}>

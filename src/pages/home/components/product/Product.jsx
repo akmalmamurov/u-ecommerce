@@ -1,11 +1,12 @@
+/* eslint-disable no-unused-vars */
+import { memo, useState, useEffect } from "react";
 import { Box, Container } from "@chakra-ui/react";
 import { motion } from "framer-motion";
 import { useGetAllProductsQuery } from "../../../../redux/services/productAllServices";
-import GridProduct from "../../../../components/product-grid/GridProduct";
-import { ProductCard } from "../../../../components/card/product-card";
+import GridProduct from "components/product-grid/GridProduct";
+import { ProductCard } from "components/card/product-card";
+import Loading from "components/loading/Loading";
 import "./Product.scss";
-import { memo, useState, useEffect } from "react";
-import Loading from "../../../../components/loading/Loading";
 
 const Product = memo(() => {
   const [page, setPage] = useState(1);

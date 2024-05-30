@@ -2,13 +2,18 @@
     padding: 32px 0;
 
     .brand-slider_container {
+        .slick-list {
+            padding: 10px 0;
 
-        .slick-slide {
-            padding-right: 20px;
+            .slick-slide {
+                padding-right: 20px;
 
+            }
         }
 
         .slick-prev {
+            left: -10px;
+            top: 37px;
             &::before {
                 content: "";
 
@@ -16,12 +21,15 @@
         }
 
         .slick-next {
-            right: -20px;
+            top: 37px;
+            right: 30px;
 
             &::before {
                 content: "";
             }
         }
+
+
 
         .brand-slider {
             padding: 0;

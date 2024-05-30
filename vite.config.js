@@ -1,4 +1,3 @@
-
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
 
@@ -19,12 +18,14 @@ export default defineConfig({
   },
   resolve: {
     alias: {
+      assets: "/src/assets",
       components: "/src/components",
       hooks: "/src/hooks",
       pages: "/src/pages",
-      assets: "/src/assets",
+      constants: "/src/constants",
       server: "/src/server",
       theme: "/src/theme",
+      utils: "/src/utils",
       "@yandex/ymaps3": "@yandex/ymaps3-reactify",
     },
   },
