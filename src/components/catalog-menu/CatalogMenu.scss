@@ -1,7 +1,7 @@
 .catalog-menu_container {
   width: 1190px;
   padding-bottom: 24px;
-  min-height: 800px;
+  height: 100vh;
   position: absolute;
   left: -65px;
   background-color: white;
@@ -20,9 +20,8 @@
     .catalog-menu_sidebar {
       grid-column: span 3;
       border-right: 1px solid #e6e8ed;
-      height: 800px;
+      height: 780px;
       overflow-y: auto;
-      padding-bottom: 16px;
 
       &::-webkit-scrollbar {
         scrollbar-width: 10px;
@@ -37,12 +36,18 @@
         display: flex;
         justify-content: space-between;
         align-items: center;
+        border-radius: 12px;
+
+        &:hover {
+          background-color: #bdbdbd;
+        }
 
         .catalog-menu_item {
           display: flex;
           align-items: center;
           gap: 16px;
           margin-bottom: 4px;
+
 
           img {
             width: 24px;
@@ -88,6 +93,7 @@
         font-weight: 400;
         color: #bdbdbd;
         transition: 0.3s ease-in-out;
+
         &:hover {
 
           color: #0E73F6;

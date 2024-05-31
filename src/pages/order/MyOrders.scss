@@ -16,6 +16,7 @@
                 font-size: 20px;
                 color: #000000;
                 margin-bottom: 16px;
+               
             }
 
             .my-orders_link {
@@ -77,6 +78,9 @@
                                 font-weight: 700;
                                 font-size: 16px;
                                 color: #000000;
+                                span{
+                                    text-transform: uppercase;
+                                }
                             }
                         }
 
@@ -175,4 +179,32 @@
             }
         }
     }
+    .my-order_pagination {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 16px;
+        margin-top: 24px;
+      
+        button {
+          padding: 8px 16px;
+          font-size: 14px;
+          font-weight: 500;
+          color: #fff;
+          background-color: #000;
+          border: none;
+          border-radius: 4px;
+          cursor: pointer;
+          &:disabled {
+            background-color: #ccc;
+            cursor: not-allowed;
+          }
+        }
+      
+        span {
+          font-size: 14px;
+          font-weight: 500;
+        }
+      }
+      
 }

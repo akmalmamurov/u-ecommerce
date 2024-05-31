@@ -120,17 +120,7 @@ const UserProfile = () => {
                 </div>
                 <div className="profile-divider" />
                 <div className="profile-control_group">
-                  <div className="profile-control">
-                    <label className="profile-label" htmlFor="email">
-                      Электронная почта
-                    </label>
-                    <Input
-                      className="profile-input profile-email"
-                      id="email"
-                      type="text"
-                      {...register("email")}
-                    />
-                  </div>
+              
                   <div className="profile-control">
                     <label className="profile-label" htmlFor="phone_number">
                       Номер телефона

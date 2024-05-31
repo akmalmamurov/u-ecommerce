@@ -13,15 +13,16 @@ const orderServices = createApi({
       headers.set("Content-Type", "application/json");
       return headers;
     },
-    tagTypes: ["order"],
   }),
+  tagTypes: ["order"],
   endpoints: (builder) => ({
     getOrder: builder.query({
       query: () => `/api/order`,
       providesTags: ["order"],
     }),
     getMyOrder: builder.query({
-      query: () => `/api/order/myorders`,
+      query: ({ page = 1, limit = 10 }) =>
+        `/api/order/myorders?page=${page}&limit=${limit}`,
       providesTags: ["order"],
     }),
     addOrder: builder.mutation({

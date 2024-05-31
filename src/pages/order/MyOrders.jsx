@@ -5,6 +5,7 @@ import {
   AccordionItem,
   AccordionPanel,
   Box,
+  Button,
   Container,
   Tab,
   TabList,
@@ -18,9 +19,17 @@ import theme from "../../theme";
 import Loading from "../../components/loading/Loading";
 import { kFormatter } from "../../utils";
 import { format } from "date-fns";
+import { useState } from "react";
 const MyOrders = () => {
-  const { data, isLoading } = useGetMyOrderQuery();
+  const [page, setPage] = useState(1);
+  const { data, isLoading } = useGetMyOrderQuery({ page });
   const { data: orders } = data || {};
+  const handlePreviousPage = () => {
+    setPage((prevPage) => prevPage - 1);
+  };
+  const handleNextPage = () => {
+    setPage((prevPage) => prevPage + 1);
+  };
   return (
     <div className="my-orders_page">
       <Container maxW={"1200px"}>
@@ -45,7 +54,7 @@ const MyOrders = () => {
                       >
                         <div className="my-orders_tab-header">
                           <h1 className="my-orders_tab-title">
-                            ID Заказа {item.order_id}
+                            ID Заказа <span>{item.order_id}</span>
                           </h1>
                         </div>
                         <div className="my-orders_tab-divider" />
@@ -76,16 +85,6 @@ const MyOrders = () => {
                                   new Date(item.created_at),
                                   "dd.MM.yyyy"
                                 )}
-                              </p>
-                            </div>
-                          </div>
-                          <div className="order-item">
-                            <div className="order-item_left">
-                              <p className="order-item_title">Дата доставки:</p>
-                            </div>
-                            <div className="order-item_right">
-                              <p className="order-item_text">
-                                {item.created_at}
                               </p>
                             </div>
                           </div>
@@ -155,6 +154,23 @@ const MyOrders = () => {
             </Tabs>
           </div>
         </Box>
+        <div className="my-order_pagination">
+          <Button
+            isLoading={isLoading}
+            onClick={handlePreviousPage}
+            isDisabled={page === 1}
+          >
+            Previous
+          </Button>
+          <span>Page {page}</span>
+          <Button
+            isLoading={isLoading}
+            onClick={handleNextPage}
+            isDisabled={orders?.length < 10}
+          >
+            Next
+          </Button>
+        </div>
       </Container>
     </div>
   );
