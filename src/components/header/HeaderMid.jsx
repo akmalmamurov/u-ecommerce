@@ -31,12 +31,16 @@ import { hideMenu, toggleMenu } from "../../redux/slices/menuSlices";
 import { CatalogMenu } from "../catalog-menu";
 import "./Header.scss";
 import HeaderMenu from "./header-menu/HeaderMenu";
+import { useGetSearchCategoryQuery } from "../../redux/services/categoryServices";
 
 const HeaderMid = memo(() => {
   const [search, setSearch] = useState("");
   const [isScrolled, setIsScrolled] = useState(false);
   const [debouncedSearch] = useDebounce(search, 1000);
-  const { data, isLoading } = useGetSearchProductsQuery(debouncedSearch);
+  const { data: productsData, isLoading: isLoadingProducts } =
+    useGetSearchProductsQuery(debouncedSearch);
+  const { data: categoriesData, isLoading: isLoadingCategories } =
+    useGetSearchCategoryQuery(debouncedSearch);
   const isAuth = useSelector((state) => state.auth.isAuth);
   const products = useSelector((state) => state.product.products);
   const favourites = useSelector((state) => state.favourit.favourites);
@@ -44,6 +48,7 @@ const HeaderMid = memo(() => {
   const { isOpen, open, close } = useModal();
   const navigate = useNavigate();
   const dispatch = useDispatch();
+
   const handleSearch = (e) => {
     setSearch(e.target.value);
   };
@@ -51,6 +56,14 @@ const HeaderMid = memo(() => {
   const goProductDetails = useCallback(
     (id) => {
       navigate(`/products/${id}`);
+      setSearch("");
+    },
+    [navigate]
+  );
+
+  const goCategoryDetails = useCallback(
+    (id, name) => {
+      navigate(`/category/${encodeURIComponent(name)}/${id}`);
       setSearch("");
     },
     [navigate]
@@ -165,32 +178,61 @@ const HeaderMid = memo(() => {
               <Box>
                 {search && (
                   <Box
-                    className={`search-results`}
+                    className={`search-results `}
                     bg={theme.colors.cascadWhite}
                     color={theme.colors.black}
                   >
-                    {isLoading ? (
+                    {isLoadingProducts || isLoadingCategories ? (
                       <Loading />
-                    ) : data && data.length ? (
-                      <div>
-                        {data?.map((product) => (
-                          <div
-                            key={product?.id}
-                            className="search-result_content"
-                          >
-                            <img src={product?.main_image} alt="" />
-                            <Box
-                              color={theme.colors.black}
-                              onClick={() => goProductDetails(product?.id)}
-                              className="search-result_link"
-                            >
-                              {product?.name_ru}
-                            </Box>
-                          </div>
-                        ))}
-                      </div>
                     ) : (
-                      <div>Товар не найден</div>
+                      <>
+                      
+                          {categoriesData?.data &&
+                          categoriesData?.data?.length ? (
+                            categoriesData?.data?.map((category) => (
+                              <div
+                                key={category?.id}
+                                className="search-result_content "
+                              >
+                                
+                                <Box
+                                  color={theme.colors.black}
+                                  onClick={() =>
+                                    goCategoryDetails(
+                                      category?.id,
+                                      category?.name_ru
+                                    )
+                                  }
+                                  className="search-result_link"
+                                >
+                                  {category?.name_ru}
+                                </Box>
+                              </div>
+                            ))
+                          ) : (
+                            <div>Категория не найдена</div>
+                          )}
+                     
+                        {productsData && productsData.length ? (
+                          productsData?.map((product) => (
+                            <div
+                              key={product?.id}
+                              className="search-result_content"
+                            >
+                              <img src={product?.main_image} alt="" />
+                              <Box
+                                color={theme.colors.black}
+                                onClick={() => goProductDetails(product?.id)}
+                                className="search-result_link"
+                              >
+                                {product?.name_ru}
+                              </Box>
+                            </div>
+                          ))
+                        ) : (
+                          <div>Товар не найден</div>
+                        )}
+                      </>
                     )}
                   </Box>
                 )}
