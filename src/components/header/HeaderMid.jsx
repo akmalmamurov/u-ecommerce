@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback, memo } from "react";
+import { useState, useEffect, useCallback, memo, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import {
@@ -20,7 +20,7 @@ import {
   CartIcon,
   HeartIcon,
   MenuCloseIcon,
-  ProductModalCloseIcon,
+  SearchClearIcon,
   SearchIcon,
   UserIcon,
 } from "../../assets/icons";
@@ -36,6 +36,7 @@ import HeaderMenu from "./header-menu/HeaderMenu";
 import { useGetSearchCategoryQuery } from "../../redux/services/categoryServices";
 
 const HeaderMid = memo(() => {
+  const [showResults, setShowResults] = useState(false);
   const [search, setSearch] = useState("");
   const [isScrolled, setIsScrolled] = useState(false);
   const [debouncedSearch] = useDebounce(search, 1000);
@@ -50,19 +51,27 @@ const HeaderMid = memo(() => {
   const { isOpen, open, close } = useModal();
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const searchResultsRef = useRef(null);
 
   const handleSearch = (e) => {
     setSearch(e.target.value);
+    setShowResults(true);
   };
 
   const handleClearSearch = () => {
     setSearch("");
+    setShowResults(false);
   };
-
+  const handleFocus = () => {
+    if (search) {
+      setShowResults(true);
+    }
+  };
   const goProductDetails = useCallback(
     (id) => {
       navigate(`/products/${id}`);
       setSearch("");
+      setShowResults(false);
     },
     [navigate]
   );
@@ -71,24 +80,25 @@ const HeaderMid = memo(() => {
     (id, name) => {
       navigate(`/category/${encodeURIComponent(name)}/${id}`);
       setSearch("");
+      setShowResults(false);
     },
     [navigate]
   );
 
+  const handleClickOutside = (event) => {
+    if (
+      searchResultsRef.current &&
+      !searchResultsRef.current.contains(event.target)
+    ) {
+      setShowResults(false);
+    }
+  };
   useEffect(() => {
-    const handleKeyPress = (event) => {
-      if (event.key === "Escape") {
-        setSearch("");
-      }
-    };
-
-    window.addEventListener("keydown", handleKeyPress);
-
+    document.addEventListener("mousedown", handleClickOutside);
     return () => {
-      window.removeEventListener("keydown", handleKeyPress);
+      document.removeEventListener("mousedown", handleClickOutside);
     };
   }, []);
-
   useEffect(() => {
     const handleScroll = () => {
       if (window.scrollY > 180) {
@@ -106,7 +116,7 @@ const HeaderMid = memo(() => {
   }, []);
 
   return (
-    <Box py={"29px"} className={`header-mid ${isScrolled ? "fixed" : ""}`}>
+    <Box  className={`header-mid ${isScrolled ? "fixed" : ""}`}>
       <Container maxW={"1200px"}>
         <Box fontFamily={theme.fonts.fInter}>
           {/* logo */}
@@ -172,22 +182,21 @@ const HeaderMid = memo(() => {
                 </InputLeftElement>
                 <Input
                   fontFamily={theme.fonts.fInter}
+                  onFocus={handleFocus}
                   onChange={handleSearch}
                   value={search}
-                  border={"none"}
                   className="header_search-input"
-                  type="text"
                   placeholder="Поиск товаров и категорий"
                   p={"15px, 19px"}
                 />
                 {search && (
                   <InputRightElement top={"0"} right={1} cursor="pointer">
-                    <ProductModalCloseIcon onClick={handleClearSearch} />
+                    <SearchClearIcon onClick={handleClearSearch} />
                   </InputRightElement>
                 )}
               </InputGroup>
-              <Box>
-                {search &&
+              <Box ref={searchResultsRef}>
+                {showResults &&
                 (productsData?.length || categoriesData?.data?.length) ? (
                   <Box
                     className={`search-results `}
@@ -198,45 +207,45 @@ const HeaderMid = memo(() => {
                       <Loading />
                     ) : (
                       <>
-                        {categoriesData?.data?.length ? (
-                          categoriesData.data.map((category) => (
-                            <div
-                              key={category.id}
-                              className="search-result_content"
-                            >
-                              <Box
-                                color={theme.colors.black}
-                                onClick={() =>
-                                  goCategoryDetails(
-                                    category.id,
-                                    category.name_ru
-                                  )
-                                }
-                                className="search-result_link"
+                        {categoriesData?.data?.length
+                          ? categoriesData.data.map((category) => (
+                              <div
+                                key={category.id}
+                                className="search-result_content"
                               >
-                                {category.name_ru}
-                              </Box>
-                            </div>
-                          ))
-                        ) : null}
+                                <Box
+                                  color={theme.colors.black}
+                                  onClick={() =>
+                                    goCategoryDetails(
+                                      category.id,
+                                      category.name_ru
+                                    )
+                                  }
+                                  className="search-result_link"
+                                >
+                                  {category.name_ru}
+                                </Box>
+                              </div>
+                            ))
+                          : null}
 
-                        {productsData?.length ? (
-                          productsData.map((product) => (
-                            <div
-                              key={product.id}
-                              className="search-result_content"
-                            >
-                              <img src={product.main_image} alt="" />
-                              <Box
-                                color={theme.colors.black}
-                                onClick={() => goProductDetails(product.id)}
-                                className="search-result_link"
+                        {productsData?.length
+                          ? productsData.map((product) => (
+                              <div
+                                key={product.id}
+                                className="search-result_content"
                               >
-                                {product.name_ru}
-                              </Box>
-                            </div>
-                          ))
-                        ) : null}
+                                <img src={product.main_image} alt="" />
+                                <Box
+                                  color={theme.colors.black}
+                                  onClick={() => goProductDetails(product.id)}
+                                  className="search-result_link"
+                                >
+                                  {product.name_ru}
+                                </Box>
+                              </div>
+                            ))
+                          : null}
                       </>
                     )}
                   </Box>
