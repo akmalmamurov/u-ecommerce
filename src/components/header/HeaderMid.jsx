@@ -8,6 +8,7 @@ import {
   Input,
   InputGroup,
   InputLeftElement,
+  InputRightElement,
   Menu,
   MenuButton,
   MenuList,
@@ -19,6 +20,7 @@ import {
   CartIcon,
   HeartIcon,
   MenuCloseIcon,
+  ProductModalCloseIcon,
   SearchIcon,
   UserIcon,
 } from "../../assets/icons";
@@ -51,6 +53,10 @@ const HeaderMid = memo(() => {
 
   const handleSearch = (e) => {
     setSearch(e.target.value);
+  };
+
+  const handleClearSearch = () => {
+    setSearch("");
   };
 
   const goProductDetails = useCallback(
@@ -174,9 +180,15 @@ const HeaderMid = memo(() => {
                   placeholder="Поиск товаров и категорий"
                   p={"15px, 19px"}
                 />
+                {search && (
+                  <InputRightElement top={"0"} right={1} cursor="pointer">
+                    <ProductModalCloseIcon onClick={handleClearSearch} />
+                  </InputRightElement>
+                )}
               </InputGroup>
               <Box>
-                {search && (
+                {search &&
+                (productsData?.length || categoriesData?.data?.length) ? (
                   <Box
                     className={`search-results `}
                     bg={theme.colors.cascadWhite}
@@ -186,56 +198,49 @@ const HeaderMid = memo(() => {
                       <Loading />
                     ) : (
                       <>
-                      
-                          {categoriesData?.data &&
-                          categoriesData?.data?.length ? (
-                            categoriesData?.data?.map((category) => (
-                              <div
-                                key={category?.id}
-                                className="search-result_content "
-                              >
-                                
-                                <Box
-                                  color={theme.colors.black}
-                                  onClick={() =>
-                                    goCategoryDetails(
-                                      category?.id,
-                                      category?.name_ru
-                                    )
-                                  }
-                                  className="search-result_link"
-                                >
-                                  {category?.name_ru}
-                                </Box>
-                              </div>
-                            ))
-                          ) : (
-                            <div>Категория не найдена</div>
-                          )}
-                     
-                        {productsData && productsData.length ? (
-                          productsData?.map((product) => (
+                        {categoriesData?.data?.length ? (
+                          categoriesData.data.map((category) => (
                             <div
-                              key={product?.id}
+                              key={category.id}
                               className="search-result_content"
                             >
-                              <img src={product?.main_image} alt="" />
                               <Box
                                 color={theme.colors.black}
-                                onClick={() => goProductDetails(product?.id)}
+                                onClick={() =>
+                                  goCategoryDetails(
+                                    category.id,
+                                    category.name_ru
+                                  )
+                                }
                                 className="search-result_link"
                               >
-                                {product?.name_ru}
+                                {category.name_ru}
                               </Box>
                             </div>
                           ))
-                        ) : (
-                          <div>Товар не найден</div>
-                        )}
+                        ) : null}
+
+                        {productsData?.length ? (
+                          productsData.map((product) => (
+                            <div
+                              key={product.id}
+                              className="search-result_content"
+                            >
+                              <img src={product.main_image} alt="" />
+                              <Box
+                                color={theme.colors.black}
+                                onClick={() => goProductDetails(product.id)}
+                                className="search-result_link"
+                              >
+                                {product.name_ru}
+                              </Box>
+                            </div>
+                          ))
+                        ) : null}
                       </>
                     )}
                   </Box>
-                )}
+                ) : null}
               </Box>
             </Box>
             {/* auth favourit cart page here */}

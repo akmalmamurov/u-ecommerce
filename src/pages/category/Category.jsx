@@ -11,12 +11,14 @@ const Category = () => {
   const { id } = useParams();
   const [selectedCategoryId, setSelectedCategoryId] = useState(id);
 
+
   useEffect(() => {
     setSelectedCategoryId(id);
   }, [id]);
 
   const { data: products } = useGetProductsByCidQuery(selectedCategoryId);
   const { data: category } = useGetCategoriesByIdQuery(id);
+  console.log(category);
 
   return (
     <div className="category-page">
