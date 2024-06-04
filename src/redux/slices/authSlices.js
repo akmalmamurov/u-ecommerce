@@ -5,9 +5,6 @@ const authSlice = createSlice({
   name: "auth",
   initialState: {
     isAuth: localStorage.getItem(TOKEN) ? true : false,
-    user: localStorage.getItem("user")
-      ? JSON.parse(localStorage.getItem("user"))
-      : null,
     phoneNumber: localStorage.getItem("phoneNumber") || "",
   },
   reducers: {
@@ -23,10 +20,8 @@ const authSlice = createSlice({
       localStorage.setItem("phoneNumber", payload);
     },
     logoutUser: (state) => {
-      localStorage.removeItem(TOKEN); 
-      localStorage.removeItem("user");
+      localStorage.removeItem(TOKEN);
       localStorage.removeItem("phoneNumber");
-      state.user = null;
       state.phoneNumber = "";
       state.isAuth = false;
     },

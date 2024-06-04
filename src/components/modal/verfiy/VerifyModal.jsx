@@ -25,6 +25,7 @@ import { useEffect, useState } from "react";
 import "./VerifyModal.scss";
 import theme from "../../../theme";
 import { useAddLoginMutation } from "../../../redux/services/loginServices";
+import { useGetClientQuery } from "../../../redux/services/clientServices";
 
 const VerifyModal = ({ isOpen, onClose, source, onOpen, backModal }) => {
   const {
@@ -39,7 +40,11 @@ const VerifyModal = ({ isOpen, onClose, source, onOpen, backModal }) => {
   const [addLogin, { isLoading }] = useAddLoginMutation();
   const [timer, setTimer] = useState(60);
   const [showResend, setShowResend] = useState(false);
+  const { refetch: refetchClient } = useGetClientQuery();
 
+  useEffect(() => {
+    refetchClient();
+  }, [refetchClient]);
   useEffect(() => {
     if (isOpen) {
       setTimer(60);
@@ -77,6 +82,7 @@ const VerifyModal = ({ isOpen, onClose, source, onOpen, backModal }) => {
       onOpen();
       dispatch(setPhoneNumber(source));
       reset();
+      refetchClient();
     } catch (err) {
       console.log(err);
     }

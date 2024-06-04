@@ -19,9 +19,6 @@ const loginServices = createApi({
         url: "/api/auth/login",
         method: "POST",
         body,
-        headers: {
-          "Content-type": "application/json",
-        },
       }),
       invalidatesTags: ["login"],
     }),

@@ -18,7 +18,6 @@ const Category = () => {
 
   const { data: products } = useGetProductsByCidQuery(selectedCategoryId);
   const { data: category } = useGetCategoriesByIdQuery(id);
-  console.log(category);
 
   return (
     <div className="category-page">
