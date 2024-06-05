@@ -19,17 +19,32 @@ import theme from "../../theme";
 import Loading from "../../components/loading/Loading";
 import { kFormatter } from "../../utils";
 import { format } from "date-fns";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { ChevronLeftIcon, ChevronRightIcon } from "@chakra-ui/icons";
+
 const MyOrders = () => {
   const [page, setPage] = useState(1);
   const { data, isLoading } = useGetMyOrderQuery({ page });
-  const { data: orders } = data || {};
+  const { data: orders, count } = data || {};
+  const itemsPerPage = 10;
+  const totalPages = count ? Math.ceil(count / itemsPerPage) : 0;
+
   const handlePreviousPage = () => {
-    setPage((prevPage) => prevPage - 1);
+    setPage((prevPage) => Math.max(prevPage - 1, 1));
   };
+
   const handleNextPage = () => {
-    setPage((prevPage) => prevPage + 1);
+    setPage((prevPage) => Math.min(prevPage + 1, totalPages));
   };
+
+  const handlePageChange = (pageNumber) => {
+    setPage(pageNumber);
+  };
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [page]);
+
   return (
     <div className="my-orders_page">
       <Container maxW={"1200px"}>
@@ -46,7 +61,7 @@ const MyOrders = () => {
                 <Loading />
               ) : (
                 <>
-                  {orders.map((item) => (
+                  {orders?.map((item) => (
                     <TabPanels key={item.id} className="my-orders_tabs-panels">
                       <TabPanel
                         key={item.id}
@@ -156,19 +171,32 @@ const MyOrders = () => {
         </Box>
         <div className="my-order_pagination">
           <Button
+            className="my-order_slide-btn"
             isLoading={isLoading}
             onClick={handlePreviousPage}
             isDisabled={page === 1}
           >
-            Previous
+            <ChevronLeftIcon />
           </Button>
-          <span>Page {page}</span>
+          {totalPages > 0 &&
+            Array.from({ length: totalPages }, (_, i) => i + 1).map((num) => (
+              <Button
+                fontFamily={theme.fonts.fInter}
+                className="my-order_pagination-num_btn"
+                key={num}
+                onClick={() => handlePageChange(num)}
+                isActive={num === page}
+              >
+                {num}
+              </Button>
+            ))}
           <Button
+            className="my-order_slide-btn"
             isLoading={isLoading}
             onClick={handleNextPage}
-            isDisabled={orders?.length < 10}
+            isDisabled={page === totalPages}
           >
-            Next
+            <ChevronRightIcon />
           </Button>
         </div>
       </Container>

@@ -7,6 +7,8 @@ import { Link, useNavigate } from "react-router-dom";
 import Loading from "../loading/Loading";
 import { useDispatch } from "react-redux";
 import { hideMenu } from "../../redux/slices/menuSlices";
+import CatalogMenuLoader from "../loader/CatalogMenuLoader";
+import SkeletonLoader from "../loader/SkeletonLoader";
 
 const CatalogMenu = () => {
   const [page, setPage] = useState(1);
@@ -34,7 +36,7 @@ const CatalogMenu = () => {
   return (
     <div className="catalog-menu_container">
       {isLoading ? (
-        <Loading />
+        <CatalogMenuLoader />
       ) : (
         categories &&
         categories.length > 0 && (

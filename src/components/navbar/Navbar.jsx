@@ -2,8 +2,8 @@ import { NavLink } from "react-router-dom";
 import { Box, Container } from "@chakra-ui/react";
 import theme from "../../theme";
 import { useGetCategoriesQuery } from "../../redux/services/categoryServices";
-import Loading from "../loading/Loading";
 import "./Navbar.scss";
+import NavbarLoader from "../loader/NavbarLoader";
 const Navbar = () => {
   const { data, isLoading } = useGetCategoriesQuery({ limit: 8 });
   const { data: categories } = data || {};
@@ -11,7 +11,7 @@ const Navbar = () => {
     <nav>
       <Container maxW={"1200px"}>
         {isLoading ? (
-          <Loading />
+          <NavbarLoader />
         ) : (
           <Box className="nav-list" fontFamily={theme.fonts.fInter}>
             {categories.map((category) => (

@@ -13,7 +13,6 @@ import "./Brands.scss";
 import { BrandCard } from "components/card/brand-card";
 
 const ArrowStyles = {
-
   zIndex: 1,
 };
 
@@ -50,7 +49,7 @@ const Brands = () => {
   const settings = {
     infinite: false,
     speed: 500,
-    slidesToShow:7,
+    slidesToShow: 7,
     slidesToScroll: 1,
     nextArrow: <CustomNextArrow />,
     prevArrow: <CustomPrevArrow />,

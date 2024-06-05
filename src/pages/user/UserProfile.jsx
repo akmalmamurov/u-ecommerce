@@ -120,7 +120,6 @@ const UserProfile = () => {
                 </div>
                 <div className="profile-divider" />
                 <div className="profile-control_group">
-              
                   <div className="profile-control">
                     <label className="profile-label" htmlFor="phone_number">
                       Номер телефона

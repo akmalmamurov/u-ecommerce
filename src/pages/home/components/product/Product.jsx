@@ -6,6 +6,7 @@ import { useGetAllProductsQuery } from "../../../../redux/services/productAllSer
 import GridProduct from "components/product-grid/GridProduct";
 import { ProductCard } from "components/card/product-card";
 import Loading from "components/loading/Loading";
+import SkeletonLoader from "../../../../components/loader/SkeletonLoader"; // Adjust the path if necessary
 import "./Product.scss";
 
 const Product = memo(() => {
@@ -56,7 +57,7 @@ const Product = memo(() => {
         <motion.h1>Все продукты</motion.h1>
         <GridProduct>
           {isLoading && !allProducts.length ? (
-            <Loading />
+            <SkeletonLoader />
           ) : (
             allProducts.map((product) => (
               <ProductCard key={product.id} {...product} />

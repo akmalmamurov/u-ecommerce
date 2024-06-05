@@ -1,210 +1,203 @@
 .my-orders_page {
-    padding: 32px 0;
+  padding: 32px 0;
 
-    .my-orders_content {
-        display: flex;
+  .my-orders_content {
+    display: flex;
 
-        .my-orders_left {
-            flex: 0 33%;
-            position: sticky;
-            top: 110px;
-            z-index: -10;
-            height: fit-content;
+    .my-orders_left {
+      flex: 0 33%;
+      position: sticky;
+      top: 110px;
+      z-index: -10;
+      height: fit-content;
 
-            .my-orders_title {
-                font-weight: 500;
-                font-size: 20px;
-                color: #000000;
-                margin-bottom: 16px;
-               
-            }
+      .my-orders_title {
+        font-weight: 500;
+        font-size: 20px;
+        color: #000000;
+        margin-bottom: 16px;
+      }
 
-            .my-orders_link {
-                font-weight: 500;
-                color: #7C7C7C;
-                font-size: 20px;
-                cursor: pointer;
-            }
-        }
-
-        .my-orders_right {
-            flex: 0 66%;
-
-
-            .my-orders_tabs {
-                .my-orders_tabs-list {
-                    border: 1px solid #BDBDBD;
-                    border-radius: 6px;
-                    width: fit-content;
-                    overflow: hidden;
-                    margin-bottom: 24px;
-
-                    .my-orders_tabs-content {
-                        padding: 12px 65.5px !important;
-                        font-weight: 500;
-                        font-size: 16px;
-                        color: #000000;
-                        border-right: 1px solid #BDBDBD;
-
-                        &:last-child {
-                            border-right: none;
-                        }
-
-                        &[aria-selected="true"] {
-                            background-color: #EFEFEF;
-                            border-right: none;
-                        }
-
-                    }
-
-
-                }
-
-                .my-orders_tabs-panels {
-                    padding: 12px 0;
-                    border: 1px solid #DCDCDC;
-                    border-radius: 8px;
-                    margin-bottom: 24px;
-
-                    .my-orders_tabs-panel {
-                        padding: 0;
-
-                        .my-orders_tab-header {
-                            padding: 0 16px;
-                            padding-bottom: 12px;
-
-                            .my-orders_tab-title {
-
-                                font-weight: 700;
-                                font-size: 16px;
-                                color: #000000;
-                                span{
-                                    text-transform: uppercase;
-                                }
-                            }
-                        }
-
-                        .my-orders_tab-divider {
-                            border-bottom: 1px solid #DCDCDC
-                        }
-
-                        .my-orders_tab-body {
-                            padding: 12px 16px;
-
-                            .order-item {
-                                display: flex;
-                                align-items: center;
-                                gap: 32px;
-
-                                .order-item_left {
-                                    width: 144px;
-
-                                    .order-item_title-status {
-                                        margin-bottom: 26px !important;
-                                    }
-
-                                    .order-item_title {
-                                        font-weight: 500;
-                                        font-size: 16px;
-                                        color: #656565;
-                                        margin-bottom: 16px;
-                                    }
-                                }
-
-                                .order-item_right {
-                                    .order-item_text-status {
-                                        background-color: #EFEFEF;
-                                        padding: 6px;
-                                        border-radius: 8px;
-                                        margin-bottom: 26px !important;
-                                    }
-
-                                    .order-item_text {
-                                        font-weight: 500;
-                                        color: #000000;
-                                        font-size: 14px;
-                                        margin-bottom: 16px;
-
-
-
-                                    }
-                                }
-                            }
-                        }
-
-                        .my-orders_footer {
-                            padding-top: 12px !important;
-                            padding: 0px 16px;
-
-                            .order-product_accordion {
-                                .order-product_accordion-item {
-                                    border: none;
-                                    .order-product_accordion-button {
-                                        &:hover{
-                                            background: none;
-                                        }
-                                    }
-
-                                    .order-product_accordion-panel {
-                                        .order-product_content {
-                                            display: flex;
-                                            align-items: center;
-                                            gap: 32px;
-                                            margin-bottom: 32px !important;
-                                            .order-product_image {
-                                            flex: 0 0 20%;
-                                                img{
-                                                    width: 110px;
-                                                    height: 110px;
-                                                }
-
-                                            }
-                                            .order-product_info {
-                                                flex: 0 0 80%;
-                                                .order-product_title {
-                                                    font-weight: 500;
-                                                }
-
-                                                .order-product_price {
-                                                    font-weight: 400;
-                                                }
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        }
+      .my-orders_link {
+        font-weight: 500;
+        color: #7c7c7c;
+        font-size: 20px;
+        cursor: pointer;
+      }
     }
-    .my-order_pagination {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        gap: 16px;
-        margin-top: 24px;
-      
-        button {
-          padding: 8px 16px;
-          font-size: 14px;
-          font-weight: 500;
-          color: #fff;
-          background-color: #000;
-          border: none;
-          border-radius: 4px;
-          cursor: pointer;
-          &:disabled {
-            background-color: #ccc;
-            cursor: not-allowed;
+
+    .my-orders_right {
+      flex: 0 66%;
+
+      .my-orders_tabs {
+        .my-orders_tabs-list {
+          border: 1px solid #bdbdbd;
+          border-radius: 6px;
+          width: fit-content;
+          overflow: hidden;
+          margin-bottom: 24px;
+
+          .my-orders_tabs-content {
+            padding: 12px 65.5px !important;
+            font-weight: 500;
+            font-size: 16px;
+            color: #000000;
+            border-right: 1px solid #bdbdbd;
+
+            &:last-child {
+              border-right: none;
+            }
+
+            &[aria-selected="true"] {
+              background-color: #efefef;
+              border-right: none;
+            }
           }
         }
-      
-        span {
-          font-size: 14px;
-          font-weight: 500;
+
+        .my-orders_tabs-panels {
+          padding: 12px 0;
+          border: 1px solid #dcdcdc;
+          border-radius: 8px;
+          margin-bottom: 24px;
+
+          .my-orders_tabs-panel {
+            padding: 0;
+
+            .my-orders_tab-header {
+              padding: 0 16px;
+              padding-bottom: 12px;
+
+              .my-orders_tab-title {
+                font-weight: 700;
+                font-size: 16px;
+                color: #000000;
+                span {
+                  text-transform: uppercase;
+                }
+              }
+            }
+
+            .my-orders_tab-divider {
+              border-bottom: 1px solid #dcdcdc;
+            }
+
+            .my-orders_tab-body {
+              padding: 12px 16px;
+
+              .order-item {
+                display: flex;
+                align-items: center;
+                gap: 32px;
+
+                .order-item_left {
+                  width: 144px;
+
+                  .order-item_title-status {
+                    margin-bottom: 26px !important;
+                  }
+
+                  .order-item_title {
+                    font-weight: 500;
+                    font-size: 16px;
+                    color: #656565;
+                    margin-bottom: 16px;
+                  }
+                }
+
+                .order-item_right {
+                  .order-item_text-status {
+                    background-color: #efefef;
+                    padding: 6px;
+                    border-radius: 8px;
+                    margin-bottom: 26px !important;
+                  }
+
+                  .order-item_text {
+                    font-weight: 500;
+                    color: #000000;
+                    font-size: 14px;
+                    margin-bottom: 16px;
+                  }
+                }
+              }
+            }
+
+            .my-orders_footer {
+              padding-top: 12px !important;
+              padding: 0px 16px;
+
+              .order-product_accordion {
+                .order-product_accordion-item {
+                  border: none;
+                  .order-product_accordion-button {
+                    &:hover {
+                      background: none;
+                    }
+                  }
+
+                  .order-product_accordion-panel {
+                    .order-product_content {
+                      display: flex;
+                      align-items: center;
+                      gap: 32px;
+                      margin-bottom: 32px !important;
+                      .order-product_image {
+                        flex: 0 0 20%;
+                        img {
+                          width: 110px;
+                          height: 110px;
+                        }
+                      }
+                      .order-product_info {
+                        flex: 0 0 80%;
+                        .order-product_title {
+                          font-weight: 500;
+                        }
+
+                        .order-product_price {
+                          font-weight: 400;
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
         }
       }
-      
+    }
+  }
+  .my-order_pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 16px;
+    margin-top: 24px;
+
+    .my-order_slide-btn {
+      padding: 4px 12px;
+      font-weight: 500;
+      font-size: 20px;
+      background-color: unset !important;
+      border: none;
+      border-radius: 4px;
+      transition: 0.3s ease-in-out;
+      &:disabled {
+        background-color: #ccc;
+      }
+      &:hover {
+        background-color: #f7f7f7 !important;
+      }
+    }
+    .my-order_pagination-num_btn {
+        font-size: 14px;
+      background-color: unset !important;
+      border: 2px solid white !important;
+    }
+    .my-order_pagination-num_btn[data-active] {
+      border: 2px solid #0e73f6 !important;
+    }
+  }
 }
