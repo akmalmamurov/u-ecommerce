@@ -9,9 +9,9 @@ export const productSlice = createSlice({
     addToCart: (state, action) => {
       const item = state.products.find((item) => item.id === action.payload.id);
       if (item) {
-        item.quantity += action.payload.quantity;
+        item.quantity = Math.min(item.quantity + action.payload.quantity, 10);
       } else {
-        state.products.push(action.payload);
+        state.products.push({ ...action.payload, quantity: Math.min(action.payload.quantity, 10) });
       }
     },
     deleteItem: (state, action) => {
@@ -23,7 +23,7 @@ export const productSlice = createSlice({
     },
     incrementQuantity: (state, action) => {
       const item = state.products.find((item) => item.id === action.payload);
-      if (item) item.quantity++;
+      if (item) item.quantity = Math.min(item.quantity + 1, 10);
     },
     decrementQuantity: (state, action) => {
       const item = state.products.find((item) => item.id === action.payload);

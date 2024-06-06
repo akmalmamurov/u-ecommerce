@@ -92,13 +92,6 @@ export const ProductCard = (props) => {
         stock: zakaz,
       })
     );
-    toast({
-      title: "Добавлено в корзину",
-      description: `${name_ru}`,
-      status: "info",
-      duration: 2000,
-      isClosable: true,
-    });
   };
 
   const handleToggleFavourit = () => {

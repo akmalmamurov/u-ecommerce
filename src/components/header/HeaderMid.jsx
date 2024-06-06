@@ -39,7 +39,7 @@ const HeaderMid = memo(() => {
   const [showResults, setShowResults] = useState(false);
   const [search, setSearch] = useState("");
   const [isScrolled, setIsScrolled] = useState(false);
-  const [debouncedSearch] = useDebounce(search, 1000);
+  const [debouncedSearch] = useDebounce(search, 800);
   const { data: productsData, isLoading: isLoadingProducts } =
     useGetSearchProductsQuery(debouncedSearch);
   const { data: categoriesData, isLoading: isLoadingCategories } =

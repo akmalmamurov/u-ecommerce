@@ -13,8 +13,8 @@ const CheckoutProduct = ({ products, total_price }) => {
       >
         <h1 className="checkout-product_title">Товары в заказе</h1>
         {products &&
-          products.map((product) => (
-            <div key={product.id} className="checkout-product_box">
+          products?.map((product, index) => (
+            <div key={index} className="checkout-product_box">
               <img
                 src={product.main_image}
                 alt={product.name_ru}

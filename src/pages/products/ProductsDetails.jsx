@@ -34,10 +34,11 @@ import {
 import LoginModal from "components/modal/login/LoginModal";
 import { useModal } from "hooks/useModal";
 import ProductModal from "components/modal/product-modal/ProductModal";
+import ProductsDetailsLoader from "../../components/loader/product-details-loader/ProductDetailsLoader";
 
 const ProductsDetails = () => {
   const { id } = useParams();
-  const { data } = useGetProductByIdQuery(id);
+  const { data, isLoading: productLoading } = useGetProductByIdQuery(id);
   const [allDeleteBasket] = useAllDeleteBasketMutation();
   const isAuth = useSelector((state) => state.auth.isAuth);
   const cart = useSelector((state) => state.product.products);
@@ -76,37 +77,7 @@ const ProductsDetails = () => {
   const addToCartSucess = () => {
     navigate("/cart");
   };
-  const productToCheckout = async () => {
-    if (!isAuth) {
-      open();
-      return;
-    }
 
-    try {
-      await addBasket({ product_id: id, quantity: qty }).unwrap();
-      await allDeleteBasket().unwrap();
-      navigate("/checkout");
-    } catch (err) {
-      console.error(err);
-      if (err.status === 413) {
-        toast({
-          title: "Quantity Error",
-          description: err.data.message,
-          status: "error",
-          duration: 3000,
-          isClosable: true,
-        });
-      } else {
-        toast({
-          title: "Error",
-          description: "Failed to add item to basket. Please try again later.",
-          status: "error",
-          duration: 3000,
-          isClosable: true,
-        });
-      }
-    }
-  };
 
   const handleAddToCart = () => {
     if (data) {
@@ -159,168 +130,203 @@ const ProductsDetails = () => {
       setQty((prevQty) => prevQty - 1);
     }
   };
+  const productToCheckout = async () => {
+    if (!isAuth) {
+      open();
+      return;
+    }
 
+    try {
+      await allDeleteBasket().unwrap();
+      await addBasket({ product_id: id, quantity: qty }).unwrap();
+      navigate("/checkout");
+    } catch (err) {
+      console.error(err);
+      if (err.status === 413) {
+        toast({
+          title: "Quantity Error",
+          description: err.data.message,
+          status: "error",
+          duration: 3000,
+          isClosable: true,
+        });
+      } else {
+        toast({
+          title: "Error",
+          description: "Failed to add item to basket. Please try again later.",
+          status: "error",
+          duration: 3000,
+          isClosable: true,
+        });
+      }
+    }
+  };
   return (
     <Box className="product-details" fontFamily={theme.fonts.fInter}>
       <Container maxW={"1200px"}>
-        {data ? (
-          <Fragment>
-            <Grid templateColumns={"repeat(2,1fr)"} gap={"80px"}>
-              <GridItem>
-                <Box className="product-details_left">
-                  <div className="product-img_left">
-                    <img
-                      src={data?.main_image}
-                      alt={data?.name_ru}
-                      className="product-details_img-sm"
-                      onClick={() =>
-                        handleThumbnailClick({ media_file: data.main_image })
-                      }
-                    />
-                    {data.image_files &&
-                      data.image_files.map((image) => (
-                        <img
-                          key={image.id}
-                          src={image.media_file}
-                          alt={data.name_ru}
-                          className="product-details_img-sm"
-                          onClick={() => handleThumbnailClick(image)}
-                        />
-                      ))}
-                  </div>
-                  <Box className="product-img_right">
-                    {mainImage && (
+        {productLoading ? (
+          <ProductsDetailsLoader />
+        ) : (
+          data && (
+            <Fragment>
+              <Grid templateColumns={"repeat(2,1fr)"} gap={"80px"}>
+                <GridItem>
+                  <Box className="product-details_left">
+                    <div className="product-img_left">
                       <img
-                        onClick={handleImageClick}
-                        id="mainImage"
-                        className="product-details_img-lg"
-                        src={data.main_image}
-                        alt={data.name_ru}
+                        src={data?.main_image}
+                        alt={data?.name_ru}
+                        className="product-details_img-sm"
+                        onClick={() =>
+                          handleThumbnailClick({ media_file: data.main_image })
+                        }
                       />
-                    )}
-                  </Box>
-                </Box>
-              </GridItem>
-              <GridItem>
-                <Box className="product-details_right">
-                  <h1 className="pr-details_title">{data.name_ru}</h1>
-                  <div className="pr-details_rating">
-                    <ReactStars
-                      count={5}
-                      value={rating}
-                      onChange={ratingChanged}
-                      size={24}
-                      isHalf={true}
-                      emptyIcon={<NoRatingIcon />}
-                      halfIcon={<YesRatingIcon />}
-                      activeColor="#ffd700"
-                    />
-                    <p className="pr-details_rating-text">{rating}</p>
-                  </div>
-                  <p className="pr-details_price">
-                    {kFormatter(data.price * qty)}{" "}
-                  </p>
-                  <Divider border={"1px solid #98999A"} w={"100%"} />
-                  <Box
-                    display={"flex"}
-                    my={"32px"}
-                    alignItems={"center"}
-                    gap={"12px"}
-                  >
-                    <Box className="pr-details_quantity">
-                      <Button
-                        className="pr-details_quantity-btn"
-                        onClick={decrementQty}
-                        color={theme.colors.manhatanMist}
-                        isDisabled={qty === 1}
-                      >
-                        -
-                      </Button>
-                      <p>{qty}</p>
-                      <Button
-                        className="pr-details_quantity-btn"
-                        onClick={incrementQty}
-                        color={theme.colors.manhatanMist}
-                      >
-                        +
-                      </Button>
-                    </Box>
-                    <Text color={theme.colors.codexGrey}>шт.</Text>
-                    <Text color={theme.colors.boilingAcid}>
-                      В наличии {data.quantity}
-                    </Text>
-                  </Box>
-                  <Divider
-                    w={"100%"}
-                    border={"1px solid #98999A"}
-                    mb={"32px"}
-                  />
-                  <Box display={"flex"} gap={"16px"}>
-                    {isAddedToCart ? (
-                      <button
-                        className="pr-details_btn"
-                        onClick={addToCartSucess}
-                      >
-                        <PrDetailsSucessIcon />
-
-                        <span>В корзине</span>
-                      </button>
-                    ) : (
-                      <button
-                        className="pr-details_btn"
-                        onClick={handleAddToCart}
-                      >
-                        <PrDetailsNoSucessIcon />
-
-                        <span>В корзина</span>
-                      </button>
-                    )}
-
-                    <button
-                      onClick={handleAddToFavourit}
-                      className="pr-details_btn favourites-btn"
-                    >
-                      {isAddedToFavourites ? (
+                      {data.image_files &&
+                        data.image_files.map((image) => (
+                          <img
+                            key={image.id}
+                            src={image.media_file}
+                            alt={data.name_ru}
+                            className="product-details_img-sm"
+                            onClick={() => handleThumbnailClick(image)}
+                          />
+                        ))}
+                    </div>
+                    <Box className="product-img_right">
+                      {mainImage && (
                         <img
-                          src={heartActiveImg}
-                          alt="cart"
-                          className="favourites-img"
-                        />
-                      ) : (
-                        <img
-                          src={heartBlackImg}
-                          alt="cart"
-                          className="favourites-img"
+                          onClick={handleImageClick}
+                          id="mainImage"
+                          className="product-details_img-lg"
+                          src={data.main_image}
+                          alt={data.name_ru}
                         />
                       )}
-                      <span>Избранное</span>
-                    </button>
+                    </Box>
                   </Box>
-                  <Box mt={"24px"}>
-                    <Button
-                      isLoading={isLoading}
-                      onClick={productToCheckout}
-                      className="pr-details_buy-btn"
+                </GridItem>
+                <GridItem>
+                  <Box className="product-details_right">
+                    <h1 className="pr-details_title">{data.name_ru}</h1>
+                    <div className="pr-details_rating">
+                      <ReactStars
+                        count={5}
+                        value={rating}
+                        onChange={ratingChanged}
+                        size={24}
+                        isHalf={true}
+                        emptyIcon={<NoRatingIcon />}
+                        halfIcon={<YesRatingIcon />}
+                        activeColor="#ffd700"
+                      />
+                      <p className="pr-details_rating-text">{rating}</p>
+                    </div>
+                    <p className="pr-details_price">
+                      {kFormatter(data.price * qty)}{" "}
+                    </p>
+                    <Divider border={"1px solid #98999A"} w={"100%"} />
+                    <Box
+                      display={"flex"}
+                      my={"32px"}
+                      alignItems={"center"}
+                      gap={"12px"}
                     >
-                      <img src={buyImg} alt="buy" />
-                      <span>Купить сейчас</span>
-                    </Button>
+                      <Box className="pr-details_quantity">
+                        <Button
+                          className="pr-details_quantity-btn"
+                          onClick={decrementQty}
+                          color={theme.colors.manhatanMist}
+                          isDisabled={qty === 1}
+                        >
+                          -
+                        </Button>
+                        <p>{qty}</p>
+                        <Button
+                          className="pr-details_quantity-btn"
+                          onClick={incrementQty}
+                          color={theme.colors.manhatanMist}
+                        >
+                          +
+                        </Button>
+                      </Box>
+                      <Text color={theme.colors.codexGrey}>шт.</Text>
+                      <Text color={theme.colors.boilingAcid}>
+                        В наличии {data.quantity}
+                      </Text>
+                    </Box>
+                    <Divider
+                      w={"100%"}
+                      border={"1px solid #98999A"}
+                      mb={"32px"}
+                    />
+                    <Box display={"flex"} gap={"16px"}>
+                      {isAddedToCart ? (
+                        <button
+                          className="pr-details_btn"
+                          onClick={addToCartSucess}
+                        >
+                          <PrDetailsSucessIcon />
+
+                          <span>В корзине</span>
+                        </button>
+                      ) : (
+                        <button
+                          className="pr-details_btn"
+                          onClick={handleAddToCart}
+                        >
+                          <PrDetailsNoSucessIcon />
+
+                          <span>В корзина</span>
+                        </button>
+                      )}
+
+                      <button
+                        onClick={handleAddToFavourit}
+                        className="pr-details_btn favourites-btn"
+                      >
+                        {isAddedToFavourites ? (
+                          <img
+                            src={heartActiveImg}
+                            alt="cart"
+                            className="favourites-img"
+                          />
+                        ) : (
+                          <img
+                            src={heartBlackImg}
+                            alt="cart"
+                            className="favourites-img"
+                          />
+                        )}
+                        <span>Избранное</span>
+                      </button>
+                    </Box>
+                    <Box mt={"24px"}>
+                      <Button
+                        isLoading={isLoading}
+                        onClick={productToCheckout}
+                        className="pr-details_buy-btn"
+                      >
+                        <img src={buyImg} alt="buy" />
+                        <span>Купить сейчас</span>
+                      </Button>
+                    </Box>
                   </Box>
+                </GridItem>
+              </Grid>
+              <Box pt={"24px"} className="pr-details_bottom">
+                <h2 className="pr-details_bottom-title">Описание товара</h2>
+                <Box>
+                  <Box className="pr-details_bottom-img">
+                    <img src={data.main_image} alt="" />
+                  </Box>
+                  <p className="pr-details_bottom-text">
+                    {" "}
+                    {data.description_ru}
+                  </p>
                 </Box>
-              </GridItem>
-            </Grid>
-            <Box pt={"24px"} className="pr-details_bottom">
-              <h2 className="pr-details_bottom-title">Описание товара</h2>
-              <Box>
-                <Box className="pr-details_bottom-img">
-                  <img src={data.main_image} alt="" />
-                </Box>
-                <p className="pr-details_bottom-text"> {data.description_ru}</p>
               </Box>
-            </Box>
-          </Fragment>
-        ) : (
-          <Text>Loading...</Text>
+            </Fragment>
+          )
         )}
       </Container>
       <LoginModal isOpen={isOpen} onClose={close} />
