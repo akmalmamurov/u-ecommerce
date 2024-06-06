@@ -1,10 +1,14 @@
 import { Box } from "@chakra-ui/react";
 import PropTypes from "prop-types";
-import { Link } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import theme from "../../../theme";
 import "./CategoryPageLeft.scss";
 
-const CategoryPageLeft = ({ category, setSelectedCategoryId }) => {
+const CategoryPageLeft = ({
+  category,
+  setSelectedCategoryId,
+  selectedCategoryId,
+}) => {
   const handleSubcategoryClick = (subcategoryId) => {
     setSelectedCategoryId(subcategoryId);
   };
@@ -22,12 +26,12 @@ const CategoryPageLeft = ({ category, setSelectedCategoryId }) => {
             category.subcategories &&
             category.subcategories.map((subcategory) => (
               <Box key={subcategory.id}>
-                <Link
+                <NavLink
                   onClick={() => handleSubcategoryClick(subcategory.id)}
-                  className={`ctPage-subcategory_title ${subcategory.id}`}
+                  className={`ctPage-subcategory_title ${selectedCategoryId === subcategory.id ? 'selected' : ''}`}
                 >
                   {subcategory.name_ru}
-                </Link>
+                </NavLink>
               </Box>
             ))}
         </Box>
@@ -38,7 +42,8 @@ const CategoryPageLeft = ({ category, setSelectedCategoryId }) => {
 
 CategoryPageLeft.propTypes = {
   category: PropTypes.object,
-  setSelectedCategoryId: PropTypes.func.isRequired,
+  setSelectedCategoryId: PropTypes.func,
+  selectedCategoryId: PropTypes.string,
 };
 
 export default CategoryPageLeft;

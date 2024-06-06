@@ -1,8 +1,9 @@
 import { Container } from "@chakra-ui/react";
 import { useGetCategoriesQuery } from "../../redux/services/categoryServices";
-import Loading from "../../components/loading/Loading";
 import CategoriesCard from "../../components/card/categories-card/CategoriesCard";
 import "./AllCategories.scss";
+import AllCategoriesLoader from "../../components/loader/all-categories-loader/AllCategoriesLoader";
+import GridCategories from "../../components/product-grid/GridCategories";
 
 const AllCategories = () => {
   const { data, isLoading } = useGetCategoriesQuery();
@@ -14,15 +15,15 @@ const AllCategories = () => {
   return (
     <div className="all-categories">
       <Container maxW={"1200px"}>
-        <div className="all-categories_content">
+        <GridCategories>
           {isLoading ? (
-            <Loading />
+            < AllCategoriesLoader/>
           ) : (
             filteredCategories.map((category) => (
               <CategoriesCard key={category.id} category={category} />
             ))
           )}
-        </div>
+        </GridCategories>
       </Container>
     </div>
   );

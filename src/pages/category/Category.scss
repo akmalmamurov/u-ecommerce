@@ -22,29 +22,5 @@
     }
   }
 
-  .category-page_breadcrumb {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-
-    .category-page_subcategory {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 12px;
-      margin-bottom: 24px;
-      transition: 0.2s ease-in-out;
-    }
-
-    .ctPage-subcategory_title {
-      font-weight: 500;
-      font-size: 14px;
-      color: #bdbdbd;
-      margin: 0;
-
-      &:hover {
-
-        color: #0E73F6;
-      }
-    }
-  }
+ 
 }

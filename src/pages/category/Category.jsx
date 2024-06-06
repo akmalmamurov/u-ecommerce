@@ -28,12 +28,14 @@ const Category = () => {
               category={category}
               id={id}
               setSelectedCategoryId={setSelectedCategoryId}
+              selectedCategoryId={selectedCategoryId}
             />
           </div>
           <div className="category-page_right">
             <CategoryPageRight
               products={products}
               selectedCategoryId={selectedCategoryId}
+              
             />
           </div>
         </div>

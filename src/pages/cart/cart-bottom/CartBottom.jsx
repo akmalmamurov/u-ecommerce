@@ -45,16 +45,16 @@ const CustomPrevArrow = (props) => {
 
 const CartBottom = () => {
   const { data: products, isLoading } = useGetAllProductsQuery({
-    limit: 20,
+    limit: 40,
     page: 1,
   });
 
   const settings = {
     dots: false,
     infinite: true,
-    speed: 500,
+    speed: 800,
     slidesToShow: 4,
-    slidesToScroll: 3,
+    slidesToScroll: 1,
     autoplay: true,
     autoplaySpeed: 3000,
     nextArrow: <CustomNextArrow />,

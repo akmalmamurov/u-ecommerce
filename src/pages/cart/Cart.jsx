@@ -128,8 +128,7 @@ const CartPage = () => {
       if (err.status === 413) {
         toast({
           title: "Quantity Error",
-          description:
-            err.data.message,
+          description: err.data.message,
           status: "error",
           duration: 3000,
           isClosable: true,
