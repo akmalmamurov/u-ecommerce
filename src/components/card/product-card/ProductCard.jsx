@@ -13,15 +13,7 @@ import { headingFormatter, kFormatter } from "utils";
 import "./ProductCard.scss";
 
 export const ProductCard = (props) => {
-  const {
-    id,
-    main_image,
-    name_ru,
-    price,
-    rating,
-    description_ru,
-    quantity: zakaz,
-  } = props;
+  const { id, main_image, name_ru, price, rating, description_ru, quantity: zakaz, } = props;
 
   const dispatch = useDispatch();
   const navigate = useNavigate();

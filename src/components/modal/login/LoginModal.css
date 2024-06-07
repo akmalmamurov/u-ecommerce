@@ -4,6 +4,7 @@
   min-height: 335px;
   border-radius: 12px !important;
   padding: 12px 16px !important;
+  z-index: 1000;
 }
 .login-input {
   border-radius: 8px !important;

@@ -2,13 +2,23 @@ import { useState, useEffect, useCallback, memo, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { useDebounce } from "use-debounce";
-import { Badge, Box, Container, Input, InputGroup, InputLeftElement, InputRightElement, Menu, MenuButton, MenuList, Text, } from "@chakra-ui/react";
+import {
+  Badge,
+  Box,
+  Container,
+  Input,
+  InputGroup,
+  InputLeftElement,
+  InputRightElement,
+  Menu,
+  MenuButton,
+  MenuList,
+  Text,
+} from "@chakra-ui/react";
 
-import { useGetSearchProductsQuery } from "../../redux/services/productAllServices";
-import { useGetSearchCategoryQuery } from "../../redux/services/categoryServices";
 import { hideMenu, toggleMenu } from "../../redux/slices/menuSlices";
-import { useModal } from "hooks/useModal";
-import { logo, menuImg } from "assets/images";
+import { useGetSearchCategoryQuery } from "../../redux/services/categoryServices";
+import { useGetSearchProductsQuery } from "../../redux/services/productAllServices";
 import {
   CartIcon,
   HeartIcon,
@@ -18,16 +28,20 @@ import {
   UserIcon,
 } from "assets/icons";
 import { LoginModal } from "../modal/login/LoginModal";
+import HeaderMenu from "./header-menu/HeaderMenu";
+import { logo, menuImg } from "assets/images";
+import { CatalogMenu } from "../catalog-menu";
+import { useModal } from "hooks/useModal";
 import Loading from "../loading/Loading";
 import theme from "theme";
-import { CatalogMenu } from "../catalog-menu";
-import HeaderMenu from "./header-menu/HeaderMenu";
 import "./Header.scss";
+import CartMenu from "../cart-menu/CartMenu";
 
 const HeaderMid = memo(() => {
   const [showResults, setShowResults] = useState(false);
   const [search, setSearch] = useState("");
   const [isScrolled, setIsScrolled] = useState(false);
+  const [showCartMenu, setShowCartMenu] = useState(false);
   const [debouncedSearch] = useDebounce(search, 800);
   const { data: productsData, isLoading: isLoadingProducts } =
     useGetSearchProductsQuery(debouncedSearch);
@@ -103,7 +117,12 @@ const HeaderMid = memo(() => {
       window.removeEventListener("scroll", handleScroll);
     };
   }, []);
-
+  const cartMouseEnter = () => {
+    setShowCartMenu(true);
+  };
+  const cartMouseLeave = () => {
+    setShowCartMenu(false);
+  };
   return (
     <Box className={`header-mid ${isScrolled ? "fixed" : ""}`}>
       <Container maxW={"1200px"}>
@@ -243,7 +262,7 @@ const HeaderMid = memo(() => {
             </Box>
             {/* auth favourit cart page here */}
             <Box className="header-mid_right-container">
-              <Box display={"flex"} alignItems={"center"} gap={"12px"}>
+              <Box>
                 {isAuth ? (
                   <HeaderMenu />
                 ) : (
@@ -271,8 +290,13 @@ const HeaderMid = memo(() => {
                   <Text className="header-mid_right-link">Избранное</Text>
                 </Link>
               </Box>
-              <Box>
-                <Link to={"/cart"} className="header-mid_right">
+              <Box
+                onMouseEnter={cartMouseEnter}
+                onMouseLeave={cartMouseLeave}
+                position={"relative"}
+                className={`header-mid_right ${showCartMenu} ? cart-hover : ""`}
+              >
+                <Link to={"/cart"} className="header-mid_right ">
                   <Box className="header-mid_right-cart">
                     <CartIcon className="cart-icon" />
                     {products.length > 0 && (
@@ -287,6 +311,7 @@ const HeaderMid = memo(() => {
                   </Box>
                   <Text className="header-mid_right-link">Корзина</Text>
                 </Link>
+                {showCartMenu && <CartMenu items={products} />}
               </Box>
             </Box>
           </Box>
