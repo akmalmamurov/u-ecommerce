@@ -1,9 +1,10 @@
 import { NavLink } from "react-router-dom";
 import { Box, Container } from "@chakra-ui/react";
-import theme from "../../theme";
+
 import { useGetCategoriesQuery } from "../../redux/services/categoryServices";
-import "./Navbar.scss";
 import NavbarLoader from "../loader/NavbarLoader";
+import theme from "theme";
+import "./Navbar.scss";
 const Navbar = () => {
   const { data, isLoading } = useGetCategoriesQuery({ limit: 8 });
   const { data: categories } = data || {};

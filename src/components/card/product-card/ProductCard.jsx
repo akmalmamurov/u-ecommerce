@@ -1,28 +1,15 @@
 import { useRef } from "react";
-import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
-import { LazyLoadImage } from "react-lazy-load-image-component";
+import { useDispatch, useSelector } from "react-redux";
 import PropTypes from "prop-types";
-import {
-  Box,
-  Card,
-  CardBody,
-  CardFooter,
-  Stack,
-  Text,
-  useToast,
-} from "@chakra-ui/react";
-import theme from "theme";
-import { headingFormatter, kFormatter } from "utils";
-import {
-  ShoppingIcon,
-  StarIcon,
-  ProductFavouritIcon,
-  ProductCartSucessIcon,
-  ProductFavouritActiveIcon,
-} from "assets/icons";
+import { LazyLoadImage } from "react-lazy-load-image-component";
+import { Box, Card, CardBody, CardFooter, Stack, Text, } from "@chakra-ui/react";
+
 import { toggleFavourit } from "../../../redux/slices/favouritSlices";
 import { addToCart } from "../../../redux/slices/productSlices";
+import { ShoppingIcon, StarIcon, ProductFavouritIcon, ProductCartSucessIcon, ProductFavouritActiveIcon, } from "assets/icons";
+import theme from "theme";
+import { headingFormatter, kFormatter } from "utils";
 import "./ProductCard.scss";
 
 export const ProductCard = (props) => {
@@ -38,7 +25,6 @@ export const ProductCard = (props) => {
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const toast = useToast();
 
   const favourites = useSelector((state) => state.favourit.favourites);
   const cart = useSelector((state) => state.product.products);

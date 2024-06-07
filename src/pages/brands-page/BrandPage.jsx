@@ -1,13 +1,14 @@
 import { Link, useParams } from "react-router-dom";
 import { motion } from "framer-motion";
-import "./BrandPage.scss";
 import { Box, Container, Text, Spinner } from "@chakra-ui/react";
+
 import { useGetBrandByIdQuery } from "../../redux/services/brandServices";
-import { ProductCard } from "components/card/product-card";
-import theme from "theme";
 import { useGetProductsByBrandQuery } from "../../redux/services/productAllServices";
+import { ProductCard } from "components/card/product-card";
 import GridBrand from "components/product-grid/GridBrand";
-import { emptyCart } from "../../assets/images";
+import { emptyCart } from "assets/images";
+import theme from "theme";
+import "./BrandPage.scss";
 
 const BrandPage = () => {
   const { id } = useParams();

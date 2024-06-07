@@ -1,14 +1,13 @@
 import { useState, useEffect } from "react";
-import { Box, Text } from "@chakra-ui/react";
-import { RightArrowIcon } from "../../assets/icons";
-import "./CatalogMenu.scss";
-import { useGetCategoriesQuery } from "../../redux/services/categoryServices";
 import { Link, useNavigate } from "react-router-dom";
-import Loading from "../loading/Loading";
 import { useDispatch } from "react-redux";
+import { Box, Text } from "@chakra-ui/react";
+
+import { useGetCategoriesQuery } from "../../redux/services/categoryServices";
 import { hideMenu } from "../../redux/slices/menuSlices";
+import { RightArrowIcon } from "assets/icons";
 import CatalogMenuLoader from "../loader/CatalogMenuLoader";
-import SkeletonLoader from "../loader/SkeletonLoader";
+import "./CatalogMenu.scss";
 
 const CatalogMenu = () => {
   const [page, setPage] = useState(1);
@@ -20,7 +19,7 @@ const CatalogMenu = () => {
 
   useEffect(() => {
     if (!page) {
-      setPage(1); // default page
+      setPage(1); 
     }
   }, [page]);
 

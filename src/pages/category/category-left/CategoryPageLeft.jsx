@@ -1,7 +1,8 @@
-import { Box } from "@chakra-ui/react";
-import PropTypes from "prop-types";
 import { NavLink } from "react-router-dom";
-import theme from "../../../theme";
+import PropTypes from "prop-types";
+import { Box } from "@chakra-ui/react";
+
+import theme from "theme";
 import "./CategoryPageLeft.scss";
 
 const CategoryPageLeft = ({

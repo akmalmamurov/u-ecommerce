@@ -1,6 +1,7 @@
-import PropTypes from "prop-types";
-import "./BrandCard.scss";
 import { useNavigate } from "react-router-dom";
+import PropTypes from "prop-types";
+
+import "./BrandCard.scss";
 const BrandCard = ({ image, id }) => {
   const navigate = useNavigate();
   const handleClick = (id) => {

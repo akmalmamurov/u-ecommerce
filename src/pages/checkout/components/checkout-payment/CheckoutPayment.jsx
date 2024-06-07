@@ -1,23 +1,10 @@
 import PropTypes from "prop-types";
-import {
-  Modal,
-  ModalBody,
-  ModalCloseButton,
-  ModalContent,
-  ModalFooter,
-  ModalHeader,
-  ModalOverlay,
-  FormControl,
-  useDisclosure,
-  RadioGroup,
-  Stack,
-  Radio,
-  Button,
-} from "@chakra-ui/react";
-import { clickImg, paymeImg } from "../../../../assets/images";
-import { PaymentCardIcon, PaymentCashIcon } from "../../../../assets/icons";
-import "./CheckoutPayment.scss";
 import { useState, useEffect } from "react";
+import { Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, FormControl, useDisclosure, RadioGroup, Stack, Radio, Button, } from "@chakra-ui/react";
+
+import { clickImg, paymeImg } from "assets/images";
+import { PaymentCardIcon, PaymentCashIcon } from "assets/icons";
+import "./CheckoutPayment.scss";
 
 const CheckoutPayment = ({
   handlePaymentTypeChange,

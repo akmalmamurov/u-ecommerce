@@ -1,25 +1,12 @@
+import { memo, useCallback, useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import PropTypes from "prop-types";
-import {
-  Button,
-  FormControl,
-  FormLabel,
-  Input,
-  Modal,
-  ModalBody,
-  ModalCloseButton,
-  ModalContent,
-  ModalFooter,
-  ModalHeader,
-  ModalOverlay,
-  Text,
-  Box,
-} from "@chakra-ui/react";
-import "./LoginModal.css";
-import theme from "../../../theme";
+import { Button, FormControl, FormLabel, Input, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, Text, Box, } from "@chakra-ui/react";
+
+import theme from "theme";
 import { useAddLoginMutation } from "../../../redux/services/loginServices";
-import { memo, useCallback, useState, useEffect } from "react";
 import VerifyModal from "../verfiy/VerifyModal";
+import "./LoginModal.css";
 
 export const LoginModal = memo(({ isOpen, onClose }) => {
   const [phoneValue, setPhoneValue] = useState("+998");

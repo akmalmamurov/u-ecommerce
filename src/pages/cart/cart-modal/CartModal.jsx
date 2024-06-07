@@ -1,15 +1,9 @@
-import {
-  Button,
-  Modal,
-  ModalBody,
-  ModalContent,
-  ModalFooter,
-  ModalOverlay,
-} from "@chakra-ui/react";
-import "./CartModal.scss";
 import PropTypes from "prop-types";
-import theme from "../../../theme";
-import { deleteImg } from "../../../assets/images";
+import { Button, Modal, ModalBody, ModalContent, ModalFooter, ModalOverlay, } from "@chakra-ui/react";
+
+import { deleteImg } from "assets/images";
+import theme from "theme";
+import "./CartModal.scss";
 const CartModal = ({ onClose, isOpen, allProductDelete }) => {
   return (
     <Modal onClose={onClose} isOpen={isOpen} isCentered className="cart-modal">

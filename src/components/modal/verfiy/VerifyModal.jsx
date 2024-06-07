@@ -1,31 +1,18 @@
+import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
+import { useDispatch } from "react-redux";
 import { useForm } from "react-hook-form";
 import PropTypes from "prop-types";
-import {
-  Button,
-  FormControl,
-  HStack,
-  Modal,
-  ModalBody,
-  ModalCloseButton,
-  ModalContent,
-  ModalFooter,
-  Box,
-  ModalOverlay,
-  PinInput,
-  PinInputField,
-  Text,
-} from "@chakra-ui/react";
-import { LeftArrowIcon, TelegramModaIcon } from "../../../assets/icons";
-import { useAddVerifyMutation } from "../../../redux/services/verifyServices";
-import { useDispatch } from "react-redux";
-import { setAuth, setPhoneNumber } from "../../../redux/slices/authSlices";
-import { Link } from "react-router-dom";
-import { TOKEN } from "../../../constants";
-import { useEffect, useState } from "react";
-import "./VerifyModal.scss";
-import theme from "../../../theme";
-import { useAddLoginMutation } from "../../../redux/services/loginServices";
+import { Button, FormControl, HStack, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, Box, ModalOverlay, PinInput, PinInputField, Text, } from "@chakra-ui/react";
+
 import { useGetClientQuery } from "../../../redux/services/clientServices";
+import { useAddVerifyMutation } from "../../../redux/services/verifyServices";
+import { useAddLoginMutation } from "../../../redux/services/loginServices";
+import { setAuth, setPhoneNumber } from "../../../redux/slices/authSlices";
+import { LeftArrowIcon, TelegramModaIcon } from "assets/icons";
+import { TOKEN } from "constants";
+import theme from "theme";
+import "./VerifyModal.scss";
 
 const VerifyModal = ({ isOpen, onClose, source, onOpen, backModal }) => {
   const {
@@ -37,7 +24,7 @@ const VerifyModal = ({ isOpen, onClose, source, onOpen, backModal }) => {
 
   const dispatch = useDispatch();
   const [addVerify] = useAddVerifyMutation();
-  const [addLogin, { isLoading }] = useAddLoginMutation();
+  const [addLogin, ] = useAddLoginMutation();
   const [timer, setTimer] = useState(60);
   const [showResend, setShowResend] = useState(false);
   const { refetch: refetchClient } = useGetClientQuery();

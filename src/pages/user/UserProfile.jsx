@@ -1,13 +1,11 @@
 import { useEffect } from "react";
-import { Box, Button, Container, Input, useToast } from "@chakra-ui/react";
-import { useForm } from "react-hook-form";
-import {
-  useGetClientQuery,
-  useUpdateClientMutation,
-} from "../../redux/services/clientServices";
-import theme from "../../theme";
-import "./UserProfile.scss";
 import { useSelector } from "react-redux";
+import { useForm } from "react-hook-form";
+import { Box, Button, Container, Input, useToast } from "@chakra-ui/react";
+
+import { useGetClientQuery, useUpdateClientMutation, } from "../../redux/services/clientServices";
+import theme from "theme";
+import "./UserProfile.scss";
 
 const UserProfile = () => {
   const { data } = useGetClientQuery();

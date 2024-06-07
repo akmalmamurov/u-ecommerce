@@ -1,27 +1,18 @@
-import { memo, useCallback, useEffect, useState } from "react";
+/* eslint-disable react-hooks/exhaustive-deps */
+import { memo, useCallback, useEffect, useState,useMemo } from "react";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import {
-  Box,
-  Button,
-  Container,
-  Grid,
-  GridItem,
-  useToast,
-} from "@chakra-ui/react";
-import { calculateTotalPrice, kFormatter } from "utils";
-import { useModal } from "hooks/useModal";
-import CartBottom from "./cart-bottom/CartBottom";
-import {
-  useAddBasketMutation,
-  useAllDeleteBasketMutation,
-} from "../../redux/services/basketServices";
+import { Box, Button, Container, Grid, GridItem, useToast, } from "@chakra-ui/react";
+
+import { useAddBasketMutation, useAllDeleteBasketMutation, } from "../../redux/services/basketServices";
 import LoginModal from "components/modal/login/LoginModal";
+import { calculateTotalPrice, kFormatter} from "utils";
+import CartBottom from "./cart-bottom/CartBottom";
 import EmptyCart from "./empty-cart/EmptyCart";
+import CartLeft from "./cart-left/CartLeft";
+import { useModal } from "hooks/useModal";
 import theme from "theme";
 import "./Cart.scss";
-import CartLeft from "./cart-left/CartLeft";
-import { useMemo } from "react";
 
 const CartPage = memo(() => {
   const products = useSelector((state) => state.product.products);
@@ -33,12 +24,7 @@ const CartPage = memo(() => {
   const [checkedItems, setCheckedItems] = useState([]);
   const navigate = useNavigate();
   const toast = useToast();
-
-  const {
-    isOpen: isLoginOpen,
-    open: openLogin,
-    close: closeLogin,
-  } = useModal();
+  const { isOpen: isLoginOpen, open: openLogin, close: closeLogin, } = useModal();
   useEffect(() => {
     if (products) {
       setCheckedItems(products.map(() => true));
@@ -65,8 +51,7 @@ const CartPage = memo(() => {
     [checkedItems, setCheckedItems]
   );
 
-  const handleChangeAll = useCallback(
-    (e) => {
+  const handleChangeAll = useCallback( (e) => {
       const isChecked = e.target.checked;
       const newCheckedItems = Array(products?.length).fill(isChecked);
       setCheckedItems(newCheckedItems);
@@ -124,22 +109,9 @@ const CartPage = memo(() => {
     return checkedItems[index] ? count + 1 : count;
   }, 0);
   const cartLeftProps = useMemo(
-    () => ({
-      checkedItems,
-      handleCheckboxChange,
-      handleChangeAll,
-      checkedProductsCount,
-      products,
-    }),
-    [
-      checkedItems,
-      handleCheckboxChange,
-      handleChangeAll,
-      checkedProductsCount,
-      products,
-    ]
+    () => ({ checkedItems, handleCheckboxChange, handleChangeAll, checkedProductsCount, products,}),
+    [ checkedItems, handleCheckboxChange, handleChangeAll, checkedProductsCount, products,]
   );
-
   return (
     <Box className="cart-page" fontFamily={theme.fonts.fInter}>
       <Container maxW={"1200px"}>
@@ -194,6 +166,6 @@ const CartPage = memo(() => {
     </Box>
   );
 });
-CartPage.displayName = "CartPage";
 
+CartPage.displayName = "CartPage";
 export default CartPage;

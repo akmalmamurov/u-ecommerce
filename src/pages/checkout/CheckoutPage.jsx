@@ -1,38 +1,27 @@
+import { useState, useCallback, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { useForm } from "react-hook-form";
-import {
-  Box,
-  Button,
-  Container,
-  Divider,
-  Heading,
-  useToast,
-} from "@chakra-ui/react";
+import { Box, Button, Container, Divider, Heading, useToast, } from "@chakra-ui/react";
+
+import { useModal } from "hooks/useModal";
+import { useAddOrderMutation } from "../../redux/services/orderServices";
+import { useGetClientQuery } from "../../redux/services/clientServices";
+import { useGetBasketQuery } from "../../redux/services/basketServices";
+import { deleteItems } from "../../redux/slices/productSlices";
+import CheckoutSucessModal from "./components/checkout-sucess-modal/CheckoutSucessModal";
+import CheckoutDelivery from "./components/checkout-delivery/CheckoutDelivery";
+import CheckoutPayment from "./components/checkout-payment/CheckoutPayment";
+import CheckoutProduct from "./components/checkout-product/CheckoutProduct";
+import CheckoutUserData from "./components/checkout-user/CheckoutUserData";
+import MapContainer from "components/map-container/MapContainer";
 import CheckoutTop from "./components/checkout-top/CheckoutTop";
+import PaymentCard from "./components/payment-card/PaymentCard";
+import Footer from "components/footer/Footer";
 import theme from "theme";
 import "./Checkout.scss";
-import { useState, useCallback, useEffect } from "react";
-import Footer from "components/footer/Footer";
-import CheckoutUserData from "./components/checkout-user/CheckoutUserData";
-import CheckoutPayment from "./components/checkout-payment/CheckoutPayment";
-import CheckoutDelivery from "./components/checkout-delivery/CheckoutDelivery";
-import MapContainer from "components/map-container/MapContainer";
-import CheckoutProduct from "./components/checkout-product/CheckoutProduct";
-import { useAddOrderMutation } from "../../redux/services/orderServices";
-import { useDispatch, useSelector } from "react-redux";
-import { deleteItems } from "../../redux/slices/productSlices";
-import { useGetBasketQuery } from "../../redux/services/basketServices";
-import PaymentCard from "./components/payment-card/PaymentCard";
-import CheckoutSucessModal from "./components/checkout-sucess-modal/CheckoutSucessModal";
-import { useModal } from "../../hooks/useModal";
-import { useGetClientQuery } from "../../redux/services/clientServices";
 
 const CheckoutPage = () => {
-  const {
-    handleSubmit,
-    register,
-    reset,
-    formState: { errors, isSubmitting },
-  } = useForm();
+  const { handleSubmit, register, reset, formState: { errors, isSubmitting }, } = useForm();
   const { data: { products, total_price } = {} } = useGetBasketQuery();
   const { data: client } = useGetClientQuery();
 
@@ -43,11 +32,7 @@ const CheckoutPage = () => {
   const [paymentCardType, setPaymentCardType] = useState("Click");
   const toast = useToast();
   const { phoneNumber, isAuth } = useSelector((state) => state.auth);
-  const {
-    isOpen: isFinishOpen,
-    open: openFinish,
-    close: closeFinish,
-  } = useModal();
+  const { isOpen: isFinishOpen, open: openFinish, close: closeFinish, } = useModal();
   const dispatch = useDispatch();
   const { refetch: refetchClient } = useGetClientQuery();
 

@@ -1,11 +1,11 @@
-import PropTypes from "prop-types";
-import "./CategoriesCard.scss";
-import { Box } from "@chakra-ui/react";
-import theme from "../../../theme";
 import { Link } from "react-router-dom";
+import PropTypes from "prop-types";
+import { Box } from "@chakra-ui/react";
+
+import theme from "theme";
+import "./CategoriesCard.scss";
 
 const CategoriesCard = ({ category }) => {
-  console.log(category);
   return (
     <Box className="categories-card_item" fontFamily={theme.fonts.fInter}>
       <div key={category.id} className="categories-card_content">

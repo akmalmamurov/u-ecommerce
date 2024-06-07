@@ -1,9 +1,10 @@
 import { Container } from "@chakra-ui/react";
+
 import { useGetCategoriesQuery } from "../../redux/services/categoryServices";
-import CategoriesCard from "../../components/card/categories-card/CategoriesCard";
+import CategoriesCard from "components/card/categories-card/CategoriesCard";
+import AllCategoriesLoader from "components/loader/all-categories-loader/AllCategoriesLoader";
+import GridCategories from "components/product-grid/GridCategories";
 import "./AllCategories.scss";
-import AllCategoriesLoader from "../../components/loader/all-categories-loader/AllCategoriesLoader";
-import GridCategories from "../../components/product-grid/GridCategories";
 
 const AllCategories = () => {
   const { data, isLoading } = useGetCategoriesQuery();

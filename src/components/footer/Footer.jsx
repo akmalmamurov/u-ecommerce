@@ -1,15 +1,10 @@
 import { Link } from "react-router-dom";
 import { Box, Container, Grid, GridItem, Text } from "@chakra-ui/react";
+
+import { AppStoreIcon, FacebookIcon, GooglePlayIcon, InstagramIcon, TelegramIcon, YoutubeIcon, } from "assets/icons";
+import theme from "theme";
 import "./Footer.scss";
-import theme from "../../theme";
-import {
-  AppStoreIcon,
-  FacebookIcon,
-  GooglePlayIcon,
-  InstagramIcon,
-  TelegramIcon,
-  YoutubeIcon,
-} from "../../assets/icons";
+
 export const Footer = () => {
   return (
     <footer className="footer">

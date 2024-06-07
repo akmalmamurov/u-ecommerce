@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { Container } from "@chakra-ui/react";
+
 import { useGetProductsByCidQuery } from "../../redux/services/productAllServices";
 import { useGetCategoriesByIdQuery } from "../../redux/services/categoryServices";
 import CategoryPageLeft from "./category-left/CategoryPageLeft";

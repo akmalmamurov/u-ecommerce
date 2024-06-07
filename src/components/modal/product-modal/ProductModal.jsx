@@ -1,19 +1,10 @@
 import PropTypes from "prop-types";
-import {
-  Modal,
-  ModalBody,
-  ModalContent,
-  ModalHeader,
-  ModalOverlay,
-} from "@chakra-ui/react";
 import Slider from "react-slick";
+import { Modal, ModalBody, ModalContent, ModalHeader, ModalOverlay, } from "@chakra-ui/react";
+
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-import {
-  ProductModalCloseIcon,
-  ProductRightIcon,
-  ProductLeftIcon,
-} from "../../../assets/icons";
+import { ProductModalCloseIcon, ProductRightIcon, ProductLeftIcon, } from "assets/icons";
 import "./ProductModal.scss";
 const ProductModal = ({ isModalOpen, data, setIsModalOpen }) => {
   const settings = {

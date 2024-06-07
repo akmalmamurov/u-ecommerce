@@ -1,21 +1,14 @@
 import { useState, useEffect, useCallback, memo, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
-import {
-  Badge,
-  Box,
-  Container,
-  Input,
-  InputGroup,
-  InputLeftElement,
-  InputRightElement,
-  Menu,
-  MenuButton,
-  MenuList,
-  Text,
-} from "@chakra-ui/react";
 import { useDebounce } from "use-debounce";
-import { logo, menuImg } from "../../assets/images";
+import { Badge, Box, Container, Input, InputGroup, InputLeftElement, InputRightElement, Menu, MenuButton, MenuList, Text, } from "@chakra-ui/react";
+
+import { useGetSearchProductsQuery } from "../../redux/services/productAllServices";
+import { useGetSearchCategoryQuery } from "../../redux/services/categoryServices";
+import { hideMenu, toggleMenu } from "../../redux/slices/menuSlices";
+import { useModal } from "hooks/useModal";
+import { logo, menuImg } from "assets/images";
 import {
   CartIcon,
   HeartIcon,
@@ -23,17 +16,13 @@ import {
   SearchClearIcon,
   SearchIcon,
   UserIcon,
-} from "../../assets/icons";
-import { useModal } from "../../hooks/useModal";
+} from "assets/icons";
 import { LoginModal } from "../modal/login/LoginModal";
-import { useGetSearchProductsQuery } from "../../redux/services/productAllServices";
 import Loading from "../loading/Loading";
-import theme from "../../theme";
-import { hideMenu, toggleMenu } from "../../redux/slices/menuSlices";
+import theme from "theme";
 import { CatalogMenu } from "../catalog-menu";
-import "./Header.scss";
 import HeaderMenu from "./header-menu/HeaderMenu";
-import { useGetSearchCategoryQuery } from "../../redux/services/categoryServices";
+import "./Header.scss";
 
 const HeaderMid = memo(() => {
   const [showResults, setShowResults] = useState(false);
@@ -116,7 +105,7 @@ const HeaderMid = memo(() => {
   }, []);
 
   return (
-    <Box  className={`header-mid ${isScrolled ? "fixed" : ""}`}>
+    <Box className={`header-mid ${isScrolled ? "fixed" : ""}`}>
       <Container maxW={"1200px"}>
         <Box fontFamily={theme.fonts.fInter}>
           {/* logo */}

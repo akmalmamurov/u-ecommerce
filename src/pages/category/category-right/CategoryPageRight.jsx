@@ -1,7 +1,8 @@
-import "./CategoryPageRight.scss";
 import PropTypes from "prop-types";
 import { Box, Grid, Text } from "@chakra-ui/react";
-import ProductCard from "../../../components/card/product-card/ProductCard";
+
+import ProductCard from "components/card/product-card/ProductCard";
+import "./CategoryPageRight.scss";
 
 const CategoryPageRight = ({ products }) => {
   return (

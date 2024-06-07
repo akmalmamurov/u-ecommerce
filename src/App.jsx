@@ -3,8 +3,8 @@ import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { MainLayout } from "components/layout";
 import MyOrders from "pages/order/MyOrders";
-import { ScrollTop } from "./components/scroll";
-import Loading from "./components/loading/Loading";
+import { ScrollTop } from "components/scroll";
+import Spiner from "components/loader/spiner/Spiner";
 const BrandPage = lazy(() => import("pages/brands-page/BrandPage"));
 const Home = lazy(() => import("pages/home/Home"));
 const Favourites = lazy(() => import("pages/favourites/Favourites"));
@@ -19,27 +19,21 @@ const AllCategories = lazy(() => import("pages/all-categories/AllCategories"));
 function App() {
   const isAuth = useSelector((state) => state.auth.isAuth);
   return (
-    <Suspense fallback={<div><Loading/></div>}>
+    <Suspense fallback={<div><Spiner/></div>}>
       <BrowserRouter>
-        <ScrollTop />
+        <ScrollTop/>
         <Routes>
-          <Route path="/" element={<MainLayout />}>
-            <Route index element={<Home />} />
-            <Route path="favourites" element={<Favourites />} />
-            <Route path="cart" element={<Cart />} />
-            <Route path="category/:name/:id" element={<Category />} />
-            <Route path="products/:id" element={<ProductsDetails />} />
-            <Route path="faq" element={<AnswerPage />} />
-            <Route path="categories" element={<AllCategories />} />
-            <Route path="brand/:id" element={<BrandPage />} />
-            <Route
-              path="profile"
-              element={isAuth ? <UserProfile /> : <Navigate to="/" />}
-            />
-            <Route
-              path="orders"
-              element={isAuth ? <MyOrders /> : <Navigate to="/" />}
-            />
+          <Route path="/" element={<MainLayout/>}>
+            <Route index element={<Home/>}/>
+            <Route path="favourites" element={<Favourites/>}/>
+            <Route path="cart" element={<Cart/>}/>
+            <Route path="category/:name/:id" element={<Category/>}/>
+            <Route path="products/:id" element={<ProductsDetails/>}/>
+            <Route path="faq" element={<AnswerPage/>}/>
+            <Route path="categories" element={<AllCategories/>}/>
+            <Route path="brand/:id" element={<BrandPage/>}/>
+            <Route path="profile" element={isAuth ? <UserProfile/> : <Navigate to="/"/>}/>
+            <Route path="orders" element={isAuth ? <MyOrders/> : <Navigate to="/"/>}/>
           </Route>
           <Route
             path="/checkout"

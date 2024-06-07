@@ -1,8 +1,9 @@
-import { Box, Text } from "@chakra-ui/react";
-import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
-import { emptyCart } from "../../../assets/images";
-import theme from "../../../theme";
+import { motion } from "framer-motion";
+import { Box, Text } from "@chakra-ui/react";
+
+import { emptyCart } from "assets/images";
+import theme from "theme";
 import "./EmptyCart.scss";
 const EmptyCart = () => {
   return (

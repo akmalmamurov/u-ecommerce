@@ -1,21 +1,13 @@
-import {
-  Box,
-  Menu,
-  MenuButton,
-  MenuGroup,
-  MenuItem,
-  MenuList,
-  Text,
-  useDisclosure,
-} from "@chakra-ui/react";
-import { UserIcon } from "../../../assets/icons";
-import "./HeaderMenu.scss";
-import { useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
-import { logoutUser } from "../../../redux/slices/authSlices";
-import { useGetClientQuery } from "../../../redux/services/clientServices";
+import { useDispatch } from "react-redux";
 import Cookies from "js-cookie";
-import { TOKEN } from "../../../constants";
+import { Box, Menu, MenuButton, MenuGroup, MenuItem, MenuList, Text, useDisclosure, } from "@chakra-ui/react";
+
+import { useGetClientQuery } from "../../../redux/services/clientServices";
+import { logoutUser } from "../../../redux/slices/authSlices";
+import { UserIcon } from "assets/icons";
+import { TOKEN } from "constants";
+import "./HeaderMenu.scss";
 
 const HeaderMenu = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();

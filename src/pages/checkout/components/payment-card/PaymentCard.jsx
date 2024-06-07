@@ -1,18 +1,19 @@
-import { Box, FormControl, FormErrorMessage, Input } from "@chakra-ui/react";
 import PropTypes from "prop-types";
+import { Box, FormControl, FormErrorMessage, Input } from "@chakra-ui/react";
+
+import { PaymentPayIcon } from "assets/icons";
+import theme from "theme";
 import "./PaymentCard.scss";
-import theme from "../../../../theme";
-import { PaymentPayIcon } from "../../../../assets/icons";
 
 const PaymentCard = ({ register, errors }) => {
   const handleCardChange = (e, maxLength) => {
-    let value = e.target.value.replace(/[^\d]/g, ""); // Remove all non-numeric characters
-    value = value.replace(/\s/g, ""); // Remove all spaces
+    let value = e.target.value.replace(/[^\d]/g, "");
+    value = value.replace(/\s/g, "");
     if (value.length > maxLength) {
-      value = value.slice(0, maxLength); // Trim the value if it exceeds maxLength
+      value = value.slice(0, maxLength);
     }
-    value = value.replace(/(.{4})/g, "$1 "); // Add space after every 4 characters
-    e.target.value = value.trim(); // Remove leading and trailing spaces
+    value = value.replace(/(.{4})/g, "$1 "); 
+    e.target.value = value.trim(); 
   };
 
   return (
@@ -30,7 +31,7 @@ const PaymentCard = ({ register, errors }) => {
                 {...register("payment_card_numbers", {
                   required: "Номер карты обязателен",
                   maxLength: {
-                    value: 19, // Increased maxLength to accommodate spaces
+                    value: 19,
                     message: "Максимальная длина 19 символов",
                   },
                 })}

@@ -2,39 +2,21 @@ import { useEffect, Fragment, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import ReactStars from "react-rating-stars-component";
+import { Box, Button, Container, Divider, Grid, GridItem, Text, useToast, } from "@chakra-ui/react";
 
-import {
-  Box,
-  Button,
-  Container,
-  Divider,
-  Grid,
-  GridItem,
-  Text,
-  useToast,
-} from "@chakra-ui/react";
-
-import {
-  NoRatingIcon,
-  PrDetailsSucessIcon,
-  PrDetailsNoSucessIcon,
-  YesRatingIcon,
-} from "assets/icons";
-import { useGetProductByIdQuery } from "../../redux/services/productAllServices";
 import { addToCart } from "../../redux/slices/productSlices";
 import { toggleFavourit } from "../../redux/slices/favouritSlices";
+import { useGetProductByIdQuery } from "../../redux/services/productAllServices";
+import { useAddBasketMutation, useAllDeleteBasketMutation, } from "../../redux/services/basketServices";
+import { NoRatingIcon, PrDetailsSucessIcon, PrDetailsNoSucessIcon, YesRatingIcon } from "assets/icons";
+import ProductsDetailsLoader from "components/loader/product-details-loader/ProductDetailsLoader";
+import ProductModal from "components/modal/product-modal/ProductModal";
 import { buyImg, heartActiveImg, heartBlackImg } from "assets/images";
-import theme from "theme";
-import "./ProductDetails.scss";
-import { kFormatter } from "utils";
-import {
-  useAddBasketMutation,
-  useAllDeleteBasketMutation,
-} from "../../redux/services/basketServices";
 import LoginModal from "components/modal/login/LoginModal";
 import { useModal } from "hooks/useModal";
-import ProductModal from "components/modal/product-modal/ProductModal";
-import ProductsDetailsLoader from "../../components/loader/product-details-loader/ProductDetailsLoader";
+import { kFormatter } from "utils";
+import theme from "theme";
+import "./ProductDetails.scss";
 
 const ProductsDetails = () => {
   const { id } = useParams();

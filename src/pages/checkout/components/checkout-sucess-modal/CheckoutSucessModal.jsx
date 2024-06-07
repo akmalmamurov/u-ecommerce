@@ -1,28 +1,15 @@
-import {
-  Modal,
-  ModalContent,
-  ModalFooter,
-  ModalHeader,
-  ModalOverlay,
-} from "@chakra-ui/react";
-import PropTypes from "prop-types";
-import "./CheckoutSucessModal.scss";
-import theme from "../../../../theme";
 import { Link } from "react-router-dom";
-import { SucessCheckIcon } from "../../../../assets/icons";
+import PropTypes from "prop-types";
+import { Modal, ModalContent, ModalFooter, ModalHeader, ModalOverlay, } from "@chakra-ui/react";
+
+import { SucessCheckIcon } from "assets/icons";
+import theme from "theme";
+import "./CheckoutSucessModal.scss";
 const CheckoutSucessModal = ({ isOpen, onClose }) => {
   return (
-    <Modal
-      onClose={onClose}
-      isOpen={isOpen}
-      isCentered
-      className="checkout-sucess-modal"
-    >
+    <Modal onClose={onClose} isOpen={isOpen} isCentered className="checkout-sucess-modal">
       <ModalOverlay />
-      <ModalContent
-        className="sucess-modal_content"
-        fontFamily={theme.fonts.fInter}
-      >
+      <ModalContent className="sucess-modal_content" fontFamily={theme.fonts.fInter}>
         <ModalHeader className="sucess-modal_header">
           <span className="sucess-modal_icon">
             <SucessCheckIcon />
