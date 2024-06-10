@@ -4,17 +4,23 @@ import { Button, useToast } from "@chakra-ui/react";
 import { DeleteIcon } from "@chakra-ui/icons";
 import { useNavigate } from "react-router-dom";
 
-import { useAddBasketMutation, useAllDeleteBasketMutation, } from "../../redux/services/basketServices";
+import {
+  useAddBasketMutation,
+  useAllDeleteBasketMutation,
+} from "../../redux/services/basketServices";
 import { deleteItem } from "../../redux/slices/productSlices";
 import { kFormatter } from "../../utils";
 import theme from "../../theme";
 import "./CartMenu.scss";
+import LoginModal from "../modal/login/LoginModal";
+import { useModal } from "../../hooks/useModal";
 
 const CartMenu = ({ items }) => {
-    const isAuth = useSelector((state) => state.auth.isAuth);
-    const [allDeleteBasket] = useAllDeleteBasketMutation();
-    const [addBasket, { isLoading }] = useAddBasketMutation();
-    const dispatch = useDispatch();
+  const isAuth = useSelector((state) => state.auth.isAuth);
+  const [allDeleteBasket] = useAllDeleteBasketMutation();
+  const [addBasket, { isLoading }] = useAddBasketMutation();
+  const { isOpen, open, close } = useModal();
+  const dispatch = useDispatch();
   const navigate = useNavigate();
   const toast = useToast();
 
@@ -24,13 +30,8 @@ const CartMenu = ({ items }) => {
 
   const productToCheckout = async () => {
     if (!isAuth) {
-       toast({
-         title: "Unauthorized",
-         description: "Please login to see your basket",
-         status: "error",
-         duration: 3000,
-         isClosable: true,
-       })
+      open();
+      return; // Ensure the function exits here if not authenticated
     }
 
     try {
@@ -48,14 +49,6 @@ const CartMenu = ({ items }) => {
         toast({
           title: "Quantity Error",
           description: err.data.message,
-          status: "error",
-          duration: 3000,
-          isClosable: true,
-        });
-      } else {
-        toast({
-          title: "Error",
-          description: "Failed to add item to basket. Please try again later.",
           status: "error",
           duration: 3000,
           isClosable: true,
@@ -119,6 +112,7 @@ const CartMenu = ({ items }) => {
       ) : (
         <div></div>
       )}
+      <LoginModal isOpen={isOpen} onClose={close} />
     </div>
   );
 };

@@ -291,10 +291,10 @@ const HeaderMid = memo(() => {
                 </Link>
               </Box>
               <Box
-                onMouseEnter={cartMouseEnter}
-                onMouseLeave={cartMouseLeave}
-                position={"relative"}
-                className={`header-mid_right ${showCartMenu} ? cart-hover : ""`}
+                // onMouseEnter={cartMouseEnter}
+                // onMouseLeave={cartMouseLeave}
+                // position={"relative"}
+                // className={`header-mid_right ${showCartMenu} ? cart-hover : ""`}
               >
                 <Link to={"/cart"} className="header-mid_right ">
                   <Box className="header-mid_right-cart">
@@ -311,7 +311,7 @@ const HeaderMid = memo(() => {
                   </Box>
                   <Text className="header-mid_right-link">Корзина</Text>
                 </Link>
-                {showCartMenu && <CartMenu items={products} />}
+                {/* {showCartMenu && <CartMenu items={products} />} */}
               </Box>
             </Box>
           </Box>
