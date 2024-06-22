@@ -32,8 +32,8 @@ jobs:
 
       - name: Build project
         run: |
-          mkdir -p ~/front/voltify-client
-          cd ~/front/voltify-client
+          ls -la 
+          pwd
           yarn install
           yarn build
         working-directory: ./  # Adjust this path if necessary
@@ -52,9 +52,9 @@ jobs:
 
       - name: Deploy to production
         run: |
-          cd ~/front/voltify-client
           scp -i ~/.ssh/id_github_cicd -r build/* $DEPLOY_USER@$DEPLOY_SERVER_IP:/home/ubuntu/islombay/front/voltify-client
         env:
           DEPLOY_USER: ${{ secrets.DEPLOY_USER }}
           DEPLOY_SERVER_IP: ${{ secrets.DEPLOY_SERVER_IP }}
           SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+        working-directory: ./
