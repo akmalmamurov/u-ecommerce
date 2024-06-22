@@ -32,7 +32,7 @@ jobs:
 
       - name: Build project
         run: |
-          mkdir -r ~/front/voltify-client
+          mkdir -p ~/front/voltify-client
           cd ~/front/voltify-client
           yarn install
           yarn build
