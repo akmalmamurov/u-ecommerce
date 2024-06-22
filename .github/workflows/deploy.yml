@@ -55,7 +55,7 @@ jobs:
           mkdir -p ~/.ssh
           echo "$SSH_PRIVATE_KEY" | tr -d '\r' > ~/.ssh/id_github_cicd
           chmod 600 ~/.ssh/id_github_cicd
-          
+
           echo $DEPLOY_SERVER_IP
           ssh-keyscan -H $DEPLOY_SERVER_IP >> ~/.ssh/known_hosts
 
@@ -69,3 +69,4 @@ jobs:
 
     env:
       SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+      DEPLOY_SERVER_IP: ${{ secrets.DEPLOY_SERVER_IP }}
