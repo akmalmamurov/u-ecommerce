@@ -6,7 +6,7 @@ on:
       - deploy
 
 env:
-  NODE_VERSION: "16.20.2"
+  NODE_VERSION: "20.12.1"
 
 jobs:
   build:
