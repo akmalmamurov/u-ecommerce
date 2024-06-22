@@ -40,15 +40,6 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: build
-          path: build/
-
-  deploy:
-    needs: build
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v2
 
       - name: Setup SSH key
         run: |
@@ -58,6 +49,9 @@ jobs:
 
           echo $DEPLOY_SERVER_IP
           ssh-keyscan -H $DEPLOY_SERVER_IP >> ~/.ssh/known_hosts
+        env:
+          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+          DEPLOY_SERVER_IP: ${{ secrets.DEPLOY_SERVER_IP }}
 
       - name: Deploy to production
         run: |
@@ -66,7 +60,3 @@ jobs:
           DEPLOY_USER: ${{ secrets.DEPLOY_USER }}
           DEPLOY_SERVER_IP: ${{ secrets.DEPLOY_SERVER_IP }}
           SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
-
-    env:
-      SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
-      DEPLOY_SERVER_IP: ${{ secrets.DEPLOY_SERVER_IP }}
