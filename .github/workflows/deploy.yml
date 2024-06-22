@@ -52,6 +52,8 @@ jobs:
 
       - name: Deploy to production
         run: |
+          ls -la
+          pwd
           scp -i ~/.ssh/id_github_cicd -r build/* $DEPLOY_USER@$DEPLOY_SERVER_IP:/home/ubuntu/islombay/front/voltify-client
         env:
           DEPLOY_USER: ${{ secrets.DEPLOY_USER }}
