@@ -54,7 +54,7 @@ jobs:
         run: |
           ls -la
           pwd
-          scp -i ~/.ssh/id_github_cicd -r build/* $DEPLOY_USER@$DEPLOY_SERVER_IP:/home/ubuntu/islombay/front/voltify-client
+          scp -i ~/.ssh/id_github_cicd -r dist/* $DEPLOY_USER@$DEPLOY_SERVER_IP:/home/ubuntu/islombay/front/voltify-client
         env:
           DEPLOY_USER: ${{ secrets.DEPLOY_USER }}
           DEPLOY_SERVER_IP: ${{ secrets.DEPLOY_SERVER_IP }}
