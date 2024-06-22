@@ -36,11 +36,6 @@ jobs:
           yarn build
         working-directory: ./  # Adjust this path if necessary
 
-      - name: Archive build artifacts
-        uses: actions/upload-artifact@v2
-        with:
-          name: build
-
       - name: Setup SSH key
         run: |
           mkdir -p ~/.ssh
