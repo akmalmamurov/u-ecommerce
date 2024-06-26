@@ -2,24 +2,55 @@ import { memo, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import PropTypes from "prop-types";
-import { Box, Checkbox, useDisclosure, Text, Center, Divider, Heading, } from "@chakra-ui/react";
+import {
+  Box,
+  Checkbox,
+  useDisclosure,
+  Text,
+  Center,
+  Divider,
+  Heading,
+} from "@chakra-ui/react";
 
-import { decrementQuantity, deleteItem, incrementQuantity, resetCart, } from "../../../redux/slices/productSlices";
+import {
+  decrementQuantity,
+  deleteItem,
+  incrementQuantity,
+  resetCart,
+} from "../../../redux/slices/productSlices";
 import { useDeleteBasketMutation } from "../../../redux/services/basketServices";
 import { toggleFavourit } from "../../../redux/slices/favouritSlices";
-import { CartEmptyIcon, ProductFavouritActiveIcon, CartFavouriteIcon, CartDeleteIcon, } from "assets/icons";
+import {
+  CartEmptyIcon,
+  ProductFavouritActiveIcon,
+  CartFavouriteIcon,
+  CartDeleteIcon,
+} from "assets/icons";
 import CartModal from "../cart-modal/CartModal";
 import { kFormatter } from "utils";
 import theme from "theme";
 import "./CartLeft.scss";
 
-const CartLeft = memo( ({ products, checkedItems, handleCheckboxChange, handleChangeAll, checkedProductsCount, }) => {
+const CartLeft = memo(
+  ({
+    products,
+    checkedItems,
+    handleCheckboxChange,
+    handleChangeAll,
+    checkedProductsCount,
+  }) => {
+    console.log(checkedItems);
     const { isOpen, onOpen, onClose } = useDisclosure();
     const favourites = useSelector((state) => state.favourit.favourites);
     const [deleteBasket] = useDeleteBasketMutation();
     const dispatch = useDispatch();
     const navigate = useNavigate();
-    const handleFavoriteToggle = useCallback( (item) => { dispatch(toggleFavourit(item)); }, [dispatch]);
+    const handleFavoriteToggle = useCallback(
+      (item) => {
+        dispatch(toggleFavourit(item));
+      },
+      [dispatch]
+    );
 
     const allProductDelete = useCallback(() => {
       if (products.length === 0) return;
@@ -32,9 +63,17 @@ const CartLeft = memo( ({ products, checkedItems, handleCheckboxChange, handleCh
 
     return (
       <Box className="cart-left">
-        <Box className="card-top" display={"flex"} justifyContent={"space-between"}>
+        <Box
+          className="card-top"
+          display={"flex"}
+          justifyContent={"space-between"}
+        >
           <Box display={"flex"} alignItems={"center"} gap={"16px"}>
-            <Checkbox isChecked={checkedItems.every(Boolean)} isIndeterminate={ checkedItems.some(Boolean) && !checkedItems.every(Boolean) }
+            <Checkbox
+              isChecked={checkedItems.every(Boolean)}
+              isIndeterminate={
+                checkedItems.some(Boolean) && checkedItems.every(Boolean)
+              }
               onChange={handleChangeAll}
             />
             <Text className="card-top_text" color={theme.colors.deepBlack}>
@@ -48,13 +87,24 @@ const CartLeft = memo( ({ products, checkedItems, handleCheckboxChange, handleCh
             </button>
           </Box>
         </Box>
-        <CartModal allProductDelete={allProductDelete} onClose={onClose} isOpen={isOpen}/>
+        <CartModal
+          allProductDelete={allProductDelete}
+          onClose={onClose}
+          isOpen={isOpen}
+        />
         {products?.map((item, index) => (
           <Box key={item.id} className="cart-left_main">
             <Box display={"flex"} justifyContent={"space-between"}>
               <Box display={"flex"} gap={"16px"} alignItems={"center"}>
-                <Checkbox isChecked={checkedItems[index]} onChange={() => handleCheckboxChange(index)}/>
-                <img src={item.main_image} alt={item.name_ru} className="cart-left_img"/>
+                <Checkbox
+                  isChecked={checkedItems[index]}
+                  onChange={() => handleCheckboxChange(index)}
+                />
+                <img
+                  src={item.main_image}
+                  alt={item.name_ru}
+                  className="cart-left_img"
+                />
                 <Box display={"flex"} flexDirection={"column"} gap={"20px"}>
                   <Heading
                     as={"h2"}
@@ -93,7 +143,11 @@ const CartLeft = memo( ({ products, checkedItems, handleCheckboxChange, handleCh
                   </Box>
                 </Box>
               </Box>
-              <Box display={"flex"} flexDirection={"column"} justifyContent={"space-between"}>
+              <Box
+                display={"flex"}
+                flexDirection={"column"}
+                justifyContent={"space-between"}
+              >
                 <p className="cart-product_price">
                   {kFormatter(item.price * item.quantity)}
                 </p>
