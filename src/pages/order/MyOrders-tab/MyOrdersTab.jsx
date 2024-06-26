@@ -59,14 +59,14 @@ const MyOrdersTab = ({ products, order_id, status_id, created_at, total_price, }
                 <AccordionButton className="order-product_accordion-button">
                   <Box as="span" flex="1" textAlign="left">
                     <h1 className="order-product_title">
-                      {products.length} товар
+                      {products?.length} товар
                     </h1>
                   </Box>
                   <AccordionIcon />
                 </AccordionButton>
               </h2>
               <AccordionPanel pb={4} className="order-product_accordion-panel">
-                {products.map((el, index) => (
+                {products?.map((el, index) => (
                   <div key={index} className="order-product_content">
                     <div className="order-product_image">
                       <img src={el.main_image} className="order-product_img" />
